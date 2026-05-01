@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BJJ Journal</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f0d0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BJJ Journal">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0d0b;
+    --surface: #181410;
+    --surface2: #211c17;
+    --border: #332b22;
+    --accent: #c8a96e;
+    --accent2: #a0522d;
+    --text: #d4c9b8;
+    --muted: #5a4f42;
+    --label: #8a7a68;
+    --radius: 4px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 52px; border-bottom: 1px solid var(--border);
+    background: var(--bg); flex-shrink: 0;
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--accent); }
+  .logo span { color: var(--muted); }
+  .header-actions { display: flex; gap: 8px; }
+  .btn-ghost {
+    background: none; border: 1px solid var(--border); color: var(--label);
+    padding: 5px 12px; border-radius: var(--radius); cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.5px; transition: all 0.15s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  nav {
+    display: flex; gap: 0; padding: 0 24px;
+    border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0;
+  }
+  .nav-tab {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    padding: 12px 16px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent;
+    transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .badge {
+    display: inline-block; background: var(--accent2); color: #fff;
+    font-size: 9px; font-family: 'DM Mono', monospace; padding: 1px 5px;
+    border-radius: 10px; margin-left: 4px; vertical-align: middle;
+  }
+  #main-scroll { flex: 1; overflow-y: auto; padding: 24px; }
+  #main-scroll::-webkit-scrollbar { width: 4px; }
+  #main-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .view { display: none; }
+  .view.active { display: block; }
+  .form-section {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; margin-bottom: 16px;
+  }
+  .form-section-title {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+  }
+  .form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .form-field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 150px; }
+  .form-field label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--label);
+  }
+  .form-field input, .form-field select, .form-field textarea {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; outline: none; transition: border-color 0.15s; width: 100%;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--accent); }
+  .form-field textarea { resize: vertical; min-height: 72px; }
+  .form-field select option { background: var(--surface2); }
+  .type-toggle { display: flex; gap: 8px; margin-bottom: 20px; }
+  .type-btn {
+    flex: 1; padding: 10px; border: 1px solid var(--border); background: var(--surface2);
+    color: var(--muted); border-radius: var(--radius); cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px;
+    text-transform: uppercase; transition: all 0.15s; text-align: center;
+  }
+  .type-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,241,53,0.06); }
+  .technique-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+  }
+  .technique-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .technique-num {
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent);
+    background: rgba(200,241,53,0.1); padding: 2px 7px; border-radius: 2px;
+  }
+  .drill-flag {
+    display: flex; align-items: center; gap: 5px; margin-left: auto;
+    cursor: pointer; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); user-select: none;
+  }
+  .drill-flag input[type=checkbox] { accent-color: var(--accent2); }
+  .drill-flag.flagged { color: var(--accent2); }
+  .remove-tech {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 16px; line-height: 1; padding: 0 4px; transition: color 0.15s;
+  }
+  .remove-tech:hover { color: var(--accent2); }
+  .add-technique-btn {
+    width: 100%; padding: 10px; background: none; border: 1px dashed var(--border);
+    color: var(--muted); border-radius: var(--radius); cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; transition: all 0.15s;
+  }
+  .add-technique-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .save-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+  .btn-primary {
+    background: var(--accent); color: #0e0e0e; border: none; padding: 10px 24px;
+    border-radius: var(--radius); cursor: pointer; font-family: 'DM Mono', monospace;
+    font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-danger {
+    background: none; border: 1px solid var(--accent2); color: var(--accent2);
+    padding: 6px 14px; border-radius: var(--radius); cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 11px; transition: all 0.15s;
+  }
+  .btn-danger:hover { background: rgba(241,53,53,0.1); }
+  .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters input, .filters select {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 7px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+  }
+  .filters input { flex: 1; min-width: 180px; }
+  .filters input:focus, .filters select:focus { border-color: var(--accent); }
+  .filters select option { background: var(--surface2); }
+  .entry-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; }
+  .entry-card-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; transition: background 0.1s; }
+  .entry-card-header:hover { background: var(--surface2); }
+  .entry-type-pill { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; }
+  .pill-class { background: rgba(200,241,53,0.12); color: var(--accent); }
+  .pill-online { background: rgba(241,53,53,0.12); color: var(--accent2); }
+  .entry-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--label); }
+  .entry-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .entry-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .entry-expand-icon { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+  .entry-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+  .entry-body.open { display: block; }
+  .entry-expand-icon.open { transform: rotate(180deg); }
+  .entry-section-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin: 14px 0 8px;
+  }
+  .technique-row { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 6px; }
+  .technique-row-name { font-weight: 500; font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .cat-tag { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); border: 1px solid var(--border); padding: 1px 6px; border-radius: 2px; }
+  .drill-badge { font-family: 'DM Mono', monospace; font-size: 9px; background: rgba(241,53,53,0.15); color: var(--accent2); padding: 1px 6px; border-radius: 2px; }
+  .pos-flow { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .pos-pill { font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 2px; }
+  .pos-start { background: rgba(200,241,53,0.08); color: var(--accent); border: 1px solid rgba(200,241,53,0.2); }
+  .pos-end { background: rgba(100,180,255,0.08); color: #64b4ff; border: 1px solid rgba(100,180,255,0.2); }
+  .pos-method { background: rgba(255,180,50,0.08); color: #ffb432; border: 1px solid rgba(255,180,50,0.2); }
+  .pos-arrow { color: var(--muted); font-size: 10px; }
+  .technique-row-concept { font-size: 12px; color: var(--label); margin-bottom: 4px; }
+  .technique-row-steps { font-size: 12px; color: var(--muted); white-space: pre-wrap; }
+  .rounds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .round-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
+  .round-box-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .round-box p { font-size: 12px; color: var(--label); white-space: pre-wrap; }
+  .entry-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .source-link { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent2); text-decoration: none; word-break: break-all; }
+  .source-link:hover { text-decoration: underline; }
+  .drill-list-empty { text-align: center; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 60px 0; }
+  .drill-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .drill-item.drilled { opacity: 0.4; }
+  .drill-item input[type=checkbox] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+  .drill-item-info { flex: 1; }
+  .drill-item-name { font-weight: 500; font-size: 13px; }
+  .drill-item-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .drill-item-concept { font-size: 12px; color: var(--label); margin-top: 3px; }
+  .flashcard-controls { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .flashcard-controls select {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 7px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+  }
+  .flashcard-controls select option { background: var(--surface2); }
+  .fc-count { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-left: auto; }
+  .flashcard-wrap { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .flashcard {
+    width: 100%; max-width: 560px; min-height: 260px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 6px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 36px 32px; cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s; text-align: center; position: relative; user-select: none;
+  }
+  .flashcard:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .fc-side-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); position: absolute; top: 14px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+  .fc-main { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; }
+  .fc-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .fc-back-content { font-size: 13px; color: var(--text); line-height: 1.6; text-align: left; width: 100%; }
+  .fc-back-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; margin-top: 12px; }
+  .fc-nav { display: flex; gap: 12px; margin-top: 20px; align-items: center; }
+  .fc-nav button { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 20px; border-radius: var(--radius); cursor: pointer; font-family: 'DM Mono', monospace; font-size: 11px; transition: all 0.15s; }
+  .fc-nav button:hover { border-color: var(--accent); color: var(--accent); }
+  .fc-nav button:disabled { opacity: 0.3; cursor: default; }
+  .fc-progress { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .fc-empty { text-align: center; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 60px 0; }
+  .fc-hint { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 10px; opacity: 0.6; }
+  /* MIND MAP */
+  #view-map {
+    display: none; flex-direction: column;
+    position: fixed; top: 93px; left: 0; right: 0; bottom: 0; z-index: 10;
+  }
+  #view-map.active { display: flex; }
+  .map-toolbar {
+    display: flex; align-items: center; gap: 8px; padding: 10px 24px;
+    border-bottom: 1px solid var(--border); background: var(--bg); flex-shrink: 0; flex-wrap: wrap;
+  }
+  .map-filter-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+  .map-filter-btn {
+    font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 10px;
+    border: 1px solid var(--border); border-radius: 2px; background: none;
+    color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px;
+  }
+  .map-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .map-filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,241,53,0.06); }
+  .map-hint { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-left: auto; }
+  #map-canvas { flex: 1; width: 100%; display: block; cursor: grab; background: #0f0d0b; }
+  #map-canvas:active { cursor: grabbing; }
+  /* DETAIL PANEL */
+  .detail-panel {
+    position: fixed; right: 0; top: 93px; bottom: 0; width: 300px;
+    background: var(--surface); border-left: 1px solid var(--border);
+    padding: 20px; overflow-y: auto; transform: translateX(100%);
+    transition: transform 0.25s ease; z-index: 200;
+  }
+  .detail-panel.open { transform: translateX(0); }
+  .detail-panel::-webkit-scrollbar { width: 3px; }
+  .detail-panel::-webkit-scrollbar-thumb { background: var(--border); }
+  .detail-close { position: absolute; top: 14px; right: 14px; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 18px; line-height: 1; }
+  .detail-close:hover { color: var(--text); }
+  .detail-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--accent); margin-bottom: 4px; padding-right: 24px; }
+  .detail-cat { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 14px; }
+  .detail-section-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 14px 0 5px; }
+  .detail-value { font-size: 13px; color: var(--label); line-height: 1.6; white-space: pre-wrap; }
+  .detail-flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: #0e0e0e; padding: 10px 18px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; opacity: 0; transform: translateY(10px); transition: all 0.2s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  /* SETTINGS MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 300; align-items: flex-end; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    background: var(--surface); border-radius: 16px 16px 0 0; border-top: 1px solid var(--border);
+    padding: 24px 20px 36px; width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto;
+  }
+  .modal-sheet::-webkit-scrollbar { width: 3px; }
+  .modal-sheet::-webkit-scrollbar-thumb { background: var(--border); }
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
+  .modal-subtitle { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 20px; }
+  .modal-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+  .modal-field label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--label); }
+  .modal-field input {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 12px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; outline: none; transition: border-color 0.15s;
+  }
+  .modal-field input:focus { border-color: var(--accent); }
+  .modal-field .hint { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.5; }
+  .gh-status { display: none; padding: 10px 12px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 11px; margin-bottom: 14px; }
+  .gh-status.ok { background: rgba(200,241,53,0.08); border: 1px solid rgba(200,241,53,0.25); color: var(--accent); }
+  .gh-status.err { background: rgba(241,53,53,0.08); border: 1px solid rgba(241,53,53,0.25); color: var(--accent2); }
+  .gh-status.info { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--label); }
+  .modal-divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .gh-backup-list { max-height: 220px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 10px; display: none; }
+  .gh-backup-list::-webkit-scrollbar { width: 3px; }
+  .gh-backup-list::-webkit-scrollbar-thumb { background: var(--border); }
+  .gh-backup-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .gh-backup-item:last-child { border-bottom: none; }
+  .gh-backup-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text); }
+  .gh-backup-size { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .upload-area { border: 1px dashed var(--border); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; transition: border-color 0.15s; position: relative; }
+  .upload-area:hover { border-color: var(--accent); }
+  .upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .upload-area p { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+  .upload-preview { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .upload-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 3px; border: 1px solid var(--border); }
+  .upload-file-name { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--label); }
+  .empty-state { text-align: center; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; padding: 60px 0; line-height: 2; }
+  /* SEQUENCES */
+  #view-seq { display: none; flex-direction: column; position: fixed; top: 93px; left: 0; right: 0; bottom: 0; z-index: 10; }
+  #view-seq.active { display: flex; }
+  .seq-sidebar {
+    display: flex; flex-direction: column; width: 260px; flex-shrink: 0;
+    border-right: 1px solid var(--border); background: var(--surface); overflow-y: auto;
+  }
+  .seq-sidebar::-webkit-scrollbar { width: 3px; }
+  .seq-sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+  .seq-sidebar-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+  }
+  .seq-sidebar-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+  .seq-list-item {
+    padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer;
+    transition: background 0.1s;
+  }
+  .seq-list-item:hover { background: var(--surface2); }
+  .seq-list-item.active { background: rgba(200,241,53,0.06); border-left: 2px solid var(--accent); }
+  .seq-list-item-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .seq-list-item-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .seq-canvas-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .seq-canvas-toolbar {
+    display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+    border-bottom: 1px solid var(--border); flex-shrink: 0; flex-wrap: wrap;
+  }
+  .seq-canvas-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; color: var(--accent); flex: 1; }
+  #seq-canvas-scroll { flex: 1; overflow: auto; padding: 32px; background: var(--bg); }
+  #seq-canvas-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+  #seq-canvas-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  /* TREE NODES */
+  .tree-root { display: flex; flex-direction: column; align-items: flex-start; }
+  .tree-row { display: flex; align-items: flex-start; gap: 0; }
+  .tree-col { display: flex; flex-direction: column; align-items: center; }
+  .seq-node {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 10px 14px; min-width: 180px; max-width: 220px; position: relative;
+    transition: border-color 0.15s;
+  }
+  .seq-node:hover { border-color: var(--accent); }
+  .seq-node-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .seq-node-note { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .seq-node-actions { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+  .seq-node-btn {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.5px;
+    padding: 3px 7px; border-radius: 2px; cursor: pointer; border: 1px solid; background: none;
+    transition: all 0.15s;
+  }
+  .seq-node-btn.continue { color: var(--accent); border-color: rgba(200,241,53,0.3); }
+  .seq-node-btn.continue:hover { background: rgba(200,241,53,0.08); }
+  .seq-node-btn.dilemma { color: #ffb432; border-color: rgba(255,180,50,0.3); }
+  .seq-node-btn.dilemma:hover { background: rgba(255,180,50,0.08); }
+  .seq-node-btn.del { color: var(--muted); border-color: var(--border); }
+  .seq-node-btn.del:hover { color: var(--accent2); border-color: var(--accent2); }
+  .seq-node-btn.edit { color: var(--label); border-color: var(--border); }
+  .seq-node-btn.edit:hover { border-color: var(--accent); color: var(--accent); }
+  /* CONNECTORS */
+  .tree-connector { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .tree-line-v { width: 2px; background: var(--border); flex-shrink: 0; }
+  .tree-arrow { color: var(--muted); font-size: 10px; line-height: 1; }
+  .tree-edge-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted);
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 2px 7px; border-radius: 2px; white-space: nowrap; max-width: 160px;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .tree-fork { display: flex; align-items: flex-start; gap: 32px; }
+  .tree-fork-branch { display: flex; flex-direction: column; align-items: center; }
+  .tree-fork-line-h { height: 2px; background: var(--border); width: 50%; }
+  /* NODE EDITOR MODAL */
+  .node-editor {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 400; align-items: center; justify-content: center; padding: 20px;
+  }
+  .node-editor.open { display: flex; }
+  .node-editor-sheet {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 24px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+  }
+  .node-editor-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; color: var(--accent); margin-bottom: 16px; }
+  .node-editor input, .node-editor textarea, .node-editor select {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; outline: none; transition: border-color 0.15s; width: 100%;
+  }
+  .node-editor input:focus, .node-editor textarea:focus, .node-editor select:focus { border-color: var(--accent); }
+  .node-editor textarea { resize: vertical; min-height: 60px; }
+  .node-editor select option { background: var(--surface2); }
+  .node-editor-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--label); margin-bottom: 5px; display: block; }
+  .node-editor-field { margin-bottom: 14px; }
+  .suggest-list { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); max-height: 160px; overflow-y: auto; margin-top: 4px; display: none; }
+  .suggest-item { padding: 8px 10px; cursor: pointer; font-size: 12px; color: var(--label); border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  .suggest-item:last-child { border-bottom: none; }
+  .suggest-item:hover { background: var(--surface); color: var(--text); }
+  .suggest-cat { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); margin-left: 6px; }
+  /* SEQ NEW FORM */
+  .seq-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; gap: 12px; }
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 14px; }
+  .stat-card-val { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 1px; color: var(--accent); line-height: 1; }
+  .stat-card-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .chart-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+  .chart-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--label); width: 90px; flex-shrink: 0; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-track { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+  .bar-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); width: 28px; text-align: right; flex-shrink: 0; }
+  /* EDIT BANNER */
+  .edit-banner { display: none; background: rgba(200,169,110,0.1); border: 1px solid var(--accent); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); align-items: center; justify-content: space-between; }
+  .edit-banner.visible { display: flex; }
+  /* EXPORT MODAL */
+  .export-option-btn { width: 100%; padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius); cursor: pointer; text-align: left; transition: all 0.15s; margin-bottom: 8px; display: block; }
+  .export-option-btn:hover { border-color: var(--accent); }
+  .export-option-title { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
+  .export-option-btn:hover .export-option-title { color: var(--accent); }
+  .export-option-desc { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--muted); margin-top: 3px; }
+  /* FREEMIUM */
+  .pro-gate { background: rgba(200,169,110,0.06); border: 1px solid rgba(200,169,110,0.2); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; }
+  .pro-gate-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
+  .pro-gate-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">BJJ <span>/</span> JOURNAL</div>
+  <div class="header-actions">
+    <button class="btn-ghost" onclick="openExportModal()">EXPORT</button>
+    <label class="btn-ghost" style="cursor:pointer">IMPORT<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
+    <button class="btn-ghost" onclick="openSettings()" title="GitHub settings" style="font-size:15px;padding:5px 10px;">⚙</button>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-tab active" onclick="switchView('log',this)">LOG</button>
+  <button class="nav-tab" onclick="switchView('timeline',this)">TIMELINE</button>
+  <button class="nav-tab" onclick="switchView('drill',this)">DRILL LIST <span class="badge" id="drill-badge" style="display:none">0</span></button>
+  <button class="nav-tab" onclick="switchView('flash',this)">FLASHCARDS</button>
+  <button class="nav-tab" onclick="switchView('stats',this)">STATS</button>
+  <button class="nav-tab" onclick="switchView('map',this)">MIND MAP</button>
+  <button class="nav-tab" onclick="switchView('seq',this)">SEQUENCES</button>
+</nav>
+
+<div id="main-scroll">
+  <!-- LOG -->
+  <div class="view active" id="view-log">
+    <div class="edit-banner" id="edit-banner">
+      <span id="edit-banner-text">EDITING ENTRY</span>
+      <button class="btn-ghost" onclick="cancelEdit()" style="font-size:10px;padding:4px 10px">✕ CANCEL EDIT</button>
+    </div>
+    <div class="type-toggle">
+      <button class="type-btn active" id="type-class" onclick="setType('class')">🥋 CLASS LESSON</button>
+      <button class="type-btn" id="type-online" onclick="setType('online')">🌐 ONLINE SOURCE</button>
+    </div>
+    <div id="class-fields">
+      <div class="form-section">
+        <div class="form-section-title">Session Info</div>
+        <div class="form-row">
+          <div class="form-field"><label>Date</label><input type="date" id="f-date"></div>
+          <div class="form-field"><label>Instructor</label><input type="text" id="f-instructor" placeholder="Name"></div>
+          <div class="form-field"><label>Class Type</label>
+            <select id="f-classtype"><option value="">Select...</option>
+              <option>Drilling</option><option>Live Rounds</option><option>Competition Prep</option><option>Technique</option><option>Mixed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="online-fields" style="display:none">
+      <div class="form-section">
+        <div class="form-section-title">Source Info</div>
+        <div class="form-row">
+          <div class="form-field"><label>Date</label><input type="date" id="f-date-online"></div>
+          <div class="form-field"><label>Source Type</label>
+            <select id="f-sourcetype"><option value="">Select...</option>
+              <option>YouTube</option><option>Website</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field" style="flex:2"><label>URL</label><input type="url" id="f-url" placeholder="https://..."></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label>Video / Image Capture</label>
+            <div class="upload-area"><p>CLICK OR DROP FILE</p>
+              <input type="file" accept="image/*,video/*" multiple onchange="handleUploadGH(event)">
+            </div>
+            <div class="upload-preview" id="upload-preview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">Techniques Learned</div>
+      <div id="techniques-container"></div>
+      <button class="add-technique-btn" onclick="addTechniqueField()">+ ADD TECHNIQUE</button>
+    </div>
+    <div class="form-section" id="rounds-section">
+      <div class="form-section-title">Open Round Notes</div>
+      <div class="form-row">
+        <div class="form-field"><label>Positions I Ended Up In</label><textarea id="f-positions" placeholder="e.g. kept ending up in bottom half guard..."></textarea></div>
+        <div class="form-field"><label>Things That Worked</label><textarea id="f-worked" placeholder="e.g. hip escape to guard worked well..."></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Mistakes / Gaps to Fix</label><textarea id="f-mistakes" placeholder="e.g. losing grips when tired..."></textarea></div>
+        <div class="form-field"><label>Opponent Patterns I Noticed</label><textarea id="f-patterns" placeholder="e.g. bigger guys like to flatten me out..."></textarea></div>
+      </div>
+    </div>
+    <div class="form-section" id="online-notes-section" style="display:none">
+      <div class="form-section-title">Notes</div>
+      <div class="form-row">
+        <div class="form-field"><label>General Notes</label><textarea id="f-online-notes" placeholder="Observations, context..." style="min-height:100px"></textarea></div>
+      </div>
+    </div>
+    <div class="save-row">
+      <button class="btn-ghost" onclick="clearForm()">CLEAR</button>
+      <button class="btn-primary" id="save-entry-btn" onclick="saveEntry()">SAVE ENTRY</button>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="view" id="view-timeline">
+    <div class="filters">
+      <input type="text" id="search-input" placeholder="Search techniques, notes, instructor..." oninput="renderTimeline()">
+      <select id="filter-cat" onchange="renderTimeline()">
+        <option value="">All Categories</option>
+        <option>Guard</option><option>Guard Passing</option><option>Pins</option>
+        <option>Submissions</option><option>Escapes</option><option>Takedowns</option>
+        <option>Back Control</option><option>Leg Locks</option><option>Other</option>
+      </select>
+      <select id="filter-type" onchange="renderTimeline()">
+        <option value="">All Types</option>
+        <option value="class">Class Lesson</option><option value="online">Online Source</option>
+      </select>
+    </div>
+    <div id="timeline-list"></div>
+  </div>
+
+  <!-- DRILL LIST -->
+  <div class="view" id="view-drill">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent)">Needs Drilling</div>
+      <button class="btn-ghost" onclick="clearDrilled()">CLEAR DRILLED</button>
+    </div>
+    <div id="drill-list"></div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div class="view" id="view-flash">
+    <div class="flashcard-controls">
+      <select id="fc-filter-cat" onchange="initFlashcards()">
+        <option value="">All Categories</option>
+        <option>Guard</option><option>Guard Passing</option><option>Pins</option>
+        <option>Submissions</option><option>Escapes</option><option>Takedowns</option>
+        <option>Back Control</option><option>Leg Locks</option><option>Other</option>
+      </select>
+      <select id="fc-filter-drill" onchange="initFlashcards()">
+        <option value="">All Techniques</option><option value="drill">Drill List Only</option>
+      </select>
+      <span class="fc-count" id="fc-count"></span>
+    </div>
+    <div id="flashcard-area"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="view" id="view-stats">
+    <div id="stats-content"><div class="empty-state">Loading...</div></div>
+  </div>
+</div>
+
+<!-- MIND MAP (full screen overlay) -->
+<div class="view" id="view-map">
+  <div class="map-toolbar">
+    <span class="map-filter-label">METHOD:</span>
+    <button class="map-filter-btn active" onclick="setMapFilter('all',this)">ALL</button>
+    <button class="map-filter-btn" onclick="setMapFilter('Sweep',this)">SWEEPS</button>
+    <button class="map-filter-btn" onclick="setMapFilter('Submission',this)">SUBMISSIONS</button>
+    <button class="map-filter-btn" onclick="setMapFilter('Escape',this)">ESCAPES</button>
+    <button class="map-filter-btn" onclick="setMapFilter('Takedown',this)">TAKEDOWNS</button>
+    <span class="map-hint">DRAG · SCROLL TO ZOOM · CLICK CLUSTER TO EXPAND · CLICK TECHNIQUE FOR DETAILS</span>
+  </div>
+  <canvas id="map-canvas"></canvas>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-panel" id="detail-panel">
+  <button class="detail-close" onclick="closeDetail()">×</button>
+  <div id="detail-content"></div>
+</div>
+
+<!-- SEQUENCES VIEW (full screen) -->
+<div class="view" id="view-seq">
+  <div style="display:flex;flex:1;overflow:hidden;height:100%">
+    <!-- Sidebar -->
+    <div class="seq-sidebar">
+      <div class="seq-sidebar-header">
+        <span class="seq-sidebar-title">SEQUENCES</span>
+        <button class="btn-primary" onclick="newSequence()" style="padding:4px 10px;font-size:10px">+ NEW</button>
+      </div>
+      <div id="seq-list"></div>
+    </div>
+    <!-- Canvas area -->
+    <div class="seq-canvas-area">
+      <div id="seq-canvas-toolbar" class="seq-canvas-toolbar" style="display:none">
+        <div class="seq-canvas-title" id="seq-canvas-title">—</div>
+        <button class="btn-ghost" onclick="editSequenceMeta()" style="font-size:10px;padding:4px 10px">RENAME</button>
+        <button class="btn-ghost" onclick="deleteSequence()" style="font-size:10px;padding:4px 10px;color:var(--accent2);border-color:var(--accent2)">DELETE</button>
+      </div>
+      <div id="seq-canvas-scroll">
+        <div class="seq-empty" id="seq-empty">
+          <div style="font-size:28px">⛓</div>
+          <div>SELECT A SEQUENCE OR CREATE A NEW ONE</div>
+        </div>
+        <div id="seq-tree" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NODE EDITOR MODAL -->
+<div class="node-editor" id="node-editor" onclick="if(event.target===this)closeNodeEditor()">
+  <div class="node-editor-sheet">
+    <div class="node-editor-title" id="ne-title">ADD NODE</div>
+    <div class="node-editor-field">
+      <label class="node-editor-label">Technique Name</label>
+      <input id="ne-name" placeholder="e.g. Anaconda Choke" oninput="suggestTechniques(this.value)" autocomplete="off">
+      <div class="suggest-list" id="ne-suggest"></div>
+    </div>
+    <div class="node-editor-field">
+      <label class="node-editor-label">Notes <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--muted)">— optional</span></label>
+      <textarea id="ne-notes" placeholder="Key detail, grip, body position..."></textarea>
+    </div>
+    <div class="node-editor-field" id="ne-edge-field" style="display:none">
+      <label class="node-editor-label" id="ne-edge-label">Opponent Response</label>
+      <input id="ne-edge" placeholder="e.g. defends by rolling, postures up...">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn-primary" onclick="confirmNodeEditor()" style="flex:1">SAVE</button>
+      <button class="btn-ghost" onclick="closeNodeEditor()">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEQUENCE META MODAL -->
+<div class="node-editor" id="seq-meta-modal" onclick="if(event.target===this)closeSeqMeta()">
+  <div class="node-editor-sheet">
+    <div class="node-editor-title" id="smm-title">NEW SEQUENCE</div>
+    <div class="node-editor-field">
+      <label class="node-editor-label">Sequence Name</label>
+      <input id="smm-name" placeholder="e.g. Anaconda → Guillotine Dilemma">
+    </div>
+    <div class="node-editor-field">
+      <label class="node-editor-label">Starting Position</label>
+      <select id="smm-pos">
+        <option value="">Select...</option>
+        <option>Guard</option><option>Half Guard</option><option>Mount</option>
+        <option>Back Control</option><option>Side Control</option>
+        <option>Knee on Belly</option><option>Turtle</option><option>Standing</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn-primary" onclick="confirmSeqMeta()" style="flex:1">SAVE</button>
+      <button class="btn-ghost" onclick="closeSeqMeta()">CANCEL</button>
+    </div>
+  </div>
+</div>
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="export-modal" onclick="if(event.target===this)closeExportModal()">
+  <div class="modal-sheet">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div class="modal-title">EXPORT DATA</div>
+        <div class="modal-subtitle">CHOOSE A FORMAT</div>
+      </div>
+      <button onclick="closeExportModal()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1">×</button>
+    </div>
+    <button class="export-option-btn" onclick="exportJSON()">
+      <div class="export-option-title">JSON — Full Backup</div>
+      <div class="export-option-desc">Complete data including sequences. Re-import any time.</div>
+    </button>
+    <button class="export-option-btn" onclick="exportCSV()">
+      <div class="export-option-title">CSV — Techniques Table</div>
+      <div class="export-option-desc">Flat spreadsheet of every technique logged.</div>
+    </button>
+    <button class="export-option-btn" onclick="exportMarkdown()">
+      <div class="export-option-title">Markdown — Training Log</div>
+      <div class="export-option-desc">Human-readable journal, one entry per section.</div>
+    </button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettings()">
+  <div class="modal-sheet">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+      <div>
+        <div class="modal-title">GITHUB SETTINGS</div>
+        <div class="modal-subtitle">STORE PHOTOS + BACKUPS IN THE CLOUD</div>
+      </div>
+      <button onclick="closeSettings()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1">×</button>
+    </div>
+    <div class="pro-gate" style="margin-bottom:18px">
+      <div class="pro-gate-label">★ PRO FEATURE</div>
+      <div class="pro-gate-desc">Connect a GitHub repo for cloud photo storage and automatic backups. Your local journal is always free and stored only on your device.</div>
+    </div>
+    <div class="modal-field">
+      <label>GitHub Username</label>
+      <input id="gh-user" placeholder="e.g. yourname" autocomplete="off">
+    </div>
+    <div class="modal-field">
+      <label>Repository Name</label>
+      <input id="gh-repo" placeholder="e.g. bjj-journal" autocomplete="off">
+    </div>
+    <div class="modal-field">
+      <label>Personal Access Token</label>
+      <input id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      <span class="hint">GitHub → Settings → Developer settings → Personal access tokens → New token. Select <strong style="color:var(--label)">repo</strong> scope only.</span>
+    </div>
+    <div class="gh-status" id="gh-status"></div>
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <button class="btn-primary" onclick="saveGHSettings()" style="flex:1">SAVE &amp; TEST</button>
+      <button class="btn-ghost" onclick="closeSettings()" style="padding:10px 16px">CANCEL</button>
+    </div>
+    <hr class="modal-divider">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px">GitHub Backup</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="gh-push-btn" onclick="pushBackupToGitHub()" class="btn-ghost" style="flex:1;opacity:0.4;cursor:not-allowed" disabled>↑ PUSH BACKUP</button>
+      <button id="gh-list-btn" onclick="loadGHBackups()" class="btn-ghost" style="flex:1;opacity:0.4;cursor:not-allowed" disabled>↓ BROWSE BACKUPS</button>
+    </div>
+    <div class="gh-backup-list" id="gh-backup-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = 'bjj_journal_v2';
+const POSITIONS = ['Guard','Half Guard','Mount','Back Control','Side Control','Knee on Belly','Turtle','Standing'];
+const METHODS = ['Sweep','Submission','Escape','Takedown'];
+const CATEGORIES = ['Guard','Guard Passing','Pins','Submissions','Escapes','Takedowns','Back Control','Leg Locks','Other'];
+const CAT_COLORS = {
+  'Guard':'#c8f135','Guard Passing':'#64b4ff','Pins':'#ff9f4a',
+  'Submissions':'#f13535','Escapes':'#a78bfa','Takedowns':'#34d399',
+  'Back Control':'#f472b6','Leg Locks':'#fbbf24','Other':'#888'
+};
+
+function esc(s) { const d=document.createElement('div'); d.textContent=s??''; return d.innerHTML; }
+
+let state = { entries: [], drilled: [] };
+let editingId = null;
+let currentType = 'class';
+let techCount = 0;
+let uploadedFiles = {};
+let fcCards = [], fcIndex = 0, fcFlipped = false;
+let mapFilter = 'all';
+let mapPan = {x:0,y:0}, mapZoom = 1;
+let mapDragging = false, mapDragStart = {x:0,y:0}, mapPanStart = {x:0,y:0}, mapDragMoved = false;
+let mapNodes = [], mapHover = null;
+
+function load() {
+  try { const r = localStorage.getItem(STORAGE_KEY); if (r) state = JSON.parse(r); } catch(e) {}
+}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); updateDrillBadge(); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function switchView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq') ? 'none' : '';
+  if (name === 'timeline') renderTimeline();
+  if (name === 'drill') renderDrillList();
+  if (name === 'flash') initFlashcards();
+  if (name === 'map') setTimeout(initMap, 30);
+  if (name === 'seq') renderSeqList();
+  if (name === 'stats') renderStats();
+}
+
+function setType(type) {
+  currentType = type;
+  document.getElementById('type-class').classList.toggle('active', type==='class');
+  document.getElementById('type-online').classList.toggle('active', type==='online');
+  document.getElementById('class-fields').style.display = type==='class'?'':'none';
+  document.getElementById('online-fields').style.display = type==='online'?'':'none';
+  document.getElementById('rounds-section').style.display = type==='class'?'':'none';
+  document.getElementById('online-notes-section').style.display = type==='online'?'':'none';
+}
+
+function posOpts(sel) {
+  return '<option value="">—</option>' + POSITIONS.map(p=>`<option${p===sel?' selected':''}>${p}</option>`).join('');
+}
+function methodOpts(sel) {
+  return '<option value="">—</option>' + METHODS.map(m=>`<option${m===sel?' selected':''}>${m}</option>`).join('');
+}
+function catOpts(sel) {
+  return '<option value="">Select...</option>' + CATEGORIES.map(c=>`<option${c===sel?' selected':''}>${c}</option>`).join('');
+}
+
+function addTechniqueField(data) {
+  techCount++;
+  const id = techCount;
+  const div = document.createElement('div');
+  div.className = 'technique-card'; div.id = 'tech-'+id;
+  div.innerHTML = `
+    <div class="technique-card-header">
+      <span class="technique-num">T${id}</span>
+      <label class="drill-flag" id="dflag-${id}">
+        <input type="checkbox" id="drill-${id}" ${data?.drill?'checked':''} onchange="updateDrillFlag(${id})"> NEEDS DRILLING
+      </label>
+      <button class="remove-tech" onclick="removeTech(${id})">×</button>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>Technique Name</label><input type="text" id="tname-${id}" placeholder="e.g. Hip Escape to Guard" value="${data?.name||''}"></div>
+      <div class="form-field"><label>Category</label><select id="tcat-${id}">${catOpts(data?.cat||'')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>Starting Position</label><select id="tstart-${id}">${posOpts(data?.startPos||'')}</select></div>
+      <div class="form-field"><label>Outcome Position</label><select id="tend-${id}">${posOpts(data?.endPos||'')}</select></div>
+      <div class="form-field"><label>Outcome Method</label><select id="tmethod-${id}">${methodOpts(data?.method||'')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>Key Concept / Why It Works</label><input type="text" id="tconcept-${id}" placeholder="The core principle..." value="${data?.concept||''}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>Steps / Sequence</label><textarea id="tsteps-${id}" placeholder="1. ...\n2. ...\n3. ...">${data?.steps||''}</textarea></div>
+    </div>`;
+  document.getElementById('techniques-container').appendChild(div);
+  updateDrillFlag(id);
+}
+function updateDrillFlag(id) {
+  const c = document.getElementById('drill-'+id)?.checked;
+  document.getElementById('dflag-'+id)?.classList.toggle('flagged', c);
+}
+function removeTech(id) { document.getElementById('tech-'+id)?.remove(); }
+
+function getTechniques() {
+  const techs = [];
+  document.querySelectorAll('[id^="tech-"]').forEach(card => {
+    const id = card.id.split('-')[1];
+    const name = document.getElementById('tname-'+id)?.value.trim();
+    if (!name) return;
+    techs.push({
+      name,
+      cat: document.getElementById('tcat-'+id)?.value||'',
+      startPos: document.getElementById('tstart-'+id)?.value||'',
+      endPos: document.getElementById('tend-'+id)?.value||'',
+      method: document.getElementById('tmethod-'+id)?.value||'',
+      concept: document.getElementById('tconcept-'+id)?.value.trim()||'',
+      steps: document.getElementById('tsteps-'+id)?.value.trim()||'',
+      drill: document.getElementById('drill-'+id)?.checked||false,
+    });
+  });
+  return techs;
+}
+
+function saveEntry() {
+  const isClass = currentType==='class';
+  const date = isClass ? document.getElementById('f-date').value : document.getElementById('f-date-online').value;
+  if (!date) { showToast('Please add a date'); return; }
+  const techniques = getTechniques();
+  const id = editingId !== null ? editingId : Date.now();
+  let entry = { id, type: currentType, date, techniques };
+  if (isClass) {
+    entry.instructor = document.getElementById('f-instructor').value.trim();
+    entry.classType = document.getElementById('f-classtype').value;
+    entry.rounds = {
+      positions: document.getElementById('f-positions').value.trim(),
+      worked: document.getElementById('f-worked').value.trim(),
+      mistakes: document.getElementById('f-mistakes').value.trim(),
+      patterns: document.getElementById('f-patterns').value.trim(),
+    };
+  } else {
+    entry.sourceType = document.getElementById('f-sourcetype').value;
+    entry.url = document.getElementById('f-url').value.trim();
+    entry.notes = document.getElementById('f-online-notes').value.trim();
+    entry.attachments = Object.values(uploadedFiles).flat();
+  }
+  if (editingId !== null) {
+    const idx = state.entries.findIndex(e => e.id === editingId);
+    if (idx !== -1) state.entries[idx] = entry;
+    editingId = null;
+    document.getElementById('edit-banner').classList.remove('visible');
+    document.getElementById('save-entry-btn').textContent = 'SAVE ENTRY';
+    save(); clearForm(); showToast('Entry updated');
+  } else {
+    state.entries.unshift(entry);
+    save(); clearForm(); showToast('Entry saved');
+  }
+}
+
+function editEntry(id) {
+  const e = state.entries.find(en => en.id === id);
+  if (!e) return;
+  editingId = id;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-log').classList.add('active');
+  document.querySelector('.nav-tab[onclick*="\'log\'"]').classList.add('active');
+  document.getElementById('main-scroll').style.display = '';
+  document.getElementById('edit-banner').classList.add('visible');
+  document.getElementById('edit-banner-text').textContent = 'EDITING ENTRY FROM ' + e.date;
+  document.getElementById('save-entry-btn').textContent = 'UPDATE ENTRY';
+  setType(e.type);
+  if (e.type === 'class') {
+    document.getElementById('f-date').value = e.date || '';
+    document.getElementById('f-instructor').value = e.instructor || '';
+    document.getElementById('f-classtype').value = e.classType || '';
+    if (e.rounds) {
+      document.getElementById('f-positions').value = e.rounds.positions || '';
+      document.getElementById('f-worked').value = e.rounds.worked || '';
+      document.getElementById('f-mistakes').value = e.rounds.mistakes || '';
+      document.getElementById('f-patterns').value = e.rounds.patterns || '';
+    }
+  } else {
+    document.getElementById('f-date-online').value = e.date || '';
+    document.getElementById('f-sourcetype').value = e.sourceType || '';
+    document.getElementById('f-url').value = e.url || '';
+    document.getElementById('f-online-notes').value = e.notes || '';
+  }
+  document.getElementById('techniques-container').innerHTML = '';
+  techCount = 0;
+  (e.techniques || []).forEach(t => addTechniqueField(t));
+  document.getElementById('main-scroll').scrollTop = 0;
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById('edit-banner').classList.remove('visible');
+  document.getElementById('save-entry-btn').textContent = 'SAVE ENTRY';
+  clearForm();
+}
+
+function clearForm() {
+  ['f-date','f-instructor','f-classtype','f-date-online','f-sourcetype','f-url',
+   'f-positions','f-worked','f-mistakes','f-patterns','f-online-notes'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value='';
+  });
+  document.getElementById('techniques-container').innerHTML='';
+  const up = document.getElementById('upload-preview'); if (up) up.innerHTML='';
+  uploadedFiles={}; techCount=0;
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('f-date').value = today;
+  document.getElementById('f-date-online').value = today;
+  addTechniqueField();
+}
+
+function handleUpload(event) {
+  const preview = document.getElementById('upload-preview');
+  uploadedFiles['main'] = uploadedFiles['main']||[];
+  Array.from(event.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      uploadedFiles['main'].push({name:file.name,data:e.target.result,type:file.type});
+      if (file.type.startsWith('image/')) {
+        const img = document.createElement('img'); img.src=e.target.result; img.className='upload-thumb'; preview.appendChild(img);
+      } else {
+        const span = document.createElement('span'); span.className='upload-file-name'; span.textContent=file.name; preview.appendChild(span);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function posFlowHTML(t) {
+  if (!t.startPos && !t.endPos && !t.method) return '';
+  return `<div class="pos-flow">
+    ${t.startPos?`<span class="pos-pill pos-start">${esc(t.startPos)}</span>`:''}
+    ${t.endPos?`<span class="pos-arrow">→</span><span class="pos-pill pos-end">${esc(t.endPos)}</span>`:''}
+    ${t.method?`<span class="pos-arrow">·</span><span class="pos-pill pos-method">${esc(t.method)}</span>`:''}
+  </div>`;
+}
+
+function renderTimeline() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const cat = document.getElementById('filter-cat').value;
+  const type = document.getElementById('filter-type').value;
+  const list = document.getElementById('timeline-list');
+  let entries = state.entries.filter(e => {
+    if (type && e.type!==type) return false;
+    if (cat && !e.techniques.some(t=>t.cat===cat)) return false;
+    if (q && !JSON.stringify(e).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  if (!entries.length) { list.innerHTML='<div class="empty-state">NO ENTRIES YET<br>START LOGGING YOUR TRAINING</div>'; return; }
+  list.innerHTML = entries.map(e => {
+    const tc=e.techniques.length, dc=e.techniques.filter(t=>t.drill).length;
+    const title = e.type==='class' ? esc((e.instructor||'Class')+(e.classType?' — '+e.classType:'')) : esc(e.sourceType||'Online');
+    const techHTML = e.techniques.map(t=>`
+      <div class="technique-row">
+        <div class="technique-row-name">${esc(t.name)}${t.cat?`<span class="cat-tag">${esc(t.cat)}</span>`:''}${t.drill?`<span class="drill-badge">DRILL</span>`:''}</div>
+        ${posFlowHTML(t)}
+        ${t.concept?`<div class="technique-row-concept">↳ ${esc(t.concept)}</div>`:''}
+        ${t.steps?`<div class="technique-row-steps">${esc(t.steps)}</div>`:''}
+      </div>`).join('');
+    const roundsHTML = e.type==='class'&&e.rounds ? `
+      <div class="entry-section-label">Open Rounds</div>
+      <div class="rounds-grid">
+        ${e.rounds.positions?`<div class="round-box"><div class="round-box-label">Positions</div><p>${esc(e.rounds.positions)}</p></div>`:''}
+        ${e.rounds.worked?`<div class="round-box"><div class="round-box-label">Worked</div><p>${esc(e.rounds.worked)}</p></div>`:''}
+        ${e.rounds.mistakes?`<div class="round-box"><div class="round-box-label">Mistakes</div><p>${esc(e.rounds.mistakes)}</p></div>`:''}
+        ${e.rounds.patterns?`<div class="round-box"><div class="round-box-label">Patterns</div><p>${esc(e.rounds.patterns)}</p></div>`:''}
+      </div>` : '';
+    const safeUrl = e.url && /^https?:\/\//i.test(e.url) ? e.url : '';
+    const onlineExtra = e.type==='online' ? `
+      ${safeUrl?`<div class="entry-section-label">Source</div><a class="source-link" href="${safeUrl}" target="_blank" rel="noopener">${esc(e.url)}</a>`:''}
+      ${e.attachments?.length?`<div class="entry-section-label">Attachments</div><div class="upload-preview">${e.attachments.filter(a=>a.type?.startsWith('image/')).map(a=>`<img src="${a.data}" class="upload-thumb">`).join('')}</div>`:''}
+      ${e.notes?`<div class="entry-section-label">Notes</div><p style="font-size:13px;color:var(--label)">${esc(e.notes)}</p>`:''}` : '';
+    return `<div class="entry-card">
+      <div class="entry-card-header" onclick="toggleEntry(${e.id})">
+        <span class="entry-type-pill ${e.type==='class'?'pill-class':'pill-online'}">${e.type==='class'?'CLASS':'ONLINE'}</span>
+        <span class="entry-date">${esc(e.date)}</span>
+        <span class="entry-title">${title}</span>
+        <span class="entry-meta">${tc} tech${tc!==1?'s':''}${dc?' · '+dc+' drill':''}</span>
+        <span class="entry-expand-icon" id="icon-${e.id}">▼</span>
+      </div>
+      <div class="entry-body" id="body-${e.id}">
+        ${tc?`<div class="entry-section-label">Techniques</div>${techHTML}`:''}
+        ${roundsHTML}${onlineExtra}
+        <div class="entry-actions">
+          <button class="btn-ghost" style="font-size:11px;padding:5px 12px" onclick="editEntry(${e.id});event.stopPropagation()">EDIT</button>
+          <button class="btn-danger" onclick="deleteEntry(${e.id})">DELETE ENTRY</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleEntry(id) {
+  document.getElementById('body-'+id)?.classList.toggle('open');
+  document.getElementById('icon-'+id)?.classList.toggle('open');
+}
+function deleteEntry(id) {
+  if (!confirm('Delete this entry?')) return;
+  state.entries = state.entries.filter(e=>e.id!==id);
+  save(); renderTimeline(); showToast('Entry deleted');
+}
+
+function renderDrillList() {
+  const list = document.getElementById('drill-list');
+  const items = [];
+  state.entries.forEach(entry => entry.techniques.forEach(t => {
+    if (t.drill) items.push({entry,tech:t,drilled:state.drilled.includes(entry.id+'_'+t.name)});
+  }));
+  if (!items.length) { list.innerHTML='<div class="drill-list-empty">NO TECHNIQUES FLAGGED FOR DRILLING</div>'; return; }
+  list.innerHTML = items.map(({entry,tech,drilled}) => {
+    const key=entry.id+'_'+tech.name;
+    return `<div class="drill-item ${drilled?'drilled':''}">
+      <input type="checkbox" ${drilled?'checked':''} onchange="toggleDrilled(${JSON.stringify(key)},this.checked)">
+      <div class="drill-item-info">
+        <div class="drill-item-name">${esc(tech.name)}${tech.cat?`<span class="cat-tag" style="margin-left:6px">${esc(tech.cat)}</span>`:''}</div>
+        <div class="drill-item-meta">${esc(entry.date)} · ${esc(entry.type==='class'?(entry.instructor||'Class'):(entry.sourceType||'Online'))}</div>
+        ${tech.concept?`<div class="drill-item-concept">${esc(tech.concept)}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function toggleDrilled(key,checked) {
+  if (checked) { if (!state.drilled.includes(key)) state.drilled.push(key); }
+  else state.drilled = state.drilled.filter(k=>k!==key);
+  save(); renderDrillList();
+}
+function clearDrilled() { state.drilled=[]; save(); renderDrillList(); showToast('Cleared'); }
+function updateDrillBadge() {
+  let count=0;
+  state.entries.forEach(e=>e.techniques.forEach(t=>{if(t.drill)count++;}));
+  count -= state.drilled.length;
+  const badge = document.getElementById('drill-badge');
+  badge.textContent = Math.max(0,count);
+  badge.style.display = count>0?'':'none';
+}
+
+function renderStats() {
+  const entries = state.entries;
+  const allTechs = entries.flatMap(e => e.techniques || []);
+  const pendingDrills = Math.max(0, allTechs.filter(t=>t.drill).length - state.drilled.length);
+
+  // Current streak — consecutive class days ending today or yesterday
+  const todayStr = new Date().toISOString().slice(0,10);
+  const yesterdayStr = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const classDates = [...new Set(entries.filter(e=>e.type==='class').map(e=>e.date))].sort().reverse();
+  let streak = 0;
+  if (classDates.length && (classDates[0]===todayStr || classDates[0]===yesterdayStr)) {
+    let cursor = new Date(classDates[0]+'T12:00:00');
+    for (const d of classDates) {
+      if (d === cursor.toISOString().slice(0,10)) { streak++; cursor = new Date(cursor.getTime()-86400000); }
+      else break;
+    }
+  }
+
+  // Sessions per month (last 6)
+  const monthCounts = {};
+  entries.forEach(e => { const m=e.date?.slice(0,7); if(m) monthCounts[m]=(monthCounts[m]||0)+1; });
+  const now = new Date();
+  const months = [];
+  for (let i=5;i>=0;i--) {
+    const dt=new Date(now.getFullYear(),now.getMonth()-i,1);
+    const key=dt.toISOString().slice(0,7);
+    months.push({key, label:dt.toLocaleString('default',{month:'short'})+' \''+dt.getFullYear().toString().slice(2), count:monthCounts[key]||0});
+  }
+  const maxMonth = Math.max(...months.map(m=>m.count), 1);
+
+  // Category breakdown
+  const catCounts = {};
+  allTechs.forEach(t=>{ const c=t.cat||'Other'; catCounts[c]=(catCounts[c]||0)+1; });
+  const sortedCats = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);
+  const maxCat = sortedCats[0]?.[1]||1;
+
+  // Top techniques
+  const techCounts = {};
+  allTechs.forEach(t=>{ if(t.name) techCounts[t.name]=(techCounts[t.name]||0)+1; });
+  const topTechs = Object.entries(techCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxTech = topTechs[0]?.[1]||1;
+
+  document.getElementById('stats-content').innerHTML = `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-val">${entries.length}</div><div class="stat-card-label">Sessions</div></div>
+      <div class="stat-card"><div class="stat-card-val">${allTechs.length}</div><div class="stat-card-label">Techniques</div></div>
+      <div class="stat-card"><div class="stat-card-val">${pendingDrills}</div><div class="stat-card-label">Pending Drills</div></div>
+      <div class="stat-card"><div class="stat-card-val">${streak}</div><div class="stat-card-label">Day Streak</div></div>
+    </div>
+    ${months.some(m=>m.count>0)?`
+    <div class="chart-section">
+      <div class="chart-title">Sessions Per Month</div>
+      ${months.map(m=>`
+        <div class="bar-row">
+          <div class="bar-label">${esc(m.label)}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(m.count/maxMonth*100)}%;background:var(--accent)"></div></div>
+          <div class="bar-count">${m.count}</div>
+        </div>`).join('')}
+    </div>`:''}
+    ${sortedCats.length?`
+    <div class="chart-section">
+      <div class="chart-title">Techniques by Category</div>
+      ${sortedCats.map(([cat,count])=>`
+        <div class="bar-row">
+          <div class="bar-label" title="${esc(cat)}">${esc(cat)}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(count/maxCat*100)}%;background:${CAT_COLORS[cat]||'#888'}"></div></div>
+          <div class="bar-count">${count}</div>
+        </div>`).join('')}
+    </div>`:''}
+    ${topTechs.length?`
+    <div class="chart-section">
+      <div class="chart-title">Most Logged Techniques</div>
+      ${topTechs.map(([name,count])=>`
+        <div class="bar-row">
+          <div class="bar-label" title="${esc(name)}">${esc(name)}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(count/maxTech*100)}%;background:var(--accent2)"></div></div>
+          <div class="bar-count">${count}</div>
+        </div>`).join('')}
+    </div>`:''}
+    ${!entries.length?'<div class="empty-state">NO DATA YET<br>START LOGGING YOUR TRAINING</div>':''}
+  `;
+}
+
+function initFlashcards() {
+  const cat=document.getElementById('fc-filter-cat').value;
+  const drillOnly=document.getElementById('fc-filter-drill').value==='drill';
+  fcCards=[];
+  state.entries.forEach(entry=>entry.techniques.forEach(t=>{
+    if (!t.name||( cat&&t.cat!==cat)||(drillOnly&&!t.drill)) return;
+    fcCards.push({tech:t,entry});
+  }));
+  for (let i=fcCards.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [fcCards[i],fcCards[j]]=[fcCards[j],fcCards[i]];
+  }
+  fcIndex=0; fcFlipped=false;
+  document.getElementById('fc-count').textContent=fcCards.length+' card'+(fcCards.length!==1?'s':'');
+  renderFlashcard();
+}
+function renderFlashcard() {
+  const area=document.getElementById('flashcard-area');
+  if (!fcCards.length) { area.innerHTML='<div class="fc-empty">NO TECHNIQUES FOUND<br>Adjust filters or add entries first</div>'; return; }
+  const {tech,entry}=fcCards[fcIndex];
+  area.innerHTML=`<div class="flashcard-wrap">
+    <div class="flashcard" onclick="flipCard()">
+      ${!fcFlipped?`
+        <div class="fc-side-label">TAP TO REVEAL</div>
+        <div class="fc-main">${esc(tech.name)}</div>
+        <div class="fc-sub">${esc(tech.cat||'—')} · ${esc(entry.date)}</div>
+        ${posFlowHTML(tech)}
+      `:`
+        <div class="fc-side-label">BACK</div>
+        <div class="fc-back-content">
+          ${tech.concept?`<div class="fc-back-label">Key Concept</div><p>${esc(tech.concept)}</p>`:''}
+          ${tech.steps?`<div class="fc-back-label">Steps</div><p style="white-space:pre-wrap">${esc(tech.steps)}</p>`:''}
+        </div>
+      `}
+    </div>
+    <div class="fc-hint">${fcFlipped?'tap to flip back':'tap card to see concept + steps'}</div>
+    <div class="fc-nav">
+      <button onclick="fcPrev()" ${fcIndex===0?'disabled':''}>← PREV</button>
+      <span class="fc-progress">${fcIndex+1} / ${fcCards.length}</span>
+      <button onclick="fcNext()" ${fcIndex===fcCards.length-1?'disabled':''}>NEXT →</button>
+    </div>
+  </div>`;
+}
+function flipCard() { fcFlipped=!fcFlipped; renderFlashcard(); }
+function fcNext() { if (fcIndex<fcCards.length-1){fcIndex++;fcFlipped=false;renderFlashcard();} }
+function fcPrev() { if (fcIndex>0){fcIndex--;fcFlipped=false;renderFlashcard();} }
+
+// ─── MIND MAP ───────────────────────────────────
+function getAllTechs() {
+  const all=[];
+  state.entries.forEach(entry=>entry.techniques.forEach(t=>{
+    if (!t.name) return;
+    if (mapFilter!=='all'&&t.method!==mapFilter) return;
+    all.push({tech:t,entry});
+  }));
+  return all;
+}
+
+function buildLayout() {
+  const canvas=document.getElementById('map-canvas');
+  const W=canvas.width, H=canvas.height;
+  const cx=W/2, cy=H/2;
+  mapNodes=[];
+  const all=getAllTechs();
+  const groups={};
+  all.forEach(item=>{
+    const cat=item.tech.cat||'Other';
+    if (!groups[cat]) groups[cat]=[];
+    groups[cat].push(item);
+  });
+  const cats=Object.keys(groups);
+  if (!cats.length) return;
+  const angleStep=(Math.PI*2)/cats.length;
+  const clusterR=Math.min(W,H)*0.29;
+  cats.forEach((cat,ci)=>{
+    const angle=angleStep*ci - Math.PI/2;
+    const cx2=cx+Math.cos(angle)*clusterR;
+    const cy2=cy+Math.sin(angle)*clusterR;
+    mapNodes.push({type:'cat',label:cat,x:cx2,y:cy2,r:38,color:CAT_COLORS[cat]||'#888',expanded:false,items:groups[cat]});
+    groups[cat].forEach((item,ti)=>{
+      const n=groups[cat].length;
+      const ta=(Math.PI*2/Math.max(n,1))*ti + angle;
+      const tr=85+Math.min(n*8,55);
+      mapNodes.push({type:'tech',label:item.tech.name,x:cx2+Math.cos(ta)*tr,y:cy2+Math.sin(ta)*tr,r:24,color:CAT_COLORS[cat]||'#888',item,parentCat:cat,visible:false});
+    });
+  });
+}
+
+function drawMap() {
+  const canvas=document.getElementById('map-canvas');
+  if (!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.save();
+  ctx.translate(mapPan.x,mapPan.y);
+  ctx.scale(mapZoom,mapZoom);
+  const cx=W/2, cy=H/2;
+
+  // Center node
+  ctx.beginPath(); ctx.arc(cx,cy,30,0,Math.PI*2);
+  ctx.fillStyle='#1a1a1a'; ctx.strokeStyle='#c8f135'; ctx.lineWidth=2; ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#c8f135'; ctx.font='bold 11px "DM Mono",monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('BJJ',cx,cy-5); ctx.fillText('MAP',cx,cy+7);
+
+  const catNodes=mapNodes.filter(n=>n.type==='cat');
+
+  // Draw edges center→cat
+  catNodes.forEach(n=>{
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(n.x,n.y);
+    ctx.strokeStyle=n.color+'28'; ctx.lineWidth=1.5; ctx.stroke();
+  });
+
+  // Draw edges cat→tech (if expanded)
+  catNodes.forEach(n=>{
+    if (!n.expanded) return;
+    mapNodes.filter(tn=>tn.type==='tech'&&tn.parentCat===n.label).forEach(tn=>{
+      ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(tn.x,tn.y);
+      ctx.strokeStyle=n.color+'38'; ctx.lineWidth=1; ctx.stroke();
+    });
+  });
+
+  // Tech nodes
+  mapNodes.filter(n=>n.type==='tech'&&n.visible).forEach(n=>{
+    const hov=mapHover===n;
+    ctx.beginPath(); ctx.arc(n.x,n.y,n.r+(hov?3:0),0,Math.PI*2);
+    ctx.fillStyle=hov?n.color+'20':'#161616';
+    ctx.strokeStyle=n.color+(hov?'bb':'55'); ctx.lineWidth=hov?1.5:1;
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle=hov?n.color:'#aaa';
+    ctx.font=(hov?'500':'400')+' 9px "DM Sans",sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    wrapText(ctx,n.label,n.x,n.y,n.r*1.6,10);
+  });
+
+  // Cat nodes (on top)
+  catNodes.forEach(n=>{
+    const hov=mapHover===n;
+    const r=n.r+(hov?4:0);
+    ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2);
+    ctx.fillStyle=n.expanded?n.color+'1a':'#1a1a1a';
+    ctx.strokeStyle=n.color+(n.expanded?'ff':hov?'cc':'70');
+    ctx.lineWidth=n.expanded?2:hov?1.5:1;
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle=n.color;
+    ctx.font='600 10px "DM Mono",monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    const words=n.label.split(' ');
+    if (words.length===1) { ctx.fillText(n.label.toUpperCase(),n.x,n.y-4); }
+    else { ctx.fillText(words[0].toUpperCase(),n.x,n.y-9); ctx.fillText(words[1].toUpperCase(),n.x,n.y+3); }
+    ctx.fillStyle='#555'; ctx.font='9px "DM Mono",monospace';
+    const cnt=n.items.length;
+    ctx.fillText(cnt+(cnt===1?' tech':' techs'),n.x,n.y+(words.length>1?17:11));
+  });
+
+  ctx.restore();
+}
+
+function wrapText(ctx,text,x,y,maxW,lineH) {
+  const words=text.split(' ');
+  if (words.length===1||ctx.measureText(text).width<=maxW) { ctx.fillText(trunc(text,14),x,y); return; }
+  const line1=words.slice(0,Math.ceil(words.length/2)).join(' ');
+  const line2=words.slice(Math.ceil(words.length/2)).join(' ');
+  ctx.fillText(trunc(line1,14),x,y-lineH/2);
+  ctx.fillText(trunc(line2,14),x,y+lineH/2);
+}
+function trunc(s,n) { return s.length>n?s.slice(0,n-1)+'…':s; }
+
+function getCoords(e) {
+  const canvas=document.getElementById('map-canvas');
+  const rect=canvas.getBoundingClientRect();
+  return { x:(e.clientX-rect.left-mapPan.x)/mapZoom, y:(e.clientY-rect.top-mapPan.y)/mapZoom };
+}
+function nodeAt(x,y) {
+  for (let i=mapNodes.length-1;i>=0;i--) {
+    const n=mapNodes[i];
+    if (n.type==='tech'&&!n.visible) continue;
+    if (Math.hypot(n.x-x,n.y-y)<=n.r+5) return n;
+  }
+  return null;
+}
+
+let mapEventsAttached=false;
+function setupMapEvents() {
+  if (mapEventsAttached) return;
+  mapEventsAttached=true;
+  const canvas=document.getElementById('map-canvas');
+  canvas.addEventListener('mousedown',e=>{
+    mapDragging=true; mapDragMoved=false;
+    mapDragStart={x:e.clientX,y:e.clientY};
+    mapPanStart={x:mapPan.x,y:mapPan.y};
+  });
+  canvas.addEventListener('mousemove',e=>{
+    if (mapDragging) {
+      const dx=e.clientX-mapDragStart.x, dy=e.clientY-mapDragStart.y;
+      if (Math.hypot(dx,dy)>3) mapDragMoved=true;
+      mapPan.x=mapPanStart.x+dx; mapPan.y=mapPanStart.y+dy;
+      drawMap(); return;
+    }
+    const {x,y}=getCoords(e);
+    const prev=mapHover; mapHover=nodeAt(x,y);
+    canvas.style.cursor=mapHover?'pointer':'grab';
+    if (prev!==mapHover) drawMap();
+  });
+  canvas.addEventListener('mouseup',e=>{
+    mapDragging=false;
+    if (!mapDragMoved) {
+      const {x,y}=getCoords(e);
+      const n=nodeAt(x,y);
+      if (n) handleClick(n);
+    }
+  });
+  canvas.addEventListener('mouseleave',()=>{ mapDragging=false; mapHover=null; drawMap(); });
+  canvas.addEventListener('wheel',e=>{
+    e.preventDefault();
+    mapZoom=Math.max(0.25,Math.min(4,mapZoom*(e.deltaY>0?0.9:1.1)));
+    drawMap();
+  },{passive:false});
+}
+
+function handleClick(node) {
+  if (node.type==='cat') {
+    node.expanded=!node.expanded;
+    mapNodes.filter(n=>n.type==='tech'&&n.parentCat===node.label).forEach(n=>n.visible=node.expanded);
+    drawMap();
+  } else {
+    showDetail(node.item);
+  }
+}
+
+function setMapFilter(filter,btn) {
+  mapFilter=filter;
+  document.querySelectorAll('.map-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildLayout(); drawMap();
+}
+
+function initMap() {
+  const canvas=document.getElementById('map-canvas');
+  const container=document.getElementById('view-map');
+  canvas.width=container.clientWidth;
+  canvas.height=container.clientHeight - document.querySelector('.map-toolbar').offsetHeight;
+  mapPan={x:0,y:0}; mapZoom=1;
+  buildLayout(); drawMap(); setupMapEvents();
+}
+
+function showDetail(item) {
+  const {tech,entry}=item;
+  document.getElementById('detail-content').innerHTML=`
+    <div class="detail-title">${esc(tech.name)}</div>
+    <div class="detail-cat">${esc(tech.cat||'—')} · ${esc(entry.date)}</div>
+    ${tech.startPos||tech.endPos||tech.method?`
+      <div class="detail-section-label">Position Flow</div>
+      <div class="detail-flow">
+        ${tech.startPos?`<span class="pos-pill pos-start">${esc(tech.startPos)}</span>`:''}
+        ${tech.endPos?`<span class="pos-arrow">→</span><span class="pos-pill pos-end">${esc(tech.endPos)}</span>`:''}
+        ${tech.method?`<span class="pos-arrow">·</span><span class="pos-pill pos-method">${esc(tech.method)}</span>`:''}
+      </div>`:''}
+    ${tech.concept?`<div class="detail-section-label">Key Concept</div><div class="detail-value">${esc(tech.concept)}</div>`:''}
+    ${tech.steps?`<div class="detail-section-label">Steps</div><div class="detail-value">${esc(tech.steps)}</div>`:''}
+    <div class="detail-section-label">Source</div>
+    <div class="detail-value">${entry.type==='class'?`Class · ${esc(entry.instructor||'Unknown')}`:esc(entry.sourceType||'Online')}</div>
+    ${tech.drill?`<div style="margin-top:12px"><span class="drill-badge">NEEDS DRILLING</span></div>`:''}
+  `;
+  document.getElementById('detail-panel').classList.add('open');
+}
+function closeDetail() { document.getElementById('detail-panel').classList.remove('open'); }
+
+function openExportModal() { document.getElementById('export-modal').classList.add('open'); }
+function closeExportModal() { document.getElementById('export-modal').classList.remove('open'); }
+
+function exportJSON() {
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='bjj-journal-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click(); closeExportModal(); showToast('JSON exported');
+}
+
+function exportCSV() {
+  const rows=[['Date','Type','Source','Technique','Category','Start Position','End Position','Method','Key Concept','Steps','Needs Drilling']];
+  state.entries.forEach(e=>{
+    const source=e.type==='class'?(e.instructor||'Class'):(e.url||e.sourceType||'Online');
+    if (!e.techniques?.length) {
+      rows.push([e.date,e.type,source,'','','','','','','','']);
+    } else {
+      e.techniques.forEach(t=>{
+        rows.push([e.date,e.type,source,t.name||'',t.cat||'',t.startPos||'',t.endPos||'',t.method||'',t.concept||'',(t.steps||'').replace(/\n/g,' '),t.drill?'yes':'no']);
+      });
+    }
+  });
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='bjj-journal-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click(); closeExportModal(); showToast('CSV exported');
+}
+
+function exportMarkdown() {
+  let md='# BJJ Journal\n\nExported: '+new Date().toLocaleDateString()+'\n\n---\n\n';
+  state.entries.forEach(e=>{
+    const header=e.type==='class'
+      ?'**Instructor:** '+(e.instructor||'—')+(e.classType?' · '+e.classType:'')
+      :'**Source:** '+(e.url||e.sourceType||'Online');
+    md+='## '+e.date+' — '+(e.type==='class'?'Class':'Online')+'\n\n'+header+'\n\n';
+    if (e.techniques?.length) {
+      md+='### Techniques\n\n';
+      e.techniques.forEach(t=>{
+        md+='**'+t.name+'**'+(t.cat?' *('+t.cat+')*':'')+(t.drill?' ⚑':'')+'\n';
+        if (t.startPos||t.endPos||t.method) md+='- Position: '+(t.startPos||'—')+' → '+(t.endPos||'—')+(t.method?' · '+t.method:'')+'\n';
+        if (t.concept) md+='- Concept: '+t.concept+'\n';
+        if (t.steps) md+='- Steps:\n'+t.steps.split('\n').map(s=>'  '+s).join('\n')+'\n';
+        md+='\n';
+      });
+    }
+    if (e.type==='class'&&e.rounds) {
+      const r=e.rounds;
+      md+='### Round Notes\n\n';
+      if (r.positions) md+='**Positions:** '+r.positions+'\n\n';
+      if (r.worked) md+='**Worked:** '+r.worked+'\n\n';
+      if (r.mistakes) md+='**Mistakes:** '+r.mistakes+'\n\n';
+      if (r.patterns) md+='**Patterns:** '+r.patterns+'\n\n';
+    }
+    if (e.type==='online'&&e.notes) md+='### Notes\n\n'+e.notes+'\n\n';
+    md+='---\n\n';
+  });
+  const blob=new Blob([md],{type:'text/markdown'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='bjj-journal-'+new Date().toISOString().slice(0,10)+'.md';
+  a.click(); closeExportModal(); showToast('Markdown exported');
+}
+function importData(event) {
+  const file=event.target.files[0]; if (!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try { state=JSON.parse(e.target.result); save(); showToast('Imported '+state.entries.length+' entries'); renderTimeline(); }
+    catch { showToast('Invalid file'); }
+  };
+  reader.readAsText(file);
+}
+
+// ─── SEQUENCES ──────────────────────────────────────────────────────────────
+// state.sequences = [ { id, name, startPos, tree: node } ]
+// node = { id, name, note, children: [ { edgeLabel, node } ] }
+
+let activeSeqId = null;
+let nodeEditorCb = null; // callback when node editor confirms
+let seqMetaCb = null;
+
+function getSeqs() { return state.sequences || []; }
+
+function saveSeqs() {
+  state.sequences = state.sequences || [];
+  save();
+}
+
+function renderSeqList() {
+  const seqs = getSeqs();
+  const list = document.getElementById('seq-list');
+  if (!seqs.length) {
+    list.innerHTML = '<div style="padding:20px 16px;font-family:\'DM Mono\',monospace;font-size:10px;color:var(--muted);line-height:1.8">NO SEQUENCES YET<br>HIT + NEW TO START</div>';
+    return;
+  }
+  list.innerHTML = seqs.map(s => `
+    <div class="seq-list-item ${s.id===activeSeqId?'active':''}" onclick="openSeq(${JSON.stringify(s.id)})">
+      <div class="seq-list-item-name">${esc(s.name)}</div>
+      <div class="seq-list-item-meta">${esc(s.startPos||'—')} · ${countNodes(s.tree)} node${countNodes(s.tree)!==1?'s':''}</div>
+    </div>`).join('');
+}
+
+function countNodes(node) {
+  if (!node) return 0;
+  let n = 1;
+  (node.children||[]).forEach(c => { n += countNodes(c.node); });
+  return n;
+}
+
+function openSeq(id) {
+  activeSeqId = id;
+  const seq = getSeqs().find(s => s.id === id);
+  if (!seq) return;
+  document.getElementById('seq-canvas-toolbar').style.display = 'flex';
+  document.getElementById('seq-canvas-title').textContent = seq.name;
+  document.getElementById('seq-empty').style.display = 'none';
+  document.getElementById('seq-tree').style.display = 'block';
+  renderSeqList();
+  renderTree(seq);
+}
+
+function renderTree(seq) {
+  const container = document.getElementById('seq-tree');
+  container.innerHTML = '';
+  if (!seq.tree) {
+    // Empty tree — show root add button
+    container.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;padding:40px 0;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;letter-spacing:1px">STARTING POSITION: ${seq.startPos||'—'}</div>
+        <button class="btn-primary" onclick="addRootNode('${seq.id}')" style="font-size:11px;padding:8px 20px">+ ADD FIRST MOVE</button>
+      </div>`;
+    return;
+  }
+  const el = buildNodeEl(seq.tree, seq.id, null, null);
+  container.appendChild(el);
+}
+
+function buildNodeEl(node, seqId, parentId, edgeLabel) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+
+  // Edge label coming in (opponent response)
+  if (edgeLabel !== null) {
+    const edgeWrap = document.createElement('div');
+    edgeWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+    const line = document.createElement('div');
+    line.className = 'tree-line-v'; line.style.height = '20px';
+    const lbl = document.createElement('div');
+    lbl.className = 'tree-edge-label'; lbl.textContent = edgeLabel;
+    lbl.title = edgeLabel;
+    const line2 = document.createElement('div');
+    line2.className = 'tree-line-v'; line2.style.height = '20px';
+    const arr = document.createElement('div');
+    arr.className = 'tree-arrow'; arr.textContent = '▼';
+    edgeWrap.appendChild(line); edgeWrap.appendChild(lbl);
+    edgeWrap.appendChild(line2); edgeWrap.appendChild(arr);
+    wrap.appendChild(edgeWrap);
+  }
+
+  // Node card
+  const card = document.createElement('div');
+  card.className = 'seq-node';
+  card.id = 'snode-'+node.id;
+
+  const hasChildren = node.children && node.children.length > 0;
+  const isLinear = hasChildren && node.children.length === 1;
+  const isDilemma = hasChildren && node.children.length >= 2;
+
+  card.innerHTML = `
+    <div class="seq-node-name">${esc(node.name)}</div>
+    ${node.note ? `<div class="seq-node-note">${esc(node.note)}</div>` : ''}
+    <div class="seq-node-actions">
+      <button class="seq-node-btn edit" onclick="editNode('${seqId}','${node.id}')">EDIT</button>
+      ${!hasChildren ? `
+        <button class="seq-node-btn continue" onclick="addChildNode('${seqId}','${node.id}','continue')">+ CONTINUE</button>
+        <button class="seq-node-btn dilemma" onclick="addChildNode('${seqId}','${node.id}','dilemma')">⑂ DILEMMA</button>
+      ` : ''}
+      <button class="seq-node-btn del" onclick="deleteNode('${seqId}','${node.id}')">✕</button>
+    </div>`;
+  wrap.appendChild(card);
+
+  // Children
+  if (hasChildren) {
+    if (isLinear) {
+      // Single continue chain
+      const childEl = buildNodeEl(node.children[0].node, seqId, node.id, node.children[0].edgeLabel);
+      wrap.appendChild(childEl);
+    } else {
+      // Dilemma fork — horizontal layout
+      const forkConnector = document.createElement('div');
+      forkConnector.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+      const forkLine = document.createElement('div');
+      forkLine.className = 'tree-line-v'; forkLine.style.height = '20px';
+      const forkLabel = document.createElement('div');
+      forkLabel.style.cssText = 'font-family:\'DM Mono\',monospace;font-size:9px;color:#ffb432;letter-spacing:1px;padding:2px 8px;border:1px solid rgba(255,180,50,0.3);border-radius:2px;';
+      forkLabel.textContent = 'DILEMMA';
+      forkConnector.appendChild(forkLine); forkConnector.appendChild(forkLabel);
+      wrap.appendChild(forkConnector);
+
+      const fork = document.createElement('div');
+      fork.className = 'tree-fork';
+      node.children.forEach(child => {
+        const branch = document.createElement('div');
+        branch.className = 'tree-fork-branch';
+        const childEl = buildNodeEl(child.node, seqId, node.id, child.edgeLabel);
+        branch.appendChild(childEl);
+        fork.appendChild(branch);
+      });
+      wrap.appendChild(fork);
+    }
+  }
+
+  // If has children but not dilemma, offer to add dilemma branch
+  if (isLinear) {
+    const addDilBtn = document.createElement('div');
+    addDilBtn.style.cssText = 'margin-top:8px;display:flex;justify-content:center;';
+    addDilBtn.innerHTML = `<button class="seq-node-btn dilemma" style="font-size:9px" onclick="addDilemmaToLinear('${seqId}','${node.id}')">⑂ ADD DILEMMA BRANCH</button>`;
+    card.querySelector('.seq-node-actions').appendChild(addDilBtn.querySelector('button'));
+  }
+
+  return wrap;
+}
+
+// ── Node editing ──────────────────────────────────────────────────────────
+
+function addRootNode(seqId) {
+  openNodeEditor('ADD FIRST MOVE', false, (name, note) => {
+    const seq = getSeqs().find(s => s.id === seqId);
+    if (!seq) return;
+    seq.tree = { id: uid(), name, note, children: [] };
+    saveSeqs(); openSeq(seqId);
+  });
+}
+
+function addChildNode(seqId, parentId, type) {
+  const isContinue = type === 'continue';
+  const edgeLabel = isContinue ? 'opponent defends' : null;
+
+  if (isContinue) {
+    // For continue, show editor with default edge label editable
+    openNodeEditor('ADD COUNTER', true, (name, note, edge) => {
+      const seq = getSeqs().find(s => s.id === seqId);
+      const parent = findNode(seq.tree, parentId);
+      if (!parent) return;
+      parent.children.push({ edgeLabel: edge || 'opponent defends', node: { id: uid(), name, note, children: [] } });
+      saveSeqs(); openSeq(seqId);
+    }, 'Opponent Response', 'opponent defends');
+  } else {
+    // Dilemma — add first branch, ask for opponent response label
+    openNodeEditor('ADD DILEMMA BRANCH 1', true, (name, note, edge) => {
+      const seq = getSeqs().find(s => s.id === seqId);
+      const parent = findNode(seq.tree, parentId);
+      if (!parent) return;
+      parent.children.push({ edgeLabel: edge || 'option A', node: { id: uid(), name, note, children: [] } });
+      // Now ask for branch 2
+      openNodeEditor('ADD DILEMMA BRANCH 2', true, (name2, note2, edge2) => {
+        const seq2 = getSeqs().find(s => s.id === seqId);
+        const parent2 = findNode(seq2.tree, parentId);
+        if (!parent2) return;
+        parent2.children.push({ edgeLabel: edge2 || 'option B', node: { id: uid(), name: name2, note: note2, children: [] } });
+        saveSeqs(); openSeq(seqId);
+      }, 'Opponent Response', 'defends by...');
+    }, 'Opponent Response', 'defends by...');
+  }
+}
+
+function addDilemmaToLinear(seqId, parentId) {
+  openNodeEditor('ADD DILEMMA BRANCH', true, (name, note, edge) => {
+    const seq = getSeqs().find(s => s.id === seqId);
+    const parent = findNode(seq.tree, parentId);
+    if (!parent) return;
+    // Update existing child's edge label too
+    if (parent.children[0] && !parent.children[0].edgeLabel) {
+      parent.children[0].edgeLabel = 'option A';
+    }
+    parent.children.push({ edgeLabel: edge || 'option B', node: { id: uid(), name, note, children: [] } });
+    saveSeqs(); openSeq(seqId);
+  }, 'Opponent Response', 'defends by...');
+}
+
+function editNode(seqId, nodeId) {
+  const seq = getSeqs().find(s => s.id === seqId);
+  const node = findNode(seq.tree, nodeId);
+  if (!node) return;
+  openNodeEditor('EDIT NODE', false, (name, note) => {
+    node.name = name; node.note = note;
+    saveSeqs(); openSeq(seqId);
+  }, '', '', node.name, node.note);
+}
+
+function deleteNode(seqId, nodeId) {
+  const seq = getSeqs().find(s => s.id === seqId);
+  if (!seq) return;
+  if (seq.tree && seq.tree.id === nodeId) {
+    if (!confirm('Delete this node and the entire chain below it?')) return;
+    seq.tree = null;
+  } else {
+    if (!confirm('Delete this node and everything below it?')) return;
+    removeNode(seq.tree, nodeId);
+  }
+  saveSeqs(); openSeq(seqId);
+}
+
+function findNode(node, id) {
+  if (!node) return null;
+  if (node.id === id) return node;
+  for (const c of (node.children||[])) {
+    const found = findNode(c.node, id);
+    if (found) return found;
+  }
+  return null;
+}
+
+function removeNode(node, id) {
+  if (!node) return;
+  node.children = (node.children||[]).filter(c => c.node.id !== id);
+  node.children.forEach(c => removeNode(c.node, id));
+}
+
+function uid() { return Math.random().toString(36).slice(2, 10); }
+
+// ── Node editor modal ──────────────────────────────────────────────────────
+
+function openNodeEditor(title, showEdge, cb, edgeLabel='', edgeDefault='', prefillName='', prefillNote='') {
+  nodeEditorCb = cb;
+  document.getElementById('ne-title').textContent = title;
+  document.getElementById('ne-name').value = prefillName;
+  document.getElementById('ne-notes').value = prefillNote;
+  const ef = document.getElementById('ne-edge-field');
+  const el = document.getElementById('ne-edge-label');
+  const ei = document.getElementById('ne-edge');
+  ef.style.display = showEdge ? 'block' : 'none';
+  el.textContent = edgeLabel || 'Opponent Response';
+  ei.value = edgeDefault;
+  document.getElementById('ne-suggest').style.display = 'none';
+  document.getElementById('node-editor').classList.add('open');
+  setTimeout(() => document.getElementById('ne-name').focus(), 50);
+}
+
+function closeNodeEditor() {
+  document.getElementById('node-editor').classList.remove('open');
+  nodeEditorCb = null;
+}
+
+function confirmNodeEditor() {
+  const name = document.getElementById('ne-name').value.trim();
+  if (!name) { document.getElementById('ne-name').focus(); return; }
+  const note = document.getElementById('ne-notes').value.trim();
+  const edge = document.getElementById('ne-edge').value.trim();
+  const cb = nodeEditorCb;
+  closeNodeEditor();
+  if (cb) cb(name, note, edge);
+}
+
+// Technique suggestions from journal entries
+function suggestTechniques(q) {
+  const box = document.getElementById('ne-suggest');
+  if (!q || q.length < 2) { box.style.display = 'none'; return; }
+  const lower = q.toLowerCase();
+  const matches = [];
+  (state.entries||[]).forEach(entry => {
+    (entry.techniques||[]).forEach(t => {
+      if (t.name && t.name.toLowerCase().includes(lower)) {
+        matches.push({ name: t.name, cat: t.cat });
+      }
+    });
+  });
+  // Deduplicate by name
+  const seen = new Set();
+  const unique = matches.filter(m => { if (seen.has(m.name)) return false; seen.add(m.name); return true; }).slice(0, 8);
+  if (!unique.length) { box.style.display = 'none'; return; }
+  box.innerHTML = unique.map(m =>
+    `<div class="suggest-item" onmousedown="pickSuggest(${JSON.stringify(m.name)})">
+      ${esc(m.name)}<span class="suggest-cat">${esc(m.cat||'')}</span>
+    </div>`).join('');
+  box.style.display = 'block';
+}
+
+function pickSuggest(name) {
+  document.getElementById('ne-name').value = name;
+  document.getElementById('ne-suggest').style.display = 'none';
+}
+
+// ── Sequence meta (new / rename) ──────────────────────────────────────────
+
+function newSequence() {
+  document.getElementById('smm-title').textContent = 'NEW SEQUENCE';
+  document.getElementById('smm-name').value = '';
+  document.getElementById('smm-pos').value = '';
+  seqMetaCb = (name, pos) => {
+    if (!state.sequences) state.sequences = [];
+    const seq = { id: uid(), name, startPos: pos, tree: null };
+    state.sequences.push(seq);
+    saveSeqs();
+    activeSeqId = seq.id;
+    renderSeqList();
+    openSeq(seq.id);
+  };
+  document.getElementById('seq-meta-modal').classList.add('open');
+  setTimeout(() => document.getElementById('smm-name').focus(), 50);
+}
+
+function editSequenceMeta() {
+  const seq = getSeqs().find(s => s.id === activeSeqId);
+  if (!seq) return;
+  document.getElementById('smm-title').textContent = 'RENAME SEQUENCE';
+  document.getElementById('smm-name').value = seq.name;
+  document.getElementById('smm-pos').value = seq.startPos || '';
+  seqMetaCb = (name, pos) => {
+    seq.name = name; seq.startPos = pos;
+    saveSeqs(); renderSeqList();
+    document.getElementById('seq-canvas-title').textContent = name;
+  };
+  document.getElementById('seq-meta-modal').classList.add('open');
+}
+
+function confirmSeqMeta() {
+  const name = document.getElementById('smm-name').value.trim();
+  if (!name) { document.getElementById('smm-name').focus(); return; }
+  const pos = document.getElementById('smm-pos').value;
+  closeSeqMeta();
+  if (seqMetaCb) seqMetaCb(name, pos);
+}
+
+function closeSeqMeta() {
+  document.getElementById('seq-meta-modal').classList.remove('open');
+  seqMetaCb = null;
+}
+
+function deleteSequence() {
+  if (!activeSeqId) return;
+  const seq = getSeqs().find(s => s.id === activeSeqId);
+  if (!confirm('Delete sequence "' + (seq?.name||'') + '"? This cannot be undone.')) return;
+  state.sequences = state.sequences.filter(s => s.id !== activeSeqId);
+  activeSeqId = null;
+  saveSeqs();
+  document.getElementById('seq-canvas-toolbar').style.display = 'none';
+  document.getElementById('seq-empty').style.display = 'flex';
+  document.getElementById('seq-tree').style.display = 'none';
+  document.getElementById('seq-tree').innerHTML = '';
+  renderSeqList();
+  showToast('Sequence deleted');
+}
+
+// Also handle Enter key in node editor
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeNodeEditor(); closeSeqMeta();
+  }
+  if (e.key === 'Enter' && document.getElementById('node-editor').classList.contains('open')) {
+    if (document.activeElement.tagName !== 'TEXTAREA') confirmNodeEditor();
+  }
+  if (e.key === 'Enter' && document.getElementById('seq-meta-modal').classList.contains('open')) {
+    if (document.activeElement.tagName !== 'TEXTAREA') confirmSeqMeta();
+  }
+});
+
+
+// ─── FREEMIUM ────────────────────────────────────────────────────────────────
+function isPro() { return !!localStorage.getItem('bjj_pro'); }
+function unlockPro(key) {
+  if (!key) return false;
+  localStorage.setItem('bjj_pro', '1');
+  showToast('Pro unlocked ✓');
+  return true;
+}
+
+const GH_SK = 'bjj_journal_gh_v1';
+
+function ghSettings() {
+  try { return JSON.parse(localStorage.getItem(GH_SK)||'{}'); } catch(e) { return {}; }
+}
+function ghConfigured() {
+  const s=ghSettings(); return !!(s.user&&s.repo&&s.token);
+}
+function ghApiBase() {
+  const s=ghSettings(); return `https://api.github.com/repos/${s.user}/${s.repo}`;
+}
+function ghHeaders() {
+  const s=ghSettings();
+  return {
+    'Authorization':'Bearer '+s.token,
+    'Content-Type':'application/json',
+    'Accept':'application/vnd.github+json',
+    'X-GitHub-Api-Version':'2022-11-28'
+  };
+}
+
+function openSettings() {
+  const s=ghSettings();
+  document.getElementById('gh-user').value=s.user||'';
+  document.getElementById('gh-repo').value=s.repo||'';
+  document.getElementById('gh-token').value=s.token||'';
+  const st=document.getElementById('gh-status');
+  st.style.display='none'; st.className='gh-status';
+  document.getElementById('gh-backup-list').style.display='none';
+  updateGHButtons();
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings() {
+  document.getElementById('settings-modal').classList.remove('open');
+}
+function updateGHButtons() {
+  const ok=ghConfigured();
+  ['gh-push-btn','gh-list-btn'].forEach(id=>{
+    const btn=document.getElementById(id);
+    btn.disabled=!ok;
+    btn.style.opacity=ok?'1':'0.4';
+    btn.style.cursor=ok?'pointer':'not-allowed';
+  });
+}
+
+async function saveGHSettings() {
+  const user=document.getElementById('gh-user').value.trim();
+  const repo=document.getElementById('gh-repo').value.trim();
+  const token=document.getElementById('gh-token').value.trim();
+  const st=document.getElementById('gh-status');
+  if (!user||!repo||!token) {
+    st.className='gh-status err'; st.style.display='block';
+    st.textContent='Fill in all three fields.'; return;
+  }
+  st.className='gh-status info'; st.style.display='block';
+  st.textContent='Testing connection...';
+  try {
+    const res=await fetch(`https://api.github.com/repos/${user}/${repo}`,{
+      headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
+    });
+    if (res.ok) {
+      localStorage.setItem(GH_SK,JSON.stringify({user,repo,token}));
+      st.className='gh-status ok'; st.textContent='✓ Connected to '+user+'/'+repo;
+      updateGHButtons();
+    } else if (res.status===401) {
+      st.className='gh-status err'; st.textContent='Invalid token — check it has repo scope and hasn\'t expired.';
+    } else if (res.status===404) {
+      st.className='gh-status err'; st.textContent='Repo not found — check username and repo name.';
+    } else {
+      st.className='gh-status err'; st.textContent='Error '+res.status+' — check settings and try again.';
+    }
+  } catch(e) {
+    st.className='gh-status err'; st.textContent='Network error — check your connection.';
+  }
+}
+
+// ── Photo upload ────────────────────────────────────────────────────────────
+async function uploadPhotoToGitHub(file) {
+  if (!ghConfigured()) return null;
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      try {
+        const base64=e.target.result.split(',')[1];
+        const ext=file.name.split('.').pop()||'jpg';
+        const ts=Date.now();
+        const path=`images/img_${ts}.${ext}`;
+        const res=await fetch(`${ghApiBase()}/contents/${path}`,{
+          method:'PUT', headers:ghHeaders(),
+          body:JSON.stringify({message:`Add photo ${ts}`,content:base64})
+        });
+        if (res.ok) {
+          const s=ghSettings();
+          resolve(`https://raw.githubusercontent.com/${s.user}/${s.repo}/main/${path}`);
+        } else { console.warn('GH photo upload failed:',res.status); resolve(null); }
+      } catch(err) { console.warn('GH photo upload error:',err); resolve(null); }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── Push backup ─────────────────────────────────────────────────────────────
+async function pushBackupToGitHub() {
+  if (!ghConfigured()) { openSettings(); return; }
+  const btn=document.getElementById('gh-push-btn');
+  const orig=btn.textContent; btn.textContent='PUSHING...'; btn.disabled=true;
+  try {
+    const now=new Date();
+    const pad=n=>String(n).padStart(2,'0');
+    const stamp=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}`;
+    const path=`backups/backup_${stamp}.json`;
+    const payload={version:1,exported:now.toISOString(),exportedReadable:now.toLocaleString(),entryCount:state.entries.length,data:state};
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
+    const res=await fetch(`${ghApiBase()}/contents/${path}`,{
+      method:'PUT', headers:ghHeaders(),
+      body:JSON.stringify({message:`Backup ${stamp}`,content})
+    });
+    if (res.ok) {
+      showToast('✓ Backup pushed — '+state.entries.length+' entries');
+    } else {
+      const err=await res.json();
+      showToast('Backup failed ('+res.status+'): '+(err.message||'unknown'));
+    }
+  } catch(e) { showToast('Backup failed — check connection'); }
+  finally { btn.textContent=orig; btn.disabled=false; updateGHButtons(); }
+}
+
+// ── Browse + restore backups ─────────────────────────────────────────────────
+async function loadGHBackups() {
+  const btn=document.getElementById('gh-list-btn');
+  const list=document.getElementById('gh-backup-list');
+  const orig=btn.textContent; btn.textContent='LOADING...'; btn.disabled=true;
+  list.style.display='block'; list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted)">Loading...</div>';
+  try {
+    const res=await fetch(`${ghApiBase()}/contents/backups`,{headers:ghHeaders()});
+    if (res.status===404) {
+      list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted)">No backups yet. Push your first backup above.</div>';
+      btn.textContent=orig; btn.disabled=false; updateGHButtons(); return;
+    }
+    const files=await res.json();
+    const backups=files.filter(f=>f.name.endsWith('.json')).sort((a,b)=>b.name.localeCompare(a.name));
+    if (!backups.length) {
+      list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted)">No backup files found.</div>';
+      btn.textContent=orig; btn.disabled=false; updateGHButtons(); return;
+    }
+    list.innerHTML=backups.map(f=>{
+      const label=f.name.replace('backup_','').replace('.json','').replace('_',' · ').replace(/-/g,'/');
+      const kb=(f.size/1024).toFixed(1)+'KB';
+      return `<div class="gh-backup-item">
+        <div>
+          <div class="gh-backup-name">${label}</div>
+          <div class="gh-backup-size">${kb}</div>
+        </div>
+        <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub('${f.download_url}','${f.name}')">RESTORE</button>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--accent2)">Failed to load — check connection and settings.</div>';
+  }
+  btn.textContent=orig; btn.disabled=false; updateGHButtons();
+}
+
+async function restoreFromGitHub(url, name) {
+  if (!confirm('Restore backup "'+name+'"?\n\nThis will replace your current '+state.entries.length+' entries. Cannot be undone.')) return;
+  try {
+    const res=await fetch(url);
+    const parsed=await res.json();
+    const incoming=parsed.data||parsed;
+    state=incoming;
+    save();
+    closeSettings();
+    showToast('✓ Restored — '+state.entries.length+' entries loaded');
+    renderTimeline();
+  } catch(e) { alert('Failed to restore backup. Please try again.'); }
+}
+
+// ─── PATCHED handleUpload to use GitHub if configured ──────────────────────
+async function handleUploadGH(event) {
+  const preview=document.getElementById('upload-preview');
+  uploadedFiles['main']=uploadedFiles['main']||[];
+  for (const file of Array.from(event.target.files)) {
+    if (ghConfigured()&&file.type.startsWith('image/')) {
+      const placeholder=document.createElement('span');
+      placeholder.className='upload-file-name';
+      placeholder.textContent=file.name+' (uploading...)';
+      preview.appendChild(placeholder);
+      const url=await uploadPhotoToGitHub(file);
+      preview.removeChild(placeholder);
+      if (url) {
+        uploadedFiles['main'].push({name:file.name,data:url,type:file.type,isUrl:true});
+        const img=document.createElement('img'); img.src=url; img.className='upload-thumb'; preview.appendChild(img);
+        showToast('✓ Photo uploaded to GitHub');
+      } else {
+        // fallback to base64
+        await new Promise(resolve=>{
+          const reader=new FileReader();
+          reader.onload=e2=>{
+            uploadedFiles['main'].push({name:file.name,data:e2.target.result,type:file.type});
+            const img=document.createElement('img'); img.src=e2.target.result; img.className='upload-thumb'; preview.appendChild(img);
+            resolve();
+          };
+          reader.readAsDataURL(file);
+        });
+        showToast('GitHub upload failed — saved locally');
+      }
+    } else {
+      await new Promise(resolve=>{
+        const reader=new FileReader();
+        reader.onload=e2=>{
+          uploadedFiles['main'].push({name:file.name,data:e2.target.result,type:file.type});
+          if (file.type.startsWith('image/')) {
+            const img=document.createElement('img'); img.src=e2.target.result; img.className='upload-thumb'; preview.appendChild(img);
+          } else {
+            const span=document.createElement('span'); span.className='upload-file-name'; span.textContent=file.name; preview.appendChild(span);
+          }
+          resolve();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+}
+
+// INIT
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+load();
+const today=new Date().toISOString().slice(0,10);
+document.getElementById('f-date').value=today;
+document.getElementById('f-date-online').value=today;
+addTechniqueField();
+updateDrillBadge();
+window.addEventListener('resize',()=>{
+  if (document.getElementById('view-map').classList.contains('active')) initMap();
+});
+</script>
+</body>
+</html>
