@@ -505,6 +505,7 @@
         <div class="form-section-title">Source Info</div>
         <div class="form-row">
           <div class="form-field"><label>Date</label><input type="date" id="f-date-online"></div>
+          <div class="form-field"><label>Instructor / Creator</label><input type="text" id="f-online-instructor" placeholder="e.g. John Danaher"></div>
           <div class="form-field"><label>Source Type</label>
             <select id="f-sourcetype"><option value="">Select...</option>
               <option>YouTube</option><option>Website</option><option>Other</option>
@@ -908,6 +909,7 @@ function saveEntry() {
       patterns: document.getElementById('f-patterns').value.trim(),
     };
   } else {
+    entry.instructor = document.getElementById('f-online-instructor').value.trim();
     entry.sourceType = document.getElementById('f-sourcetype').value;
     entry.url = document.getElementById('f-url').value.trim();
     entry.notes = document.getElementById('f-online-notes').value.trim();
@@ -951,6 +953,7 @@ function editEntry(id) {
     }
   } else {
     document.getElementById('f-date-online').value = e.date || '';
+    document.getElementById('f-online-instructor').value = e.instructor || '';
     document.getElementById('f-sourcetype').value = e.sourceType || '';
     document.getElementById('f-url').value = e.url || '';
     document.getElementById('f-online-notes').value = e.notes || '';
@@ -969,7 +972,7 @@ function cancelEdit() {
 }
 
 function clearForm() {
-  ['f-date','f-instructor','f-classtype','f-date-online','f-sourcetype','f-url',
+  ['f-date','f-instructor','f-classtype','f-date-online','f-online-instructor','f-sourcetype','f-url',
    'f-positions','f-worked','f-mistakes','f-patterns','f-online-notes'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value='';
   });
@@ -1022,7 +1025,7 @@ function renderTimeline() {
   if (!entries.length) { list.innerHTML='<div class="empty-state">NO ENTRIES YET<br>START LOGGING YOUR TRAINING</div>'; return; }
   list.innerHTML = entries.map(e => {
     const tc=e.techniques.length, dc=e.techniques.filter(t=>t.drill).length;
-    const title = e.type==='class' ? esc((e.instructor||'Class')+(e.classType?' — '+e.classType:'')) : esc(e.sourceType||'Online');
+    const title = e.type==='class' ? esc((e.instructor||'Class')+(e.classType?' — '+e.classType:'')) : esc((e.instructor?e.instructor+' — ':'')+(e.sourceType||'Online'));
     const techHTML = e.techniques.map(t=>`
       <div class="technique-row">
         <div class="technique-row-name">${esc(t.name)}${t.cat?`<span class="cat-tag">${esc(t.cat)}</span>`:''}${t.drill?`<span class="drill-badge">DRILL</span>`:''}</div>
