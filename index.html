@@ -441,6 +441,29 @@
   .export-option-title { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); }
   .export-option-btn:hover .export-option-title { color: var(--accent); }
   .export-option-desc { font-family: 'DM Sans', sans-serif; font-size: 11px; color: var(--muted); margin-top: 3px; }
+  /* STEP BUILDER */
+  .steps-builder { display: flex; flex-direction: column; gap: 6px; margin-bottom: 6px; }
+  .step-row { display: flex; align-items: flex-start; gap: 6px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 8px; }
+  .step-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); background: rgba(200,169,110,0.1); padding: 2px 5px; border-radius: 2px; flex-shrink: 0; margin-top: 7px; min-width: 18px; text-align: center; }
+  .step-text { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 8px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; resize: vertical; min-height: 32px; }
+  .step-text:focus { border-color: var(--accent); }
+  .step-photo-btn { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; font-size: 13px; flex-shrink: 0; margin-top: 2px; transition: border-color 0.15s; }
+  .step-photo-btn:hover { border-color: var(--accent); }
+  .step-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 2px; border: 1px solid var(--border); flex-shrink: 0; cursor: pointer; }
+  .step-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; padding: 0 2px; flex-shrink: 0; margin-top: 5px; transition: color 0.15s; line-height: 1; }
+  .step-remove:hover { color: var(--accent2); }
+  .add-step-btn { width: 100%; padding: 6px; background: none; border: 1px dashed var(--border); color: var(--muted); border-radius: var(--radius); cursor: pointer; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.15s; margin-top: 2px; }
+  .add-step-btn:hover { border-color: var(--accent); color: var(--accent); }
+  /* STEP DISPLAY */
+  .steps-display { display: flex; flex-direction: column; gap: 8px; }
+  .step-display { display: flex; gap: 8px; align-items: flex-start; }
+  .step-display-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); background: rgba(200,169,110,0.1); padding: 2px 5px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+  .step-display-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .step-display-photo { max-width: 100%; width: 220px; border-radius: 3px; border: 1px solid var(--border); margin-top: 5px; display: block; cursor: pointer; }
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; align-items: center; justify-content: center; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 4px; object-fit: contain; }
   /* FREEMIUM */
   .pro-gate { background: rgba(200,169,110,0.06); border: 1px solid rgba(200,169,110,0.2); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; }
   .pro-gate-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
@@ -765,6 +788,10 @@
   </div>
 </div>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -790,6 +817,7 @@ let mapFilter = 'all';
 let mapPan = {x:0,y:0}, mapZoom = 1;
 let mapDragging = false, mapDragStart = {x:0,y:0}, mapPanStart = {x:0,y:0}, mapDragMoved = false;
 let mapNodes = [], mapHover = null;
+let stepCount = 0;
 
 function load() {
   try { const r = localStorage.getItem(STORAGE_KEY); if (r) state = JSON.parse(r); } catch(e) {}
@@ -849,7 +877,7 @@ function addTechniqueField(data) {
       <button class="remove-tech" onclick="removeTech(${id})">×</button>
     </div>
     <div class="form-row">
-      <div class="form-field"><label>Technique Name</label><input type="text" id="tname-${id}" placeholder="e.g. Hip Escape to Guard" value="${data?.name||''}"></div>
+      <div class="form-field"><label>Technique Name</label><input type="text" id="tname-${id}" placeholder="e.g. Hip Escape to Guard" value="${esc(data?.name||'')}"></div>
       <div class="form-field"><label>Category</label><select id="tcat-${id}">${catOpts(data?.cat||'')}</select></div>
     </div>
     <div class="form-row">
@@ -858,14 +886,93 @@ function addTechniqueField(data) {
       <div class="form-field"><label>Outcome Method</label><select id="tmethod-${id}">${methodOpts(data?.method||'')}</select></div>
     </div>
     <div class="form-row">
-      <div class="form-field"><label>Key Concept / Why It Works</label><input type="text" id="tconcept-${id}" placeholder="The core principle..." value="${data?.concept||''}"></div>
+      <div class="form-field"><label>Key Concept / Why It Works</label><input type="text" id="tconcept-${id}" placeholder="The core principle..." value="${esc(data?.concept||'')}"></div>
     </div>
     <div class="form-row">
-      <div class="form-field"><label>Steps / Sequence</label><textarea id="tsteps-${id}" placeholder="1. ...\n2. ...\n3. ...">${data?.steps||''}</textarea></div>
+      <div class="form-field" style="flex:1">
+        <label>Steps / Sequence <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— tap 📷 to attach a photo to any step</span></label>
+        <div class="steps-builder" id="steps-${id}"></div>
+        <button class="add-step-btn" type="button" onclick="addStep(${id})">+ ADD STEP</button>
+      </div>
     </div>`;
   document.getElementById('techniques-container').appendChild(div);
   updateDrillFlag(id);
+  const stepsList = data?.stepsList?.length
+    ? data.stepsList
+    : data?.steps ? data.steps.split('\n').filter(s=>s.trim()).map(s=>({text:s.trim(),photo:null})) : [];
+  if (stepsList.length) stepsList.forEach(s=>addStep(id,s));
+  else addStep(id);
 }
+
+function addStep(techId, data) {
+  const container = document.getElementById('steps-'+techId);
+  if (!container) return;
+  stepCount++;
+  const idx = container.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'step-row';
+  row.innerHTML = `
+    <span class="step-num">${idx}</span>
+    <textarea class="step-text" placeholder="Step ${idx}..." rows="1">${esc(data?.text||'')}</textarea>
+    <label class="step-photo-btn" title="Photo for this step">
+      📷<input type="file" accept="image/*" style="display:none" onchange="handleStepPhoto(${techId},this)">
+    </label>
+    <img class="step-thumb" style="display:none" onclick="openLightbox(this.src)">
+    <button class="step-remove" type="button" onclick="removeStep(this)">×</button>`;
+  if (data?.photo && /^(https?:|data:image\/)/.test(data.photo)) {
+    const thumb = row.querySelector('.step-thumb');
+    thumb.src = data.photo;
+    thumb.style.display = '';
+    row.dataset.photo = data.photo;
+  }
+  container.appendChild(row);
+}
+
+function removeStep(btn) {
+  const row = btn.closest('.step-row');
+  const container = row.parentElement;
+  row.remove();
+  Array.from(container.children).forEach((r,i) => {
+    r.querySelector('.step-num').textContent = i+1;
+    r.querySelector('.step-text').placeholder = 'Step '+(i+1)+'...';
+  });
+}
+
+async function handleStepPhoto(techId, input) {
+  const file = input.files[0]; if (!file) return;
+  const row = input.closest('.step-row');
+  const thumb = row.querySelector('.step-thumb');
+  if (ghConfigured() && file.type.startsWith('image/')) {
+    thumb.alt = '⏳'; thumb.src = ''; thumb.style.display = '';
+    const url = await uploadPhotoToGitHub(file);
+    if (url) { thumb.src = url; row.dataset.photo = url; showToast('Step photo uploaded'); return; }
+  }
+  const reader = new FileReader();
+  reader.onload = e => { thumb.src = e.target.result; thumb.style.display = ''; row.dataset.photo = e.target.result; };
+  reader.readAsDataURL(file);
+}
+
+function renderStepsList(t) {
+  const steps = t.stepsList?.filter(s=>s.text||s.photo);
+  if (steps?.length) {
+    return `<div class="steps-display">${steps.map((s,i)=>`
+      <div class="step-display">
+        <span class="step-display-num">${i+1}</span>
+        <div>
+          ${s.text?`<div class="step-display-text">${esc(s.text)}</div>`:''}
+          ${s.photo&&/^(https?:|data:image\/)/.test(s.photo)?`<img src="${s.photo}" class="step-display-photo" onclick="openLightbox(this.src)">`:''}
+        </div>
+      </div>`).join('')}</div>`;
+  }
+  if (t.steps) return `<div class="technique-row-steps">${esc(t.steps)}</div>`;
+  return '';
+}
+
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 function updateDrillFlag(id) {
   const c = document.getElementById('drill-'+id)?.checked;
   document.getElementById('dflag-'+id)?.classList.toggle('flagged', c);
@@ -878,6 +985,13 @@ function getTechniques() {
     const id = card.id.split('-')[1];
     const name = document.getElementById('tname-'+id)?.value.trim();
     if (!name) return;
+    const stepsContainer = document.getElementById('steps-'+id);
+    const stepsList = stepsContainer
+      ? Array.from(stepsContainer.children).map(row=>({
+          text: row.querySelector('.step-text')?.value.trim()||'',
+          photo: row.dataset.photo||null
+        })).filter(s=>s.text||s.photo)
+      : [];
     techs.push({
       name,
       cat: document.getElementById('tcat-'+id)?.value||'',
@@ -885,7 +999,8 @@ function getTechniques() {
       endPos: document.getElementById('tend-'+id)?.value||'',
       method: document.getElementById('tmethod-'+id)?.value||'',
       concept: document.getElementById('tconcept-'+id)?.value.trim()||'',
-      steps: document.getElementById('tsteps-'+id)?.value.trim()||'',
+      steps: stepsList.map(s=>s.text).filter(Boolean).join('\n'),
+      stepsList,
       drill: document.getElementById('drill-'+id)?.checked||false,
     });
   });
@@ -1031,7 +1146,7 @@ function renderTimeline() {
         <div class="technique-row-name">${esc(t.name)}${t.cat?`<span class="cat-tag">${esc(t.cat)}</span>`:''}${t.drill?`<span class="drill-badge">DRILL</span>`:''}</div>
         ${posFlowHTML(t)}
         ${t.concept?`<div class="technique-row-concept">↳ ${esc(t.concept)}</div>`:''}
-        ${t.steps?`<div class="technique-row-steps">${esc(t.steps)}</div>`:''}
+        ${renderStepsList(t)}
       </div>`).join('');
     const roundsHTML = e.type==='class'&&e.rounds ? `
       <div class="entry-section-label">Open Rounds</div>
@@ -1224,7 +1339,7 @@ function renderFlashcard() {
         <div class="fc-side-label">BACK</div>
         <div class="fc-back-content">
           ${tech.concept?`<div class="fc-back-label">Key Concept</div><p>${esc(tech.concept)}</p>`:''}
-          ${tech.steps?`<div class="fc-back-label">Steps</div><p style="white-space:pre-wrap">${esc(tech.steps)}</p>`:''}
+          ${(tech.stepsList?.filter(s=>s.text||s.photo).length||tech.steps)?`<div class="fc-back-label">Steps</div>${renderStepsList(tech)}`:''}
         </div>
       `}
     </div>
@@ -1451,7 +1566,7 @@ function showDetail(item) {
         ${tech.method?`<span class="pos-arrow">·</span><span class="pos-pill pos-method">${esc(tech.method)}</span>`:''}
       </div>`:''}
     ${tech.concept?`<div class="detail-section-label">Key Concept</div><div class="detail-value">${esc(tech.concept)}</div>`:''}
-    ${tech.steps?`<div class="detail-section-label">Steps</div><div class="detail-value">${esc(tech.steps)}</div>`:''}
+    ${(tech.stepsList?.filter(s=>s.text||s.photo).length||tech.steps)?`<div class="detail-section-label">Steps</div>${renderStepsList(tech)}`:''}
     <div class="detail-section-label">Source</div>
     <div class="detail-value">${entry.type==='class'?`Class · ${esc(entry.instructor||'Unknown')}`:esc(entry.sourceType||'Online')}</div>
     ${tech.drill?`<div style="margin-top:12px"><span class="drill-badge">NEEDS DRILLING</span></div>`:''}
