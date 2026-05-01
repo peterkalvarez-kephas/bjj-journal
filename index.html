@@ -23,6 +23,35 @@
     --label: #8a7a68;
     --radius: 4px;
   }
+  /* MIDNIGHT — blue focus, memory consolidation */
+  [data-theme="midnight"] {
+    --bg: #070b12;
+    --surface: #0d1520;
+    --surface2: #132030;
+    --border: #1e3350;
+    --accent: #4da6ff;
+    --accent2: #ff5757;
+    --text: #c8d8ea;
+    --muted: #3a5a78;
+    --label: #6a8aaa;
+  }
+  /* DOJO — green learning, reduced anxiety */
+  [data-theme="dojo"] {
+    --bg: #080c09;
+    --surface: #0d160f;
+    --surface2: #122018;
+    --border: #1e3828;
+    --accent: #52c987;
+    --accent2: #ffaa44;
+    --text: #c8daca;
+    --muted: #3a6045;
+    --label: #6a9070;
+  }
+  /* THEME SWITCHER */
+  .theme-switcher { display: flex; gap: 6px; align-items: center; margin-right: 4px; }
+  .theme-dot { width: 13px; height: 13px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; transition: border-color 0.15s, transform 0.15s; }
+  .theme-dot:hover { transform: scale(1.2); }
+  .theme-dot.active { border-color: var(--text); }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
@@ -426,6 +455,12 @@
   <div class="header-actions">
     <button class="btn-ghost" onclick="openExportModal()">EXPORT</button>
     <label class="btn-ghost" style="cursor:pointer">IMPORT<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
+    <label class="btn-ghost" style="cursor:pointer" title="Combine entries from another device without overwriting">MERGE<input type="file" accept=".json" style="display:none" onchange="mergeData(event)"></label>
+    <div class="theme-switcher" title="Switch theme">
+      <button class="theme-dot active" data-t="" style="background:#c8a96e" onclick="setTheme('')"></button>
+      <button class="theme-dot" data-t="midnight" style="background:#4da6ff" onclick="setTheme('midnight')"></button>
+      <button class="theme-dot" data-t="dojo" style="background:#52c987" onclick="setTheme('dojo')"></button>
+    </div>
     <button class="btn-ghost" onclick="openSettings()" title="GitHub settings" style="font-size:15px;padding:5px 10px;">⚙</button>
   </div>
 </header>
@@ -1497,6 +1532,33 @@ function importData(event) {
   reader.readAsText(file);
 }
 
+function mergeData(event) {
+  const file=event.target.files[0]; if (!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try {
+      const parsed=JSON.parse(e.target.result);
+      const incoming=parsed.data||parsed;
+      // Merge entries — dedupe by id, sort by date descending
+      const existingIds=new Set(state.entries.map(e=>e.id));
+      const newEntries=(incoming.entries||[]).filter(e=>!existingIds.has(e.id));
+      state.entries=[...state.entries,...newEntries].sort((a,b)=>b.date.localeCompare(a.date));
+      // Merge drilled keys
+      const drilledSet=new Set(state.drilled);
+      (incoming.drilled||[]).forEach(k=>drilledSet.add(k));
+      state.drilled=[...drilledSet];
+      // Merge sequences — dedupe by id
+      const existingSeqIds=new Set((state.sequences||[]).map(s=>s.id));
+      const newSeqs=(incoming.sequences||[]).filter(s=>!existingSeqIds.has(s.id));
+      state.sequences=[...(state.sequences||[]),...newSeqs];
+      save();
+      showToast('Merged — '+newEntries.length+' new entr'+(newEntries.length===1?'y':'ies')+' added');
+      renderTimeline();
+    } catch { showToast('Invalid file'); }
+  };
+  reader.readAsText(file);
+}
+
 // ─── SEQUENCES ──────────────────────────────────────────────────────────────
 // state.sequences = [ { id, name, startPos, tree: node } ]
 // node = { id, name, note, children: [ { edgeLabel, node } ] }
@@ -1882,6 +1944,12 @@ document.addEventListener('keydown', e => {
 });
 
 
+function setTheme(name) {
+  document.body.dataset.theme = name;
+  localStorage.setItem('bjj_theme', name);
+  document.querySelectorAll('.theme-dot').forEach(d => d.classList.toggle('active', d.dataset.t === name));
+}
+
 // ─── FREEMIUM ────────────────────────────────────────────────────────────────
 function isPro() { return !!localStorage.getItem('bjj_pro'); }
 function unlockPro(key) {
@@ -2119,6 +2187,9 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 load();
+const savedTheme = localStorage.getItem('bjj_theme') || '';
+document.body.dataset.theme = savedTheme;
+document.querySelectorAll('.theme-dot').forEach(d => d.classList.toggle('active', d.dataset.t === savedTheme));
 const today=new Date().toISOString().slice(0,10);
 document.getElementById('f-date').value=today;
 document.getElementById('f-date-online').value=today;
