@@ -464,10 +464,45 @@
   .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; align-items: center; justify-content: center; cursor: zoom-out; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 4px; object-fit: contain; }
+  /* GI / NO-GI TOGGLE */
+  .gi-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .gi-btn { flex: 1; padding: 7px 6px; background: none; border: none; border-right: 1px solid var(--border); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; cursor: pointer; transition: all 0.15s; }
+  .gi-btn:last-child { border-right: none; }
+  .gi-btn.active { background: rgba(200,169,110,0.12); color: var(--accent); }
+  /* FAMILY / POSITION TAG */
+  .family-tag { font-family: 'DM Mono', monospace; font-size: 9px; padding: 1px 6px; border-radius: 2px; border: 1px solid; }
+  .gi-badge { font-family: 'DM Mono', monospace; font-size: 9px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); padding: 1px 6px; border-radius: 2px; }
+  /* MIND MAP FAMILY FILTER */
+  .map-family-row { display: flex; align-items: center; gap: 6px; padding: 6px 24px 8px; background: var(--bg); flex-shrink: 0; flex-wrap: wrap; }
+  .map-family-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+  .map-family-btn { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 2px; background: none; color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
+  .map-family-btn:hover { color: var(--text); }
+  .map-family-btn.active { color: #fff; border-color: transparent; }
   /* FREEMIUM */
   .pro-gate { background: rgba(200,169,110,0.06); border: 1px solid rgba(200,169,110,0.2); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; }
   .pro-gate-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
   .pro-gate-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  /* KEY CONCEPTS BUILDER */
+  .insight-row { display: flex; gap: 6px; align-items: flex-start; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 8px; }
+  .insight-bullet { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent2); margin-top: 6px; flex-shrink: 0; }
+  .insight-text { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 8px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; resize: vertical; min-height: 32px; }
+  .insight-text:focus { border-color: var(--accent2); }
+  .insight-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; padding: 0 2px; flex-shrink: 0; margin-top: 5px; transition: color 0.15s; line-height: 1; }
+  .insight-remove:hover { color: var(--accent2); }
+  .add-insight-btn { width: 100%; padding: 6px; background: none; border: 1px dashed var(--border); color: var(--muted); border-radius: var(--radius); cursor: pointer; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; transition: all 0.15s; margin-top: 4px; }
+  .add-insight-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  /* KEY CONCEPTS DISPLAY */
+  .insights-display { display: flex; flex-direction: column; gap: 6px; }
+  .insight-display { display: flex; gap: 8px; align-items: flex-start; }
+  .insight-display-bullet { color: var(--accent2); font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+  .insight-display-text { font-size: 12px; color: var(--text); line-height: 1.5; }
+  /* LINKED MOVES */
+  .links-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; min-height: 4px; }
+  .link-chip { display: inline-flex; align-items: center; gap: 5px; background: rgba(160,82,45,0.12); border: 1px solid rgba(160,82,45,0.35); border-radius: 3px; padding: 3px 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent2); }
+  .link-chip-x { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; padding: 0; line-height: 1; transition: color 0.15s; }
+  .link-chip-x:hover { color: var(--accent2); }
+  .link-chip-display { display: inline-flex; align-items: center; gap: 4px; background: rgba(160,82,45,0.1); border: 1px solid rgba(160,82,45,0.25); border-radius: 3px; padding: 2px 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent2); cursor: pointer; transition: all 0.15s; user-select: none; }
+  .link-chip-display:hover { border-color: var(--accent2); background: rgba(160,82,45,0.2); }
 
 </style>
 </head>
@@ -553,6 +588,12 @@
       <div id="techniques-container"></div>
       <button class="add-technique-btn" onclick="addTechniqueField()">+ ADD TECHNIQUE</button>
     </div>
+    <div class="form-section" id="insights-section">
+      <div class="form-section-title" id="insights-section-title">Coach's Key Concepts</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;letter-spacing:0.5px" id="insights-section-hint">Small details the instructor mentioned that make a big difference</div>
+      <div id="insights-container"></div>
+      <button class="add-insight-btn" type="button" onclick="addInsight()">+ ADD CONCEPT</button>
+    </div>
     <div class="form-section" id="rounds-section">
       <div class="form-section-title">Open Round Notes</div>
       <div class="form-row">
@@ -581,10 +622,16 @@
     <div class="filters">
       <input type="text" id="search-input" placeholder="Search techniques, notes, instructor..." oninput="renderTimeline()">
       <select id="filter-cat" onchange="renderTimeline()">
-        <option value="">All Categories</option>
-        <option>Guard</option><option>Guard Passing</option><option>Pins</option>
-        <option>Submissions</option><option>Escapes</option><option>Takedowns</option>
-        <option>Back Control</option><option>Leg Locks</option><option>Other</option>
+        <option value="">All Families</option>
+        <option>Foundational Guards</option><option>Open Guard Family</option>
+        <option>Exotic / Advanced Guards</option><option>Leg Entanglements</option>
+        <option>Top Game</option><option>Submissions</option>
+        <option>Takedowns</option><option>Escapes</option><option>Other</option>
+      </select>
+      <select id="filter-gi" onchange="renderTimeline()">
+        <option value="">Gi + No-Gi</option>
+        <option value="gi">Gi Only</option>
+        <option value="nogi">No-Gi Only</option>
       </select>
       <select id="filter-type" onchange="renderTimeline()">
         <option value="">All Types</option>
@@ -607,10 +654,11 @@
   <div class="view" id="view-flash">
     <div class="flashcard-controls">
       <select id="fc-filter-cat" onchange="initFlashcards()">
-        <option value="">All Categories</option>
-        <option>Guard</option><option>Guard Passing</option><option>Pins</option>
-        <option>Submissions</option><option>Escapes</option><option>Takedowns</option>
-        <option>Back Control</option><option>Leg Locks</option><option>Other</option>
+        <option value="">All Families</option>
+        <option>Foundational Guards</option><option>Open Guard Family</option>
+        <option>Exotic / Advanced Guards</option><option>Leg Entanglements</option>
+        <option>Top Game</option><option>Submissions</option>
+        <option>Takedowns</option><option>Escapes</option><option>Other</option>
       </select>
       <select id="fc-filter-drill" onchange="initFlashcards()">
         <option value="">All Techniques</option><option value="drill">Drill List Only</option>
@@ -636,6 +684,15 @@
     <button class="map-filter-btn" onclick="setMapFilter('Escape',this)">ESCAPES</button>
     <button class="map-filter-btn" onclick="setMapFilter('Takedown',this)">TAKEDOWNS</button>
     <span class="map-hint">DRAG · SCROLL TO ZOOM · CLICK CLUSTER TO EXPAND · CLICK TECHNIQUE FOR DETAILS</span>
+  </div>
+  <div class="map-family-row">
+    <span class="map-family-label">FAMILY:</span>
+    <button class="map-family-btn active" data-fgroup="all" onclick="setMapFamilyFilter('all',this)" style="background:var(--surface2);color:var(--text);border-color:var(--border)">ALL</button>
+    <button class="map-family-btn" data-fgroup="guards" onclick="setMapFamilyFilter('guards',this)" style="--fc:#c8a96e">GUARDS</button>
+    <button class="map-family-btn" data-fgroup="leglocks" onclick="setMapFamilyFilter('leglocks',this)" style="--fc:#f13535">LEG LOCKS</button>
+    <button class="map-family-btn" data-fgroup="top" onclick="setMapFamilyFilter('top',this)" style="--fc:#ff9f4a">TOP GAME</button>
+    <button class="map-family-btn" data-fgroup="submissions" onclick="setMapFamilyFilter('submissions',this)" style="--fc:#f472b6">SUBMISSIONS</button>
+    <button class="map-family-btn" data-fgroup="takedowns" onclick="setMapFamilyFilter('takedowns',this)" style="--fc:#34d399">TAKEDOWNS</button>
   </div>
   <canvas id="map-canvas"></canvas>
 </div>
@@ -773,6 +830,11 @@
       <input id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
       <span class="hint">GitHub → Settings → Developer settings → Personal access tokens → New token. Select <strong style="color:var(--label)">repo</strong> scope only.</span>
     </div>
+    <div class="modal-field">
+      <label>Device Name</label>
+      <input id="gh-device" placeholder="e.g. laptop, phone, ipad" autocomplete="off">
+      <span class="hint">Backups will go to <strong style="color:var(--label)">backups/[device]/</strong> so each device stays separate.</span>
+    </div>
     <div class="gh-status" id="gh-status"></div>
     <div style="display:flex;gap:8px;margin-bottom:20px">
       <button class="btn-primary" onclick="saveGHSettings()" style="flex:1">SAVE &amp; TEST</button>
@@ -805,6 +867,70 @@ const CAT_COLORS = {
   'Back Control':'#f472b6','Leg Locks':'#fbbf24','Other':'#888'
 };
 
+// Family system — replaces old flat categories
+const MOVE_TREE = {
+  'Foundational Guards': ['Closed Guard','Half Guard','Butterfly Guard','Open Guard'],
+  'Open Guard Family': [
+    'De La Riva (DLR)','Reverse De La Riva (RDLR)','Spider Guard','Lasso Guard',
+    'Collar & Sleeve Guard','X-Guard','Single Leg X (Ashi Garami)','K-Guard',
+    'Z-Guard','Sit-Up Guard','Deep Half Guard'
+  ],
+  'Exotic / Advanced Guards': [
+    'Rubber Guard','Worm Guard','Octopus Guard','Tornado Guard',
+    'Clamp Guard','Lockdown','Lapel Guard'
+  ],
+  'Leg Entanglements': [
+    'Ashi Garami','Outside Ashi Garami','Inside Ashi Garami','50/50',
+    'Honey Hole / Saddle / Inside Sankaku','80/20 — 90/10','Reaping Guard'
+  ],
+  'Top Game': [
+    'Mount','S-Mount','Technical Mount','Side Control','Scarf Hold (Kesa Gatame)',
+    'North-South','Knee on Belly','Back Mount','Seat Belt','Turtle Top','Truck',
+    'Headquarters','Torreando Pass','Leg Drag Pass','Knee Cut Pass',
+    'Over-Under Pass','Double Under Pass','Smash Pass','X-Pass','Long Step Pass'
+  ],
+  'Submissions': [
+    'Triangle Choke','Armbar','Rear Naked Choke','Guillotine','Bow and Arrow Choke',
+    'Kimura','Americana','Omoplata','Loop Choke',"D'Arce Choke",'Anaconda Choke',
+    'Ezekiel Choke','Clock Choke','Baseball Bat Choke','Buggy Choke','Von Flue Choke','Rear Triangle'
+  ],
+  'Takedowns': [
+    'Double Leg','Single Leg','Hip Throw (O Goshi)','Shoulder Throw (Seoi Nage)',
+    'Inner Thigh Throw (Uchi Mata)','Ankle Pick','Snapdown to Back',
+    'Body Lock','Foot Sweep (Ouchi Gari)','Foot Sweep (Kouchi Gari)','Fireman Carry'
+  ],
+  'Escapes': [
+    'Bridge and Roll (Upa)','Elbow Escape (Shrimp)','Guard Recovery',
+    'Granby Roll','Stand Up Escape','Sit Out','Back Step Reversal'
+  ],
+  'Other': [],
+};
+const FAMILY_COLORS = {
+  'Foundational Guards':'#c8a96e',
+  'Open Guard Family':'#4da6ff',
+  'Exotic / Advanced Guards':'#a78bfa',
+  'Leg Entanglements':'#f13535',
+  'Top Game':'#ff9f4a',
+  'Submissions':'#f472b6',
+  'Takedowns':'#34d399',
+  'Escapes':'#6ee7b7',
+  'Other':'#888',
+};
+const OLD_CAT_TO_FAMILY = {
+  'Guard':'Foundational Guards','Guard Passing':'Top Game','Pins':'Top Game',
+  'Submissions':'Submissions','Escapes':'Escapes','Takedowns':'Takedowns',
+  'Back Control':'Top Game','Leg Locks':'Leg Entanglements','Other':'Other',
+};
+// Map family → mind map filter group
+const FAMILY_MAP_GROUP = {
+  'Foundational Guards':'guards','Open Guard Family':'guards','Exotic / Advanced Guards':'guards',
+  'Leg Entanglements':'leglocks',
+  'Top Game':'top',
+  'Submissions':'submissions',
+  'Takedowns':'takedowns','Escapes':'takedowns',
+  'Other':'other',
+};
+
 function esc(s) { const d=document.createElement('div'); d.textContent=s??''; return d.innerHTML; }
 
 let state = { entries: [], drilled: [] };
@@ -814,6 +940,7 @@ let techCount = 0;
 let uploadedFiles = {};
 let fcCards = [], fcIndex = 0, fcFlipped = false;
 let mapFilter = 'all';
+let mapFamilyFilter = 'all';
 let mapPan = {x:0,y:0}, mapZoom = 1;
 let mapDragging = false, mapDragStart = {x:0,y:0}, mapPanStart = {x:0,y:0}, mapDragMoved = false;
 let mapNodes = [], mapHover = null;
@@ -850,6 +977,10 @@ function setType(type) {
   document.getElementById('class-fields').style.display = type==='class'?'':'none';
   document.getElementById('online-fields').style.display = type==='online'?'':'none';
   document.getElementById('rounds-section').style.display = type==='class'?'':'none';
+  document.getElementById('insights-section-title').textContent = type==='class' ? "Coach's Key Concepts" : 'Key Takeaways';
+  document.getElementById('insights-section-hint').textContent = type==='class'
+    ? 'Small details the instructor mentioned that make a big difference'
+    : 'Specific points the instructor called out that are easy to forget';
   document.getElementById('online-notes-section').style.display = type==='online'?'':'none';
 }
 
@@ -861,6 +992,36 @@ function methodOpts(sel) {
 }
 function catOpts(sel) {
   return '<option value="">Select...</option>' + CATEGORIES.map(c=>`<option${c===sel?' selected':''}>${c}</option>`).join('');
+}
+
+// Family / position helpers
+function getOldFamily(cat) {
+  return OLD_CAT_TO_FAMILY[cat] || '';
+}
+function getFamily(tech) {
+  return tech.family || getOldFamily(tech.cat || '') || 'Other';
+}
+function familyOpts(sel) {
+  return '<option value="">Select family...</option>' +
+    Object.keys(MOVE_TREE).map(f=>`<option${f===sel?' selected':''}>${f}</option>`).join('');
+}
+function positionOpts(family, sel) {
+  const subs = MOVE_TREE[family] || [];
+  if (!subs.length) return '<option value="">—</option>';
+  return '<option value="">Select position...</option>' +
+    subs.map(p=>`<option${p===sel?' selected':''}>${p}</option>`).join('');
+}
+function updatePositionOpts(techId) {
+  const fam = document.getElementById('tfam-'+techId)?.value || '';
+  const sel = document.getElementById('tpos-'+techId);
+  if (sel) sel.innerHTML = positionOpts(fam, '');
+}
+function setGi(techId, val) {
+  document.querySelectorAll(`#gi-toggle-${techId} .gi-btn`).forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.gi === val);
+  });
+  const hid = document.getElementById('tgi-'+techId);
+  if (hid) hid.value = val;
 }
 
 function addTechniqueField(data) {
@@ -877,8 +1038,26 @@ function addTechniqueField(data) {
       <button class="remove-tech" onclick="removeTech(${id})">×</button>
     </div>
     <div class="form-row">
-      <div class="form-field"><label>Technique Name</label><input type="text" id="tname-${id}" placeholder="e.g. Hip Escape to Guard" value="${esc(data?.name||'')}"></div>
-      <div class="form-field"><label>Category</label><select id="tcat-${id}">${catOpts(data?.cat||'')}</select></div>
+      <div class="form-field" style="flex:2"><label>Technique Name</label><input type="text" id="tname-${id}" placeholder="e.g. Hip Escape to Guard" value="${esc(data?.name||'')}"></div>
+      <div class="form-field">
+        <label>Gi / No-Gi</label>
+        <div class="gi-toggle" id="gi-toggle-${id}">
+          <button type="button" class="gi-btn${(data?.gi||'both')==='gi'?' active':''}" data-gi="gi" onclick="setGi(${id},'gi')">GI</button>
+          <button type="button" class="gi-btn${(data?.gi||'both')==='nogi'?' active':''}" data-gi="nogi" onclick="setGi(${id},'nogi')">NO-GI</button>
+          <button type="button" class="gi-btn${(!data?.gi||data?.gi==='both')?' active':''}" data-gi="both" onclick="setGi(${id},'both')">BOTH</button>
+        </div>
+        <input type="hidden" id="tgi-${id}" value="${data?.gi||'both'}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Family</label>
+        <select id="tfam-${id}" onchange="updatePositionOpts(${id})">${familyOpts(data?.family||getOldFamily(data?.cat||''))}</select>
+      </div>
+      <div class="form-field" style="flex:2">
+        <label>Specific Position / Type</label>
+        <select id="tpos-${id}">${positionOpts(data?.family||getOldFamily(data?.cat||''), data?.position||'')}</select>
+      </div>
     </div>
     <div class="form-row">
       <div class="form-field"><label>Starting Position</label><select id="tstart-${id}">${posOpts(data?.startPos||'')}</select></div>
@@ -894,6 +1073,17 @@ function addTechniqueField(data) {
         <div class="steps-builder" id="steps-${id}"></div>
         <button class="add-step-btn" type="button" onclick="addStep(${id})">+ ADD STEP</button>
       </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field" style="flex:1">
+        <label>Linked Moves <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— chain to other techniques (e.g. armbar option off this)</span></label>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="tlink-input-${id}" placeholder="Type a technique name..." style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none" oninput="suggestLinks(${id},this.value)" onblur="setTimeout(()=>{const s=document.getElementById('tlink-suggest-${id}');if(s)s.style.display='none'},200)" autocomplete="off">
+          <button type="button" class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addLink(${id})">+ LINK</button>
+        </div>
+        <div class="suggest-list" id="tlink-suggest-${id}"></div>
+        <div class="links-container" id="tlinks-${id}"></div>
+      </div>
     </div>`;
   document.getElementById('techniques-container').appendChild(div);
   updateDrillFlag(id);
@@ -902,6 +1092,7 @@ function addTechniqueField(data) {
     : data?.steps ? data.steps.split('\n').filter(s=>s.trim()).map(s=>({text:s.trim(),photo:null})) : [];
   if (stepsList.length) stepsList.forEach(s=>addStep(id,s));
   else addStep(id);
+  if (data?.links?.length) data.links.forEach(name => pickLink(id, name));
 }
 
 function addStep(techId, data) {
@@ -973,6 +1164,80 @@ function openLightbox(src) {
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+
+// ─── KEY CONCEPTS ────────────────────────────────
+function addInsight(data) {
+  const container = document.getElementById('insights-container');
+  if (!container) return;
+  const row = document.createElement('div');
+  row.className = 'insight-row';
+  row.innerHTML = `
+    <span class="insight-bullet">▸</span>
+    <textarea class="insight-text" placeholder="e.g. Keep elbow pinned before the finish — that's what creates the tap..." rows="1">${esc(data?.text||'')}</textarea>
+    <button class="insight-remove" type="button" onclick="this.closest('.insight-row').remove()">×</button>`;
+  container.appendChild(row);
+}
+
+function getKeyInsights() {
+  return Array.from(document.querySelectorAll('#insights-container .insight-text'))
+    .map(el => el.value.trim()).filter(Boolean).map(text => ({text}));
+}
+
+// ─── LINKED MOVES ────────────────────────────────
+function getTechniqueNames() {
+  const names = new Set();
+  state.entries.forEach(e => e.techniques.forEach(t => { if (t.name) names.add(t.name); }));
+  document.querySelectorAll('[id^="tname-"]').forEach(el => { if (el.value.trim()) names.add(el.value.trim()); });
+  return [...names].sort();
+}
+
+function suggestLinks(techId, val) {
+  const suggest = document.getElementById('tlink-suggest-'+techId);
+  if (!suggest) return;
+  if (!val || val.length < 1) { suggest.style.display='none'; return; }
+  const matches = getTechniqueNames().filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
+  if (!matches.length) { suggest.style.display='none'; return; }
+  suggest.innerHTML = matches.map(n=>`<div class="suggest-item" onclick="pickLink(${techId},${JSON.stringify(n)})">${esc(n)}</div>`).join('');
+  suggest.style.display = 'block';
+}
+
+function addLink(techId) {
+  const input = document.getElementById('tlink-input-'+techId);
+  if (!input) return;
+  const name = input.value.trim();
+  if (!name) return;
+  pickLink(techId, name);
+}
+
+function pickLink(techId, name) {
+  const input = document.getElementById('tlink-input-'+techId);
+  const suggest = document.getElementById('tlink-suggest-'+techId);
+  const container = document.getElementById('tlinks-'+techId);
+  if (!container) return;
+  if (suggest) suggest.style.display = 'none';
+  if (input) input.value = '';
+  const existing = Array.from(container.querySelectorAll('[data-link-name]')).map(el => el.dataset.linkName);
+  if (existing.includes(name)) return;
+  const chip = document.createElement('div');
+  chip.className = 'link-chip';
+  chip.dataset.linkName = name;
+  chip.innerHTML = `⛓ ${esc(name)} <button class="link-chip-x" type="button" onclick="this.closest('.link-chip').remove()">×</button>`;
+  container.appendChild(chip);
+}
+
+function searchLinkedMove(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-timeline').classList.add('active');
+  document.querySelector('.nav-tab[onclick*="\'timeline\'"]').classList.add('active');
+  document.getElementById('main-scroll').style.display = '';
+  document.getElementById('search-input').value = name;
+  renderTimeline();
+  setTimeout(() => {
+    const first = document.querySelector('#timeline-list .entry-card-header');
+    if (first) first.click();
+  }, 80);
+}
 function updateDrillFlag(id) {
   const c = document.getElementById('drill-'+id)?.checked;
   document.getElementById('dflag-'+id)?.classList.toggle('flagged', c);
@@ -992,9 +1257,13 @@ function getTechniques() {
           photo: row.dataset.photo||null
         })).filter(s=>s.text||s.photo)
       : [];
+    const family = document.getElementById('tfam-'+id)?.value||'';
     techs.push({
       name,
-      cat: document.getElementById('tcat-'+id)?.value||'',
+      family,
+      position: document.getElementById('tpos-'+id)?.value||'',
+      gi: document.getElementById('tgi-'+id)?.value||'both',
+      cat: family, // keep cat in sync for backward compat (stats, filters)
       startPos: document.getElementById('tstart-'+id)?.value||'',
       endPos: document.getElementById('tend-'+id)?.value||'',
       method: document.getElementById('tmethod-'+id)?.value||'',
@@ -1002,6 +1271,7 @@ function getTechniques() {
       steps: stepsList.map(s=>s.text).filter(Boolean).join('\n'),
       stepsList,
       drill: document.getElementById('drill-'+id)?.checked||false,
+      links: Array.from(document.getElementById('tlinks-'+id)?.querySelectorAll('[data-link-name]')||[]).map(el=>el.dataset.linkName),
     });
   });
   return techs;
@@ -1013,7 +1283,7 @@ function saveEntry() {
   if (!date) { showToast('Please add a date'); return; }
   const techniques = getTechniques();
   const id = editingId !== null ? editingId : Date.now();
-  let entry = { id, type: currentType, date, techniques };
+  let entry = { id, type: currentType, date, techniques, keyInsights: getKeyInsights() };
   if (isClass) {
     entry.instructor = document.getElementById('f-instructor').value.trim();
     entry.classType = document.getElementById('f-classtype').value;
@@ -1066,12 +1336,16 @@ function editEntry(id) {
       document.getElementById('f-mistakes').value = e.rounds.mistakes || '';
       document.getElementById('f-patterns').value = e.rounds.patterns || '';
     }
+    document.getElementById('insights-container').innerHTML = '';
+    (e.keyInsights || []).forEach(i => addInsight(i));
   } else {
     document.getElementById('f-date-online').value = e.date || '';
     document.getElementById('f-online-instructor').value = e.instructor || '';
     document.getElementById('f-sourcetype').value = e.sourceType || '';
     document.getElementById('f-url').value = e.url || '';
     document.getElementById('f-online-notes').value = e.notes || '';
+    document.getElementById('insights-container').innerHTML = '';
+    (e.keyInsights || []).forEach(i => addInsight(i));
   }
   document.getElementById('techniques-container').innerHTML = '';
   techCount = 0;
@@ -1092,6 +1366,7 @@ function clearForm() {
     const el = document.getElementById(id); if (el) el.value='';
   });
   document.getElementById('techniques-container').innerHTML='';
+  document.getElementById('insights-container').innerHTML='';
   const up = document.getElementById('upload-preview'); if (up) up.innerHTML='';
   uploadedFiles={}; techCount=0;
   const today = new Date().toISOString().slice(0,10);
@@ -1129,11 +1404,13 @@ function posFlowHTML(t) {
 function renderTimeline() {
   const q = document.getElementById('search-input').value.toLowerCase();
   const cat = document.getElementById('filter-cat').value;
+  const gi = document.getElementById('filter-gi').value;
   const type = document.getElementById('filter-type').value;
   const list = document.getElementById('timeline-list');
   let entries = state.entries.filter(e => {
     if (type && e.type!==type) return false;
-    if (cat && !e.techniques.some(t=>t.cat===cat)) return false;
+    if (cat && !e.techniques.some(t=>getFamily(t)===cat)) return false;
+    if (gi && !e.techniques.some(t=>(t.gi||'both')===gi||(t.gi||'both')==='both')) return false;
     if (q && !JSON.stringify(e).toLowerCase().includes(q)) return false;
     return true;
   });
@@ -1143,11 +1420,17 @@ function renderTimeline() {
     const title = e.type==='class' ? esc((e.instructor||'Class')+(e.classType?' — '+e.classType:'')) : esc((e.instructor?e.instructor+' — ':'')+(e.sourceType||'Online'));
     const techHTML = e.techniques.map(t=>`
       <div class="technique-row">
-        <div class="technique-row-name">${esc(t.name)}${t.cat?`<span class="cat-tag">${esc(t.cat)}</span>`:''}${t.drill?`<span class="drill-badge">DRILL</span>`:''}</div>
+        <div class="technique-row-name">${esc(t.name)}${t.position?`<span class="cat-tag" style="border-color:${FAMILY_COLORS[getFamily(t)]||'#888'}33;color:${FAMILY_COLORS[getFamily(t)]||'#888'}">${esc(t.position)}</span>`:t.family?`<span class="cat-tag">${esc(t.family)}</span>`:''}${(t.gi&&t.gi!=='both')?`<span class="gi-badge">${t.gi==='gi'?'GI':'NO-GI'}</span>`:''}${t.drill?`<span class="drill-badge">DRILL</span>`:''}</div>
         ${posFlowHTML(t)}
         ${t.concept?`<div class="technique-row-concept">↳ ${esc(t.concept)}</div>`:''}
         ${renderStepsList(t)}
+        ${t.links?.length?`<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">${t.links.map(l=>`<span class="link-chip-display" onclick="searchLinkedMove(${JSON.stringify(l)})">⛓ ${esc(l)}</span>`).join('')}</div>`:''}
       </div>`).join('');
+    const insightsHTML = e.keyInsights?.length ? `
+      <div class="entry-section-label">Key Concepts</div>
+      <div class="insights-display">
+        ${e.keyInsights.map(i=>`<div class="insight-display"><span class="insight-display-bullet">▸</span><span class="insight-display-text">${esc(i.text)}</span></div>`).join('')}
+      </div>` : '';
     const roundsHTML = e.type==='class'&&e.rounds ? `
       <div class="entry-section-label">Open Rounds</div>
       <div class="rounds-grid">
@@ -1171,7 +1454,7 @@ function renderTimeline() {
       </div>
       <div class="entry-body" id="body-${e.id}">
         ${tc?`<div class="entry-section-label">Techniques</div>${techHTML}`:''}
-        ${roundsHTML}${onlineExtra}
+        ${insightsHTML}${roundsHTML}${onlineExtra}
         <div class="entry-actions">
           <button class="btn-ghost" style="font-size:11px;padding:5px 12px" onclick="editEntry(${e.id});event.stopPropagation()">EDIT</button>
           <button class="btn-danger" onclick="deleteEntry(${e.id})">DELETE ENTRY</button>
@@ -1255,9 +1538,9 @@ function renderStats() {
   }
   const maxMonth = Math.max(...months.map(m=>m.count), 1);
 
-  // Category breakdown
+  // Family breakdown
   const catCounts = {};
-  allTechs.forEach(t=>{ const c=t.cat||'Other'; catCounts[c]=(catCounts[c]||0)+1; });
+  allTechs.forEach(t=>{ const c=getFamily(t); catCounts[c]=(catCounts[c]||0)+1; });
   const sortedCats = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);
   const maxCat = sortedCats[0]?.[1]||1;
 
@@ -1290,7 +1573,7 @@ function renderStats() {
       ${sortedCats.map(([cat,count])=>`
         <div class="bar-row">
           <div class="bar-label" title="${esc(cat)}">${esc(cat)}</div>
-          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(count/maxCat*100)}%;background:${CAT_COLORS[cat]||'#888'}"></div></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${Math.round(count/maxCat*100)}%;background:${FAMILY_COLORS[cat]||CAT_COLORS[cat]||'#888'}"></div></div>
           <div class="bar-count">${count}</div>
         </div>`).join('')}
     </div>`:''}
@@ -1313,7 +1596,7 @@ function initFlashcards() {
   const drillOnly=document.getElementById('fc-filter-drill').value==='drill';
   fcCards=[];
   state.entries.forEach(entry=>entry.techniques.forEach(t=>{
-    if (!t.name||( cat&&t.cat!==cat)||(drillOnly&&!t.drill)) return;
+    if (!t.name||(cat&&getFamily(t)!==cat)||(drillOnly&&!t.drill)) return;
     fcCards.push({tech:t,entry});
   }));
   for (let i=fcCards.length-1;i>0;i--) {
@@ -1361,9 +1644,23 @@ function getAllTechs() {
   state.entries.forEach(entry=>entry.techniques.forEach(t=>{
     if (!t.name) return;
     if (mapFilter!=='all'&&t.method!==mapFilter) return;
+    if (mapFamilyFilter!=='all'&&(FAMILY_MAP_GROUP[getFamily(t)]||'other')!==mapFamilyFilter) return;
     all.push({tech:t,entry});
   }));
   return all;
+}
+
+function setMapFamilyFilter(group, btn) {
+  mapFamilyFilter = group;
+  document.querySelectorAll('.map-family-btn').forEach(b => {
+    const isActive = b===btn;
+    b.classList.toggle('active', isActive);
+    if (isActive) {
+      if (group==='all') { b.style.background='var(--surface2)'; b.style.color='var(--text)'; b.style.borderColor='var(--border)'; }
+      else { const c=b.style.getPropertyValue('--fc'); b.style.background=c; b.style.color='#0e0e0e'; b.style.borderColor=c; }
+    } else { b.style.background=''; b.style.color=''; b.style.borderColor=''; }
+  });
+  initMap();
 }
 
 function buildLayout() {
@@ -1374,7 +1671,7 @@ function buildLayout() {
   const all=getAllTechs();
   const groups={};
   all.forEach(item=>{
-    const cat=item.tech.cat||'Other';
+    const cat=getFamily(item.tech);
     if (!groups[cat]) groups[cat]=[];
     groups[cat].push(item);
   });
@@ -1386,12 +1683,13 @@ function buildLayout() {
     const angle=angleStep*ci - Math.PI/2;
     const cx2=cx+Math.cos(angle)*clusterR;
     const cy2=cy+Math.sin(angle)*clusterR;
-    mapNodes.push({type:'cat',label:cat,x:cx2,y:cy2,r:38,color:CAT_COLORS[cat]||'#888',expanded:false,items:groups[cat]});
+    const catColor = FAMILY_COLORS[cat] || CAT_COLORS[cat] || '#888';
+    mapNodes.push({type:'cat',label:cat,x:cx2,y:cy2,r:38,color:catColor,expanded:false,items:groups[cat]});
     groups[cat].forEach((item,ti)=>{
       const n=groups[cat].length;
       const ta=(Math.PI*2/Math.max(n,1))*ti + angle;
       const tr=85+Math.min(n*8,55);
-      mapNodes.push({type:'tech',label:item.tech.name,x:cx2+Math.cos(ta)*tr,y:cy2+Math.sin(ta)*tr,r:24,color:CAT_COLORS[cat]||'#888',item,parentCat:cat,visible:false});
+      mapNodes.push({type:'tech',label:item.tech.name,x:cx2+Math.cos(ta)*tr,y:cy2+Math.sin(ta)*tr,r:24,color:catColor,item,parentCat:cat,visible:false});
     });
   });
 }
@@ -2103,6 +2401,7 @@ function openSettings() {
   document.getElementById('gh-user').value=s.user||'';
   document.getElementById('gh-repo').value=s.repo||'';
   document.getElementById('gh-token').value=s.token||'';
+  document.getElementById('gh-device').value=s.deviceName||'';
   const st=document.getElementById('gh-status');
   st.style.display='none'; st.className='gh-status';
   document.getElementById('gh-backup-list').style.display='none';
@@ -2126,6 +2425,7 @@ async function saveGHSettings() {
   const user=document.getElementById('gh-user').value.trim();
   const repo=document.getElementById('gh-repo').value.trim();
   const token=document.getElementById('gh-token').value.trim();
+  const deviceName=document.getElementById('gh-device').value.trim().replace(/[^a-z0-9_-]/gi,'').toLowerCase()||'default';
   const st=document.getElementById('gh-status');
   if (!user||!repo||!token) {
     st.className='gh-status err'; st.style.display='block';
@@ -2138,7 +2438,7 @@ async function saveGHSettings() {
       headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
     });
     if (res.ok) {
-      localStorage.setItem(GH_SK,JSON.stringify({user,repo,token}));
+      localStorage.setItem(GH_SK,JSON.stringify({user,repo,token,deviceName}));
       st.className='gh-status ok'; st.textContent='✓ Connected to '+user+'/'+repo;
       updateGHButtons();
     } else if (res.status===401) {
@@ -2187,7 +2487,8 @@ async function pushBackupToGitHub() {
     const now=new Date();
     const pad=n=>String(n).padStart(2,'0');
     const stamp=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}`;
-    const path=`backups/backup_${stamp}.json`;
+    const device=(ghSettings().deviceName||'default');
+    const path=`backups/${device}/backup_${stamp}.json`;
     const payload={version:1,exported:now.toISOString(),exportedReadable:now.toLocaleString(),entryCount:state.entries.length,data:state};
     const content=btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
     const res=await fetch(`${ghApiBase()}/contents/${path}`,{
@@ -2216,22 +2517,35 @@ async function loadGHBackups() {
       list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted)">No backups yet. Push your first backup above.</div>';
       btn.textContent=orig; btn.disabled=false; updateGHButtons(); return;
     }
-    const files=await res.json();
-    const backups=files.filter(f=>f.name.endsWith('.json')).sort((a,b)=>b.name.localeCompare(a.name));
-    if (!backups.length) {
+    const items=await res.json();
+    const rootFiles=items.filter(f=>f.type==='file'&&f.name.endsWith('.json'));
+    const deviceDirs=items.filter(f=>f.type==='dir');
+    // Fetch all device subfolders in parallel
+    const deviceBackups=await Promise.all(deviceDirs.map(async dir=>{
+      try {
+        const r=await fetch(`${ghApiBase()}/contents/backups/${dir.name}`,{headers:ghHeaders()});
+        const dirFiles=await r.json();
+        return {device:dir.name, files:dirFiles.filter(f=>f.type==='file'&&f.name.endsWith('.json'))};
+      } catch { return {device:dir.name,files:[]}; }
+    }));
+    // Legacy root-level backups
+    if (rootFiles.length) deviceBackups.push({device:'legacy',files:rootFiles});
+    const allGroups=deviceBackups.filter(g=>g.files.length);
+    if (!allGroups.length) {
       list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted)">No backup files found.</div>';
       btn.textContent=orig; btn.disabled=false; updateGHButtons(); return;
     }
-    list.innerHTML=backups.map(f=>{
-      const label=f.name.replace('backup_','').replace('.json','').replace('_',' · ').replace(/-/g,'/');
-      const kb=(f.size/1024).toFixed(1)+'KB';
-      return `<div class="gh-backup-item">
-        <div>
-          <div class="gh-backup-name">${label}</div>
-          <div class="gh-backup-size">${kb}</div>
-        </div>
-        <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub('${f.download_url}','${f.name}')">RESTORE</button>
-      </div>`;
+    list.innerHTML=allGroups.map(({device,files})=>{
+      const sorted=files.sort((a,b)=>b.name.localeCompare(a.name));
+      return `<div style="padding:7px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--accent);background:var(--surface2);border-bottom:1px solid var(--border)">${esc(device.toUpperCase())}</div>`
+        +sorted.map(f=>{
+          const label=f.name.replace('backup_','').replace('.json','').replace('_',' · ').replace(/-/g,'/');
+          const kb=(f.size/1024).toFixed(1)+'KB';
+          return `<div class="gh-backup-item">
+            <div><div class="gh-backup-name">${esc(label)}</div><div class="gh-backup-size">${kb}</div></div>
+            <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub(${JSON.stringify(f.download_url)},${JSON.stringify(f.name)})">RESTORE</button>
+          </div>`;
+        }).join('');
     }).join('');
   } catch(e) {
     list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--accent2)">Failed to load — check connection and settings.</div>';
