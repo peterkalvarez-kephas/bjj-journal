@@ -1732,7 +1732,7 @@ function renderTimeline() {
           return `<div class="insight-display">
             <span class="insight-display-bullet" style="color:${meta.color}">${meta.icon}</span>
             <span class="insight-display-text">${esc(i.text)}</span>
-            ${i.position?`<span class="family-tag" style="border-color:var(--accent)33;color:var(--accent);font-size:9px;padding:1px 5px;cursor:pointer" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos(${JSON.stringify(i.position)})">${esc(i.position)}</span>`:''}
+            ${i.position?`<span class="family-tag" style="border-color:var(--accent)33;color:var(--accent);font-size:9px;padding:1px 5px;cursor:pointer" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos('${i.position.replace(/'/g,"\\'")}')">  ${esc(i.position)}</span>`:''}
           </div>`;
         }).join('')}
       </div>` : '';
@@ -1999,7 +1999,7 @@ function showClusterDetail(node) {
         <div style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color};margin-top:3px">${meta.icon} ${meta.label}</div>
       </div>`;
     }).join('') : `<div style="color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;line-height:1.8">No positional knowledge yet.<br>Log a video, tag insights<br>to a position.</div>`}
-    <button class="btn-ghost" style="margin-top:16px;width:100%;font-size:10px;letter-spacing:1px" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos(${JSON.stringify(positions[0]||'')})">OPEN IN LIBRARY →</button>
+    <button class="btn-ghost" style="margin-top:16px;width:100%;font-size:10px;letter-spacing:1px" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos('${(positions[0]||'').replace(/'/g,"\\'")}')">OPEN IN LIBRARY →</button>
   `;
   panel.classList.add('open');
 }
@@ -2258,7 +2258,8 @@ function renderLibrarySidebar() {
     if (!positions.length) return '';
     const items = positions.map(p => {
       const count = getPositionData(p).notes.length;
-      return `<div class="lib-pos-item${p===selectedLibPos?' selected':''}" onclick="selectLibPos(${JSON.stringify(p)})">
+      const pSafe = p.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      return `<div class="lib-pos-item${p===selectedLibPos?' selected':''}" onclick="selectLibPos('${pSafe}')">
         <span class="lib-pos-name">${esc(p)}</span>
         ${count?`<span class="lib-pos-count">${count}</span>`:''}
       </div>`;
@@ -2283,14 +2284,16 @@ function renderLibPanel(posName) {
   const family = Object.entries(MOVE_TREE).find(([,pos])=>pos.includes(posName))?.[0]||'';
   const famColor = FAMILY_COLORS[family]||'#888';
 
+  const posNameSafe = posName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const noteHTML = n => {
     const meta = NOTE_TYPE_META[n.type||'detail'];
+    const idSafe = String(n.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return `<div class="lib-note${n.fromEntry?' lib-note-linked':''}">
       <div class="lib-note-text">${esc(n.text)}</div>
       <div class="lib-note-meta">
         <span style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color}">${meta.icon} ${meta.label}</span>
         ${n.sourceLabel?`<span class="lib-note-source">↳ ${esc(n.sourceLabel)}${n.sourceDate?' · '+esc(n.sourceDate):''}</span>`:''}
-        ${n.fromEntry?`<span class="lib-note-badge">FROM ENTRY</span>`:`<button class="lib-note-del" onclick="deletePositionNote(${JSON.stringify(posName)},${JSON.stringify(n.id)})">remove</button>`}
+        ${n.fromEntry?`<span class="lib-note-badge">FROM ENTRY</span>`:`<button class="lib-note-del" onclick="deletePositionNote('${posNameSafe}','${idSafe}')">remove</button>`}
       </div>
     </div>`;
   };
@@ -2302,8 +2305,8 @@ function renderLibPanel(posName) {
       <div class="lib-section-label" style="color:${meta.color}">${meta.icon} ${meta.label.toUpperCase()}S${notes.length?` <span style="opacity:0.4">(${notes.length})</span>`:''}</div>
       ${notes.map(noteHTML).join('')}
       <div class="lib-add-row" id="lib-add-${type}-row" style="display:none">
-        <input class="lib-add-input" id="lib-add-${type}-input" placeholder="Add a ${meta.label.toLowerCase()}..." onkeydown="if(event.key==='Enter')addPositionNote(${JSON.stringify(posName)},${JSON.stringify(type)})" autocomplete="off">
-        <button class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addPositionNote(${JSON.stringify(posName)},${JSON.stringify(type)})">ADD</button>
+        <input class="lib-add-input" id="lib-add-${type}-input" placeholder="Add a ${meta.label.toLowerCase()}..." onkeydown="if(event.key==='Enter')addPositionNote('${posNameSafe}','${type}')" autocomplete="off">
+        <button class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addPositionNote('${posNameSafe}','${type}')">ADD</button>
         <button class="btn-ghost" style="padding:6px 8px;font-size:10px;flex-shrink:0" onclick="document.getElementById('lib-add-${type}-row').style.display='none'">×</button>
       </div>
       <button class="lib-add-btn" onclick="showLibAddRow('${type}')">+ ADD ${meta.label.toUpperCase()}</button>
