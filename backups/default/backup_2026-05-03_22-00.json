@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "exported": "2026-05-04T05:00:22.709Z",
+  "exportedReadable": "5/3/2026, 10:00:22 PM",
+  "entryCount": 1,
+  "data": {
+    "entries": [
+      {
+        "id": 1777702180031,
+        "type": "class",
+        "date": "2026-05-02",
+        "techniques": [
+          {
+            "name": "Bow and Arrrow Choke w",
+            "cat": "Submissions",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "Lean/fall TOWARDS the leg that is under hooked. DO NOT sit back like a conventional bow and arrow",
+            "steps": "Establish a good side control with a gift wrap. Can grab write or go writ over wrist.\nSecure belt line hook\nFrom figure 4 , use tod punch down and away to trap, and use other hand to secure collar grip. Use 2 fingers and index thumb. Can use other hand to pull slack out of collar\nOnce secure. LEAN/FALL towards the legs, then under hook top leg.\nTry to lock your guard or at cover the shoulder  that’s of the ground\nCompress legs while pulling the collar to sink choke",
+            "stepsList": [
+              {
+                "text": "Establish a good side control with a gift wrap. Can grab write or go writ over wrist.",
+                "photo": null
+              },
+              {
+                "text": "Secure belt line hook",
+                "photo": null
+              },
+              {
+                "text": "From figure 4 , use tod punch down and away to trap, and use other hand to secure collar grip. Use 2 fingers and index thumb. Can use other hand to pull slack out of collar",
+                "photo": null
+              },
+              {
+                "text": "Once secure. LEAN/FALL towards the legs, then under hook top leg.",
+                "photo": null
+              },
+              {
+                "text": "Try to lock your guard or at cover the shoulder  that’s of the ground",
+                "photo": null
+              },
+              {
+                "text": "Compress legs while pulling the collar to sink choke",
+                "photo": null
+              }
+            ],
+            "drill": false
+          },
+          {
+            "name": "Armband from Bow and arrow choke",
+            "cat": "Submissions",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "",
+            "steps": "From the bow and arrow choke,  look for arm and hook it\nMaintain undercooked leg and arm and apply and arm bar",
+            "stepsList": [
+              {
+                "text": "From the bow and arrow choke,  look for arm and hook it",
+                "photo": null
+              },
+              {
+                "text": "Maintain undercooked leg and arm and apply and arm bar",
+                "photo": null
+              }
+            ],
+            "drill": false
+          }
+        ],
+        "instructor": "Mike Prudencio",
+        "classType": "Technique",
+        "rounds": {
+          "positions": "",
+          "worked": "",
+          "mistakes": "",
+          "patterns": ""
+        }
+      }
+    ],
+    "drilled": []
+  }
+}
