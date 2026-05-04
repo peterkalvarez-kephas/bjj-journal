@@ -464,6 +464,48 @@
   .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; align-items: center; justify-content: center; cursor: zoom-out; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 4px; object-fit: contain; }
+  /* POSITION LIBRARY */
+  #view-library { display: none; flex-direction: column; position: fixed; top: 93px; left: 0; right: 0; bottom: 0; z-index: 10; }
+  #view-library.active { display: flex; }
+  .lib-layout { display: flex; flex: 1; overflow: hidden; height: 100%; }
+  .lib-sidebar { width: 220px; flex-shrink: 0; border-right: 1px solid var(--border); overflow-y: auto; background: var(--bg); }
+  .lib-sidebar::-webkit-scrollbar { width: 3px; }
+  .lib-sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+  .lib-sidebar-header { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); padding: 16px 16px 10px; border-bottom: 1px solid var(--border); text-transform: uppercase; }
+  .lib-family-group { padding: 6px 0; border-bottom: 1px solid var(--border)30; }
+  .lib-family-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; padding: 6px 16px 3px; opacity: 0.75; }
+  .lib-pos-item { display: flex; align-items: center; gap: 6px; padding: 6px 16px; cursor: pointer; font-size: 12px; color: var(--label); transition: all 0.1s; }
+  .lib-pos-item:hover { background: var(--surface); color: var(--text); }
+  .lib-pos-item.selected { background: var(--surface2); color: var(--text); border-left: 2px solid var(--accent); }
+  .lib-pos-name { flex: 1; }
+  .lib-pos-count { font-family: 'DM Mono', monospace; font-size: 10px; background: var(--surface2); padding: 1px 6px; border-radius: 2px; color: var(--accent); }
+  .lib-panel { flex: 1; overflow-y: auto; padding: 28px 36px; }
+  .lib-panel::-webkit-scrollbar { width: 3px; }
+  .lib-panel::-webkit-scrollbar-thumb { background: var(--border); }
+  .lib-panel-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; line-height: 1; margin-bottom: 2px; }
+  .lib-panel-family { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 6px; }
+  .lib-panel-stats { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 24px; }
+  .lib-section { margin-bottom: 22px; }
+  .lib-section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+  .lib-note { padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 5px; }
+  .lib-note-linked { border-left: 2px solid var(--accent)55; }
+  .lib-note-text { font-size: 13px; color: var(--text); line-height: 1.5; margin-bottom: 4px; }
+  .lib-note-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .lib-note-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .lib-note-badge { font-family: 'DM Mono', monospace; font-size: 9px; background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.2); color: var(--accent); padding: 1px 5px; border-radius: 2px; }
+  .lib-note-del { background: none; border: none; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; cursor: pointer; padding: 0; margin-left: auto; }
+  .lib-note-del:hover { color: #f47272; }
+  .lib-source-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border)30; }
+  .lib-source-label { flex: 1; font-size: 12px; color: var(--text); }
+  .lib-source-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .lib-add-row { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+  .lib-add-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 7px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; }
+  .lib-add-btn { font-family: 'DM Mono', monospace; font-size: 10px; padding: 5px 10px; background: none; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; margin-top: 4px; display: block; }
+  .lib-add-btn:hover { border-color: var(--accent); color: var(--accent); }
+  /* INSIGHT ROW — updated with type + position tag */
+  .insight-row { display: flex; gap: 5px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+  .insight-type-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 6px 5px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 9px; outline: none; flex-shrink: 0; cursor: pointer; }
+  .insight-pos-sel { background: var(--surface2); border: 1px solid var(--accent)44; color: var(--accent); padding: 6px 5px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 9px; outline: none; flex-shrink: 0; max-width: 140px; cursor: pointer; }
   /* ROUNDS DEBRIEF */
   .debrief-block { margin-bottom: 14px; }
   .debrief-block-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
@@ -558,6 +600,7 @@
   <button class="nav-tab" onclick="switchView('stats',this)">STATS</button>
   <button class="nav-tab" onclick="switchView('map',this)">MIND MAP</button>
   <button class="nav-tab" onclick="switchView('seq',this)">SEQUENCES</button>
+  <button class="nav-tab" onclick="switchView('library',this)">LIBRARY</button>
 </nav>
 
 <div id="main-scroll">
@@ -799,6 +842,21 @@
     <button class="map-family-btn" data-fgroup="takedowns" onclick="setMapFamilyFilter('takedowns',this)" style="--fc:#34d399">TAKEDOWNS</button>
   </div>
   <canvas id="map-canvas"></canvas>
+</div>
+
+<!-- POSITION LIBRARY -->
+<div class="view" id="view-library">
+  <div class="lib-layout">
+    <div class="lib-sidebar">
+      <div class="lib-sidebar-header">Position Library</div>
+      <div id="lib-sidebar-content"></div>
+    </div>
+    <div class="lib-panel">
+      <div id="lib-panel-content">
+        <div class="empty-state" style="padding:80px 0">SELECT A POSITION<br><span style="font-size:11px;font-family:'DM Sans',sans-serif;color:var(--muted);text-transform:none;letter-spacing:0">Choose a position from the sidebar to view its knowledge base</span></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- DETAIL PANEL -->
@@ -1052,6 +1110,7 @@ let stepCount = 0;
 
 function load() {
   try { const r = localStorage.getItem(STORAGE_KEY); if (r) state = JSON.parse(r); } catch(e) {}
+  if (!state.positionNotes) state.positionNotes = {};
 }
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); updateDrillBadge(); }
 function showToast(msg) {
@@ -1065,13 +1124,14 @@ function switchView(name, btn) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   btn.classList.add('active');
-  document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq') ? 'none' : '';
+  document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq' || name === 'library') ? 'none' : '';
   if (name === 'timeline') renderTimeline();
   if (name === 'drill') renderDrillList();
   if (name === 'flash') initFlashcards();
   if (name === 'map') setTimeout(initMap, 30);
   if (name === 'seq') renderSeqList();
   if (name === 'stats') renderStats();
+  if (name === 'library') initLibrary();
 }
 
 function setType(type) {
@@ -1390,21 +1450,45 @@ function openLightbox(src) {
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 
 // ─── KEY CONCEPTS ────────────────────────────────
+function allPositionOpts(sel='') {
+  let html = '<option value="">Tag to position...</option>';
+  Object.entries(MOVE_TREE).forEach(([fam, positions]) => {
+    if (!positions.length) return;
+    html += `<optgroup label="${fam}">` + positions.map(p=>`<option${p===sel?' selected':''}>${p}</option>`).join('') + '</optgroup>';
+  });
+  return html;
+}
+
 function addInsight(data) {
   const container = document.getElementById('insights-container');
   if (!container) return;
   const row = document.createElement('div');
   row.className = 'insight-row';
+  const type = data?.type || 'detail';
+  const pos  = data?.position || '';
   row.innerHTML = `
-    <span class="insight-bullet">▸</span>
-    <textarea class="insight-text" placeholder="e.g. Keep elbow pinned before the finish — that's what creates the tap..." rows="1">${esc(data?.text||'')}</textarea>
+    <select class="insight-type-sel">
+      <option value="detail"${type==='detail'?' selected':''}>Detail</option>
+      <option value="principle"${type==='principle'?' selected':''}>Principle</option>
+      <option value="mistake"${type==='mistake'?' selected':''}>Mistake</option>
+      <option value="counter"${type==='counter'?' selected':''}>Counter</option>
+    </select>
+    <textarea class="insight-text" placeholder="e.g. Keep elbow pinned before the finish..." rows="1" style="flex:1;min-width:0">${esc(data?.text||'')}</textarea>
+    <select class="insight-pos-sel">${allPositionOpts(pos)}</select>
     <button class="insight-remove" type="button" onclick="this.closest('.insight-row').remove()">×</button>`;
   container.appendChild(row);
 }
 
 function getKeyInsights() {
-  return Array.from(document.querySelectorAll('#insights-container .insight-text'))
-    .map(el => el.value.trim()).filter(Boolean).map(text => ({text}));
+  return Array.from(document.querySelectorAll('#insights-container .insight-row')).map(row => {
+    const text = row.querySelector('.insight-text')?.value.trim();
+    if (!text) return null;
+    return {
+      text,
+      type:     row.querySelector('.insight-type-sel')?.value || 'detail',
+      position: row.querySelector('.insight-pos-sel')?.value  || '',
+    };
+  }).filter(Boolean);
 }
 
 // ─── LINKED MOVES ────────────────────────────────
@@ -1643,7 +1727,14 @@ function renderTimeline() {
     const insightsHTML = e.keyInsights?.length ? `
       <div class="entry-section-label">Key Concepts</div>
       <div class="insights-display">
-        ${e.keyInsights.map(i=>`<div class="insight-display"><span class="insight-display-bullet">▸</span><span class="insight-display-text">${esc(i.text)}</span></div>`).join('')}
+        ${e.keyInsights.map(i=>{
+          const meta=NOTE_TYPE_META[i.type||'detail'];
+          return `<div class="insight-display">
+            <span class="insight-display-bullet" style="color:${meta.color}">${meta.icon}</span>
+            <span class="insight-display-text">${esc(i.text)}</span>
+            ${i.position?`<span class="family-tag" style="border-color:var(--accent)33;color:var(--accent);font-size:9px;padding:1px 5px;cursor:pointer" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos(${JSON.stringify(i.position)})">${esc(i.position)}</span>`:''}
+          </div>`;
+        }).join('')}
       </div>` : '';
     const roundsHTML = (()=>{
       if (e.type!=='class'||!e.rounds) return '';
@@ -1886,6 +1977,33 @@ function getAllTechs() {
   return all;
 }
 
+function showClusterDetail(node) {
+  const family = node.label;
+  const positions = MOVE_TREE[family]||[];
+  const famColor = FAMILY_COLORS[family]||'#888';
+  // Aggregate all notes across positions in this family
+  const allNotes = [];
+  positions.forEach(pos => {
+    getPositionData(pos).notes.forEach(n => allNotes.push({...n, posName:pos}));
+  });
+  const panel = document.getElementById('detail-panel');
+  const content = document.getElementById('detail-content');
+  content.innerHTML = `
+    <div class="detail-title" style="color:${famColor}">${esc(family)}</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px">${positions.length} positions · ${allNotes.length} knowledge notes</div>
+    ${allNotes.length ? allNotes.map(n=>{
+      const meta=NOTE_TYPE_META[n.type||'detail'];
+      return `<div style="margin-bottom:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--radius);border-left:2px solid ${meta.color}">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:${famColor};margin-bottom:3px;opacity:0.8">${esc(n.posName||'')}</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.4">${esc(n.text)}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color};margin-top:3px">${meta.icon} ${meta.label}</div>
+      </div>`;
+    }).join('') : `<div style="color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;line-height:1.8">No positional knowledge yet.<br>Log a video, tag insights<br>to a position.</div>`}
+    <button class="btn-ghost" style="margin-top:16px;width:100%;font-size:10px;letter-spacing:1px" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos(${JSON.stringify(positions[0]||'')})">OPEN IN LIBRARY →</button>
+  `;
+  panel.classList.add('open');
+}
+
 function setMapFamilyFilter(group, btn) {
   mapFamilyFilter = group;
   document.querySelectorAll('.map-family-btn').forEach(b => {
@@ -2068,6 +2186,176 @@ function drawMap() {
   ctx.restore();
 }
 
+// ─── POSITION LIBRARY ────────────────────────────────────────────────────────
+let selectedLibPos = null;
+
+const NOTE_TYPE_META = {
+  detail:    { label:'Detail',    color:'var(--accent)', icon:'▸' },
+  principle: { label:'Principle', color:'#4da6ff',       icon:'◆' },
+  mistake:   { label:'Mistake',   color:'#f47272',       icon:'✕' },
+  counter:   { label:'Counter',   color:'#a78bfa',       icon:'⟳' },
+};
+
+function getPositionData(posName) {
+  // Insights tagged to this position from all entries
+  const tagged = [];
+  state.entries.forEach(entry => {
+    (entry.keyInsights||[]).forEach(ins => {
+      if (ins.position === posName) {
+        tagged.push({
+          id: `e${entry.id}_${ins.text.slice(0,12).replace(/\s/g,'')}`,
+          type: ins.type||'detail', text: ins.text,
+          sourceLabel: entry.instructor||(entry.type==='class'?'Class':entry.sourceType||'Online'),
+          sourceDate: entry.date, entryId: entry.id, fromEntry: true
+        });
+      }
+    });
+  });
+  // Direct notes added in library
+  const direct = (state.positionNotes[posName]||[]).map(n=>({...n, fromEntry:false}));
+  // All combined, sorted by date ascending
+  const notes = [...tagged, ...direct].sort((a,b)=>(a.sourceDate||a.date||'')>(b.sourceDate||b.date||'')?1:-1);
+  // Connected techniques (position matches startPos, endPos, or specific position field)
+  const techsSeen = new Set();
+  const techniques = [];
+  state.entries.forEach(entry => {
+    entry.techniques.forEach(t => {
+      if (!t.name||techsSeen.has(t.name)) return;
+      if (t.position===posName||t.startPos===posName||t.endPos===posName) {
+        techsSeen.add(t.name); techniques.push(t);
+      }
+    });
+  });
+  // Sources (entries with tagged insights for this position)
+  const sourcesSeen = new Set(); const sources = [];
+  state.entries.forEach(entry => {
+    if (sourcesSeen.has(entry.id)) return;
+    if ((entry.keyInsights||[]).some(i=>i.position===posName)) {
+      sourcesSeen.add(entry.id);
+      sources.push({ entryId:entry.id, label:entry.instructor||(entry.type==='class'?'Class':entry.sourceType||'Online'), date:entry.date, type:entry.type });
+    }
+  });
+  return { notes, techniques, sources };
+}
+
+function getAllPositionsWithData() {
+  const s = new Set();
+  Object.keys(state.positionNotes).forEach(p=>{ if((state.positionNotes[p]||[]).length) s.add(p); });
+  state.entries.forEach(e=>(e.keyInsights||[]).forEach(i=>{ if(i.position) s.add(i.position); }));
+  return s;
+}
+
+function initLibrary() {
+  renderLibrarySidebar();
+  if (selectedLibPos) renderLibPanel(selectedLibPos);
+}
+
+function renderLibrarySidebar() {
+  const withData = getAllPositionsWithData();
+  const container = document.getElementById('lib-sidebar-content');
+  if (!container) return;
+  container.innerHTML = Object.entries(MOVE_TREE).map(([fam, positions]) => {
+    if (!positions.length) return '';
+    const items = positions.map(p => {
+      const count = getPositionData(p).notes.length;
+      return `<div class="lib-pos-item${p===selectedLibPos?' selected':''}" onclick="selectLibPos(${JSON.stringify(p)})">
+        <span class="lib-pos-name">${esc(p)}</span>
+        ${count?`<span class="lib-pos-count">${count}</span>`:''}
+      </div>`;
+    }).join('');
+    return `<div class="lib-family-group">
+      <div class="lib-family-label" style="color:${FAMILY_COLORS[fam]||'#888'}">${esc(fam)}</div>
+      ${items}
+    </div>`;
+  }).join('');
+}
+
+function selectLibPos(posName) {
+  selectedLibPos = posName;
+  renderLibrarySidebar();
+  renderLibPanel(posName);
+}
+
+function renderLibPanel(posName) {
+  const panel = document.getElementById('lib-panel-content');
+  if (!panel) return;
+  const data = getPositionData(posName);
+  const family = Object.entries(MOVE_TREE).find(([,pos])=>pos.includes(posName))?.[0]||'';
+  const famColor = FAMILY_COLORS[family]||'#888';
+
+  const noteHTML = n => {
+    const meta = NOTE_TYPE_META[n.type||'detail'];
+    return `<div class="lib-note${n.fromEntry?' lib-note-linked':''}">
+      <div class="lib-note-text">${esc(n.text)}</div>
+      <div class="lib-note-meta">
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color}">${meta.icon} ${meta.label}</span>
+        ${n.sourceLabel?`<span class="lib-note-source">↳ ${esc(n.sourceLabel)}${n.sourceDate?' · '+esc(n.sourceDate):''}</span>`:''}
+        ${n.fromEntry?`<span class="lib-note-badge">FROM ENTRY</span>`:`<button class="lib-note-del" onclick="deletePositionNote(${JSON.stringify(posName)},${JSON.stringify(n.id)})">remove</button>`}
+      </div>
+    </div>`;
+  };
+
+  const typeSection = (type) => {
+    const meta = NOTE_TYPE_META[type];
+    const notes = data.notes.filter(n=>(n.type||'detail')===type);
+    return `<div class="lib-section">
+      <div class="lib-section-label" style="color:${meta.color}">${meta.icon} ${meta.label.toUpperCase()}S${notes.length?` <span style="opacity:0.4">(${notes.length})</span>`:''}</div>
+      ${notes.map(noteHTML).join('')}
+      <div class="lib-add-row" id="lib-add-${type}-row" style="display:none">
+        <input class="lib-add-input" id="lib-add-${type}-input" placeholder="Add a ${meta.label.toLowerCase()}..." onkeydown="if(event.key==='Enter')addPositionNote(${JSON.stringify(posName)},${JSON.stringify(type)})" autocomplete="off">
+        <button class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addPositionNote(${JSON.stringify(posName)},${JSON.stringify(type)})">ADD</button>
+        <button class="btn-ghost" style="padding:6px 8px;font-size:10px;flex-shrink:0" onclick="document.getElementById('lib-add-${type}-row').style.display='none'">×</button>
+      </div>
+      <button class="lib-add-btn" onclick="showLibAddRow('${type}')">+ ADD ${meta.label.toUpperCase()}</button>
+    </div>`;
+  };
+
+  panel.innerHTML = `
+    <div class="lib-panel-title" style="color:${famColor}">${esc(posName)}</div>
+    ${family?`<div class="lib-panel-family">${esc(family)}</div>`:''}
+    <div class="lib-panel-stats">${data.notes.length} note${data.notes.length!==1?'s':''} · ${data.techniques.length} technique${data.techniques.length!==1?'s':''} · ${data.sources.length} source${data.sources.length!==1?'s':''}</div>
+
+    ${data.sources.length?`<div class="lib-section">
+      <div class="lib-section-label">SOURCES STUDIED</div>
+      ${data.sources.map(s=>`<div class="lib-source-item">
+        <span class="cat-tag ${s.type==='class'?'pill-class':'pill-online'}" style="font-size:9px">${s.type==='class'?'CLASS':'ONLINE'}</span>
+        <span class="lib-source-label">${esc(s.label)}</span>
+        <span class="lib-source-date">${esc(s.date)}</span>
+      </div>`).join('')}
+    </div>`:''}
+
+    ${['detail','principle','mistake','counter'].map(typeSection).join('')}
+
+    ${data.techniques.length?`<div class="lib-section">
+      <div class="lib-section-label">CONNECTED TECHNIQUES</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${data.techniques.map(t=>`<span class="link-chip-display" style="border-color:${FAMILY_COLORS[getFamily(t)]||'#888'}44;color:${FAMILY_COLORS[getFamily(t)]||'#888'}">${esc(t.name)}</span>`).join('')}
+      </div>
+    </div>`:''}
+
+    ${!data.notes.length&&!data.techniques.length?`<div class="empty-state" style="padding:30px 0">NO NOTES YET<br><span style="font-size:11px;font-family:'DM Sans',sans-serif;color:var(--muted);text-transform:none;letter-spacing:0">Tag insights to this position when logging entries,<br>or add notes directly with the buttons above</span></div>`:''}
+  `;
+}
+
+function showLibAddRow(type) {
+  document.querySelectorAll('[id^="lib-add-"][id$="-row"]').forEach(el=>el.style.display='none');
+  const row=document.getElementById(`lib-add-${type}-row`);
+  if (row) { row.style.display='flex'; document.getElementById(`lib-add-${type}-input`)?.focus(); }
+}
+function addPositionNote(posName, type) {
+  const input=document.getElementById(`lib-add-${type}-input`);
+  const text=input?.value.trim();
+  if (!text) return;
+  if (!state.positionNotes[posName]) state.positionNotes[posName]=[];
+  state.positionNotes[posName].push({ id:Date.now().toString(), type, text, date:new Date().toISOString().slice(0,10) });
+  save(); renderLibPanel(posName); renderLibrarySidebar();
+}
+function deletePositionNote(posName, noteId) {
+  if (!state.positionNotes[posName]) return;
+  state.positionNotes[posName]=state.positionNotes[posName].filter(n=>n.id!==noteId);
+  save(); renderLibPanel(posName); renderLibrarySidebar();
+}
+
 function wrapText(ctx,text,x,y,maxW,lineH) {
   const words=text.split(' ');
   if (words.length===1||ctx.measureText(text).width<=maxW) { ctx.fillText(trunc(text,14),x,y); return; }
@@ -2135,6 +2423,7 @@ function handleClick(node) {
     node.expanded=!node.expanded;
     mapNodes.filter(n=>n.type==='tech'&&n.parentCat===node.label).forEach(n=>n.visible=node.expanded);
     drawMap();
+    showClusterDetail(node);
   } else {
     showDetail(node.item);
   }
