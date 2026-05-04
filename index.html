@@ -464,6 +464,33 @@
   .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; align-items: center; justify-content: center; cursor: zoom-out; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 4px; object-fit: contain; }
+  /* ROUNDS DEBRIEF */
+  .debrief-block { margin-bottom: 14px; }
+  .debrief-block-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .debrief-add-btn { font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 10px; background: none; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
+  .debrief-add-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .partner-mini-form { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+  .partner-mini-form input { flex: 1; min-width: 130px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; }
+  .partner-mini-form select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 8px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 11px; outline: none; }
+  .partner-chip { display: inline-flex; align-items: center; gap: 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 3px 8px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text); margin: 2px; }
+  .belt-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .debrief-outcomes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  @media (max-width: 540px) { .debrief-outcomes { grid-template-columns: 1fr; } }
+  .outcome-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
+  .outcome-col-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
+  .outcome-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 10px; border: 1px solid; margin: 2px 2px 2px 0; }
+  .oc-chip-hit   { background: rgba(241,114,114,0.1); border-color: rgba(241,114,114,0.3); color: #f47272; }
+  .oc-chip-caught{ background: rgba(255,255,255,0.04); border-color: var(--border); color: var(--muted); }
+  .oc-chip-sweep { background: rgba(77,166,255,0.1); border-color: rgba(77,166,255,0.3); color: #4da6ff; }
+  .oc-chip-escape{ background: rgba(82,201,135,0.1); border-color: rgba(82,201,135,0.3); color: #52c987; }
+  .oc-chip-td    { background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.3); color: #34d399; }
+  .oc-chip-x { background: none; border: none; color: inherit; opacity: 0.5; cursor: pointer; font-size: 12px; padding: 0; line-height: 1; }
+  .oc-chip-x:hover { opacity: 1; }
+  .outcome-input { width: 100%; box-sizing: border-box; background: none; border: none; border-top: 1px solid var(--border); color: var(--text); padding: 7px 0 0; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; margin-top: 6px; }
+  .outcome-input::placeholder { color: var(--muted); font-size: 11px; }
+  .gas-tank-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .gas-btn { padding: 7px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; cursor: pointer; transition: all 0.15s; }
+  .gas-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.1); }
   /* GI / NO-GI TOGGLE */
   .gi-toggle { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
   .gi-btn { flex: 1; padding: 7px 6px; background: none; border: none; border-right: 1px solid var(--border); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; cursor: pointer; transition: all 0.15s; }
@@ -595,14 +622,91 @@
       <button class="add-insight-btn" type="button" onclick="addInsight()">+ ADD CONCEPT</button>
     </div>
     <div class="form-section" id="rounds-section">
-      <div class="form-section-title">Open Round Notes</div>
-      <div class="form-row">
-        <div class="form-field"><label>Positions I Ended Up In</label><textarea id="f-positions" placeholder="e.g. kept ending up in bottom half guard..."></textarea></div>
-        <div class="form-field"><label>Things That Worked</label><textarea id="f-worked" placeholder="e.g. hip escape to guard worked well..."></textarea></div>
+      <div class="form-section-title">Rounds Debrief</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;letter-spacing:0.5px">Post-training — log what sticks from memory</div>
+
+      <!-- Partners -->
+      <div class="debrief-block">
+        <div class="debrief-block-label">Rolled With</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div id="debrief-partners" style="display:contents"></div>
+          <button type="button" class="debrief-add-btn" onclick="togglePartnerForm()">+ PARTNER</button>
+        </div>
+        <div class="partner-mini-form" id="partner-mini-form" style="display:none">
+          <input id="pf-name" placeholder="Name or description (optional)">
+          <select id="pf-belt">
+            <option value="white">White belt</option>
+            <option value="blue" selected>Blue belt</option>
+            <option value="purple">Purple belt</option>
+            <option value="brown">Brown belt</option>
+            <option value="black">Black belt</option>
+          </select>
+          <button type="button" class="btn-ghost" style="padding:6px 12px;font-size:10px" onclick="confirmPartner()">ADD</button>
+        </div>
       </div>
+
+      <!-- 2×2 outcomes grid -->
+      <div class="debrief-outcomes">
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:#f47272">⚡ WHAT HIT</div>
+          <div id="oc-hit-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="oc-hit-input" placeholder="Submission you landed..." oninput="debriefSuggest('hit',this.value)" onblur="setTimeout(()=>debriefHideSuggest('hit'),200)" autocomplete="off">
+            <div class="suggest-list" id="oc-hit-suggest" style="display:none"></div>
+          </div>
+        </div>
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:var(--muted)">☠ CAUGHT BY</div>
+          <div id="oc-caught-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="oc-caught-input" placeholder="Got tapped by..." oninput="debriefSuggest('caught',this.value)" onblur="setTimeout(()=>debriefHideSuggest('caught'),200)" autocomplete="off">
+            <div class="suggest-list" id="oc-caught-suggest" style="display:none"></div>
+          </div>
+        </div>
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:#4da6ff">↕ SWEEPS</div>
+          <div id="oc-sweep-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="oc-sweep-input" placeholder="Sweep you hit..." oninput="debriefSuggest('sweep',this.value)" onblur="setTimeout(()=>debriefHideSuggest('sweep'),200)" autocomplete="off">
+            <div class="suggest-list" id="oc-sweep-suggest" style="display:none"></div>
+          </div>
+        </div>
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:#52c987">🛡 ESCAPES</div>
+          <div id="oc-escape-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="oc-escape-input" placeholder="Escape you made..." oninput="debriefSuggest('escape',this.value)" onblur="setTimeout(()=>debriefHideSuggest('escape'),200)" autocomplete="off">
+            <div class="suggest-list" id="oc-escape-suggest" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Takedowns full width -->
+      <div class="outcome-col" style="margin-bottom:10px">
+        <div class="outcome-col-label" style="color:#34d399">↑ TAKEDOWNS / TRIPS</div>
+        <div id="oc-td-chips"></div>
+        <div style="position:relative">
+          <input class="outcome-input" id="oc-td-input" placeholder="Takedown you scored..." oninput="debriefSuggest('td',this.value)" onblur="setTimeout(()=>debriefHideSuggest('td'),200)" autocomplete="off">
+          <div class="suggest-list" id="oc-td-suggest" style="display:none"></div>
+        </div>
+      </div>
+
+      <!-- Gas tank -->
+      <div class="debrief-block">
+        <div class="debrief-block-label">Gas Tank</div>
+        <div class="gas-tank-row">
+          <button type="button" class="gas-btn" data-val="gassed"  onclick="setGasTank(this)">💀 GASSED</button>
+          <button type="button" class="gas-btn" data-val="pushed"  onclick="setGasTank(this)">😤 PUSHED IT</button>
+          <button type="button" class="gas-btn" data-val="good"    onclick="setGasTank(this)">✅ FELT GOOD</button>
+          <button type="button" class="gas-btn" data-val="fresh"   onclick="setGasTank(this)">⚡ FRESH</button>
+        </div>
+        <input type="hidden" id="gas-tank-val" value="">
+      </div>
+
+      <!-- Reflections -->
       <div class="form-row">
-        <div class="form-field"><label>Mistakes / Gaps to Fix</label><textarea id="f-mistakes" placeholder="e.g. losing grips when tired..."></textarea></div>
-        <div class="form-field"><label>Opponent Patterns I Noticed</label><textarea id="f-patterns" placeholder="e.g. bigger guys like to flatten me out..."></textarea></div>
+        <div class="form-field"><label>What clicked</label><input id="f-clicked" placeholder="e.g. hip entry on the leg drag..."></div>
+        <div class="form-field"><label>What to fix</label><input id="f-fix" placeholder="e.g. keeping back control when tired..."></div>
       </div>
     </div>
     <div class="form-section" id="online-notes-section" style="display:none">
@@ -1011,6 +1115,126 @@ function positionOpts(family, sel) {
   return '<option value="">Select position...</option>' +
     subs.map(p=>`<option${p===sel?' selected':''}>${p}</option>`).join('');
 }
+// ─── ROUNDS DEBRIEF ─────────────────────────────────────────────────────────
+const BELT_COLORS = { white:'#d8d8d8', blue:'#4da6ff', purple:'#a78bfa', brown:'#a0522d', black:'#555' };
+const GAS_LABELS  = { gassed:'💀 Gassed', pushed:'😤 Pushed it', good:'✅ Felt good', fresh:'⚡ Fresh' };
+const OC_TYPES    = ['hit','caught','sweep','escape','td'];
+const OC_SUGGEST_POOL = {
+  hit:    ()=>[...MOVE_TREE['Submissions']],
+  caught: ()=>[...MOVE_TREE['Submissions']],
+  sweep:  ()=>[...MOVE_TREE['Foundational Guards'],...MOVE_TREE['Open Guard Family'],...MOVE_TREE['Exotic / Advanced Guards']],
+  escape: ()=>[...MOVE_TREE['Escapes']],
+  td:     ()=>[...MOVE_TREE['Takedowns']],
+};
+
+function togglePartnerForm() {
+  const f=document.getElementById('partner-mini-form');
+  f.style.display = f.style.display==='none' ? 'flex' : 'none';
+  if (f.style.display!=='none') document.getElementById('pf-name').focus();
+}
+function confirmPartner() {
+  const name=document.getElementById('pf-name').value.trim();
+  const belt=document.getElementById('pf-belt').value;
+  addPartnerChip(name, belt);
+  document.getElementById('pf-name').value='';
+  document.getElementById('partner-mini-form').style.display='none';
+}
+function addPartnerChip(name, belt) {
+  const container=document.getElementById('debrief-partners');
+  const chip=document.createElement('span');
+  chip.className='partner-chip';
+  chip.dataset.name=name; chip.dataset.belt=belt;
+  const color=BELT_COLORS[belt]||'#888';
+  chip.innerHTML=`<span class="belt-dot" style="background:${color}"></span>${esc(name||belt+' belt')}<button class="oc-chip-x" type="button" onclick="this.closest('.partner-chip').remove()">×</button>`;
+  container.appendChild(chip);
+}
+
+function debriefSuggest(type, val) {
+  const suggest=document.getElementById('oc-'+type+'-suggest');
+  if (!suggest) return;
+  if (!val||val.length<1) { suggest.style.display='none'; return; }
+  const pool=[...(OC_SUGGEST_POOL[type]?.()||[]), ...getTechniqueNames()];
+  const unique=[...new Set(pool)];
+  const matches=unique.filter(n=>n.toLowerCase().includes(val.toLowerCase())).slice(0,7);
+  if (!matches.length) { suggest.style.display='none'; return; }
+  suggest.innerHTML=matches.map(n=>`<div class="suggest-item" onclick="debriefAddChip('${type}',${JSON.stringify(n)})">${esc(n)}</div>`).join('');
+  suggest.style.display='block';
+}
+function debriefHideSuggest(type) {
+  const s=document.getElementById('oc-'+type+'-suggest');
+  if (s) s.style.display='none';
+}
+function debriefAddChip(type, val) {
+  const input=document.getElementById('oc-'+type+'-input');
+  const suggest=document.getElementById('oc-'+type+'-suggest');
+  const container=document.getElementById('oc-'+type+'-chips');
+  if (!container) return;
+  if (suggest) suggest.style.display='none';
+  const name=(val||(input?.value.trim()));
+  if (!name) return;
+  if (input) input.value='';
+  const existing=[...container.querySelectorAll('[data-oc-val]')].map(e=>e.dataset.ocVal);
+  if (existing.includes(name)) return;
+  const chip=document.createElement('span');
+  chip.className=`outcome-chip oc-chip-${type}`;
+  chip.dataset.ocVal=name;
+  chip.innerHTML=`${esc(name)}<button class="oc-chip-x" type="button" onclick="this.closest('.outcome-chip').remove()">×</button>`;
+  container.appendChild(chip);
+}
+// allow enter key on outcome inputs
+document.addEventListener('keydown', e=>{
+  OC_TYPES.forEach(type=>{
+    const inp=document.getElementById('oc-'+type+'-input');
+    if (e.target===inp && e.key==='Enter') { e.preventDefault(); debriefAddChip(type, inp.value.trim()); }
+  });
+  const pn=document.getElementById('pf-name');
+  if (e.target===pn && e.key==='Enter') { e.preventDefault(); confirmPartner(); }
+});
+
+function setGasTank(btn) {
+  document.querySelectorAll('.gas-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('gas-tank-val').value=btn.dataset.val;
+}
+
+function getDebriefData() {
+  const partners=[...document.querySelectorAll('#debrief-partners .partner-chip')].map(c=>({name:c.dataset.name||'',belt:c.dataset.belt||''}));
+  const outcome=type=>[...document.querySelectorAll('#oc-'+type+'-chips [data-oc-val]')].map(c=>c.dataset.ocVal);
+  return {
+    partners,
+    hit:    outcome('hit'),
+    caught: outcome('caught'),
+    sweep:  outcome('sweep'),
+    escape: outcome('escape'),
+    td:     outcome('td'),
+    gas:    document.getElementById('gas-tank-val')?.value||'',
+    clicked:document.getElementById('f-clicked')?.value.trim()||'',
+    fix:    document.getElementById('f-fix')?.value.trim()||'',
+  };
+}
+function restoreDebrief(rounds) {
+  // clear
+  document.getElementById('debrief-partners').innerHTML='';
+  OC_TYPES.forEach(t=>{ const c=document.getElementById('oc-'+t+'-chips'); if(c) c.innerHTML=''; });
+  document.querySelectorAll('.gas-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('gas-tank-val').value='';
+  document.getElementById('f-clicked').value='';
+  document.getElementById('f-fix').value='';
+  if (!rounds) return;
+  // new format
+  if (Array.isArray(rounds.partners)) rounds.partners.forEach(p=>addPartnerChip(p.name,p.belt));
+  OC_TYPES.forEach(t=>{ (rounds[t]||[]).forEach(v=>debriefAddChip(t,v)); });
+  if (rounds.gas) {
+    const btn=document.querySelector(`.gas-btn[data-val="${rounds.gas}"]`);
+    if (btn) { btn.classList.add('active'); document.getElementById('gas-tank-val').value=rounds.gas; }
+  }
+  if (rounds.clicked) document.getElementById('f-clicked').value=rounds.clicked;
+  if (rounds.fix) document.getElementById('f-fix').value=rounds.fix;
+  // old format backward compat
+  if (rounds.worked && !rounds.clicked) document.getElementById('f-clicked').value=rounds.worked;
+  if (rounds.mistakes && !rounds.fix) document.getElementById('f-fix').value=rounds.mistakes;
+}
+
 function updatePositionOpts(techId) {
   const fam = document.getElementById('tfam-'+techId)?.value || '';
   const sel = document.getElementById('tpos-'+techId);
@@ -1287,12 +1511,7 @@ function saveEntry() {
   if (isClass) {
     entry.instructor = document.getElementById('f-instructor').value.trim();
     entry.classType = document.getElementById('f-classtype').value;
-    entry.rounds = {
-      positions: document.getElementById('f-positions').value.trim(),
-      worked: document.getElementById('f-worked').value.trim(),
-      mistakes: document.getElementById('f-mistakes').value.trim(),
-      patterns: document.getElementById('f-patterns').value.trim(),
-    };
+    entry.rounds = getDebriefData();
   } else {
     entry.instructor = document.getElementById('f-online-instructor').value.trim();
     entry.sourceType = document.getElementById('f-sourcetype').value;
@@ -1330,12 +1549,7 @@ function editEntry(id) {
     document.getElementById('f-date').value = e.date || '';
     document.getElementById('f-instructor').value = e.instructor || '';
     document.getElementById('f-classtype').value = e.classType || '';
-    if (e.rounds) {
-      document.getElementById('f-positions').value = e.rounds.positions || '';
-      document.getElementById('f-worked').value = e.rounds.worked || '';
-      document.getElementById('f-mistakes').value = e.rounds.mistakes || '';
-      document.getElementById('f-patterns').value = e.rounds.patterns || '';
-    }
+    restoreDebrief(e.rounds || null);
     document.getElementById('insights-container').innerHTML = '';
     (e.keyInsights || []).forEach(i => addInsight(i));
   } else {
@@ -1361,8 +1575,8 @@ function cancelEdit() {
 }
 
 function clearForm() {
-  ['f-date','f-instructor','f-classtype','f-date-online','f-online-instructor','f-sourcetype','f-url',
-   'f-positions','f-worked','f-mistakes','f-patterns','f-online-notes'].forEach(id => {
+  restoreDebrief(null);
+  ['f-date','f-instructor','f-classtype','f-date-online','f-online-instructor','f-sourcetype','f-url','f-online-notes'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value='';
   });
   document.getElementById('techniques-container').innerHTML='';
@@ -1431,14 +1645,36 @@ function renderTimeline() {
       <div class="insights-display">
         ${e.keyInsights.map(i=>`<div class="insight-display"><span class="insight-display-bullet">▸</span><span class="insight-display-text">${esc(i.text)}</span></div>`).join('')}
       </div>` : '';
-    const roundsHTML = e.type==='class'&&e.rounds ? `
-      <div class="entry-section-label">Open Rounds</div>
-      <div class="rounds-grid">
-        ${e.rounds.positions?`<div class="round-box"><div class="round-box-label">Positions</div><p>${esc(e.rounds.positions)}</p></div>`:''}
-        ${e.rounds.worked?`<div class="round-box"><div class="round-box-label">Worked</div><p>${esc(e.rounds.worked)}</p></div>`:''}
-        ${e.rounds.mistakes?`<div class="round-box"><div class="round-box-label">Mistakes</div><p>${esc(e.rounds.mistakes)}</p></div>`:''}
-        ${e.rounds.patterns?`<div class="round-box"><div class="round-box-label">Patterns</div><p>${esc(e.rounds.patterns)}</p></div>`:''}
-      </div>` : '';
+    const roundsHTML = (()=>{
+      if (e.type!=='class'||!e.rounds) return '';
+      const r=e.rounds;
+      // new debrief format
+      if (r.hit||r.caught||r.sweep||r.escape||r.td||r.partners||r.gas||r.clicked||r.fix) {
+        const partnerRow=r.partners?.length?`<div style="display:flex;gap:5px;align-items:center;margin-bottom:8px;flex-wrap:wrap"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px">ROLLED WITH</span>${r.partners.map(p=>`<span class="partner-chip"><span class="belt-dot" style="background:${BELT_COLORS[p.belt]||'#888'}"></span>${esc(p.name||p.belt+' belt')}</span>`).join('')}</div>`:''
+        const outcomes=[
+          r.hit?.length    ?`<span style="color:#f47272;font-family:'DM Mono',monospace;font-size:10px">⚡ ${r.hit.map(esc).join(', ')}</span>`:'',
+          r.caught?.length ?`<span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:10px">☠ ${r.caught.map(esc).join(', ')}</span>`:'',
+          r.sweep?.length  ?`<span style="color:#4da6ff;font-family:'DM Mono',monospace;font-size:10px">↕ ${r.sweep.map(esc).join(', ')}</span>`:'',
+          r.escape?.length ?`<span style="color:#52c987;font-family:'DM Mono',monospace;font-size:10px">🛡 ${r.escape.map(esc).join(', ')}</span>`:'',
+          r.td?.length     ?`<span style="color:#34d399;font-family:'DM Mono',monospace;font-size:10px">↑ ${r.td.map(esc).join(', ')}</span>`:'',
+        ].filter(Boolean).join('');
+        return `<div class="entry-section-label">Rounds Debrief</div>
+        <div style="padding:8px 0">
+          ${partnerRow}
+          ${outcomes?`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:${r.clicked||r.fix||r.gas?'7':'0'}px">${outcomes}</div>`:''}
+          ${r.clicked?`<div style="font-size:11px;color:var(--label);margin-top:3px">✓ ${esc(r.clicked)}</div>`:''}
+          ${r.fix?`<div style="font-size:11px;color:var(--label);margin-top:2px">△ ${esc(r.fix)}</div>`:''}
+          ${r.gas?`<div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:5px">${GAS_LABELS[r.gas]||''}</div>`:''}
+        </div>`;
+      }
+      // old format backward compat
+      return `<div class="entry-section-label">Open Rounds</div><div class="rounds-grid">
+        ${r.positions?`<div class="round-box"><div class="round-box-label">Positions</div><p>${esc(r.positions)}</p></div>`:''}
+        ${r.worked?`<div class="round-box"><div class="round-box-label">Worked</div><p>${esc(r.worked)}</p></div>`:''}
+        ${r.mistakes?`<div class="round-box"><div class="round-box-label">Mistakes</div><p>${esc(r.mistakes)}</p></div>`:''}
+        ${r.patterns?`<div class="round-box"><div class="round-box-label">Patterns</div><p>${esc(r.patterns)}</p></div>`:''}
+      </div>`;
+    })();
     const safeUrl = e.url && /^https?:\/\//i.test(e.url) ? e.url : '';
     const onlineExtra = e.type==='online' ? `
       ${safeUrl?`<div class="entry-section-label">Source</div><a class="source-link" href="${safeUrl}" target="_blank" rel="noopener">${esc(e.url)}</a>`:''}
@@ -1675,6 +1911,22 @@ function buildLayout() {
     if (!groups[cat]) groups[cat]=[];
     groups[cat].push(item);
   });
+  // Sort items within each group so linked pairs spawn adjacent to each other
+  for (const cat in groups) {
+    const items = groups[cat];
+    const sorted = [], used = new Set();
+    items.forEach((item, i) => {
+      if (used.has(i)) return;
+      sorted.push(item); used.add(i);
+      (item.tech.links || []).forEach(lname => {
+        const j = items.findIndex((it, k) => !used.has(k) && it.tech.name === lname);
+        if (j !== -1) { sorted.push(items[j]); used.add(j); }
+      });
+    });
+    items.forEach((item, i) => { if (!used.has(i)) sorted.push(item); });
+    groups[cat] = sorted;
+  }
+
   const cats=Object.keys(groups);
   if (!cats.length) return;
   const angleStep=(Math.PI*2)/cats.length;
@@ -1719,6 +1971,27 @@ function drawMap() {
     ctx.strokeStyle=n.color+'28'; ctx.lineWidth=1.5; ctx.stroke();
   });
 
+  // Cross-cluster chain indicators (faint dashed lines between cluster nodes that share links)
+  const clusterLinkDrawn = new Set();
+  catNodes.forEach(catNode => {
+    catNode.items.forEach(item => {
+      (item.tech.links||[]).forEach(lname => {
+        const targetCat = catNodes.find(cn => cn !== catNode && cn.items.some(it => it.tech.name === lname));
+        if (!targetCat) return;
+        const key = [catNode.label, targetCat.label].sort().join('||');
+        if (clusterLinkDrawn.has(key)) return;
+        clusterLinkDrawn.add(key);
+        ctx.save();
+        ctx.setLineDash([3,6]);
+        ctx.strokeStyle = '#c8773a55';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(catNode.x,catNode.y); ctx.lineTo(targetCat.x,targetCat.y);
+        ctx.stroke();
+        ctx.restore();
+      });
+    });
+  });
+
   // Draw edges cat→tech (if expanded)
   catNodes.forEach(n=>{
     if (!n.expanded) return;
@@ -1729,7 +2002,8 @@ function drawMap() {
   });
 
   // Tech nodes
-  mapNodes.filter(n=>n.type==='tech'&&n.visible).forEach(n=>{
+  const visTechNodes = mapNodes.filter(n=>n.type==='tech'&&n.visible);
+  visTechNodes.forEach(n=>{
     const hov=mapHover===n;
     ctx.beginPath(); ctx.arc(n.x,n.y,n.r+(hov?3:0),0,Math.PI*2);
     ctx.fillStyle=hov?n.color+'20':'#161616';
@@ -1739,6 +2013,36 @@ function drawMap() {
     ctx.font=(hov?'500':'400')+' 9px "DM Sans",sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
     wrapText(ctx,n.label,n.x,n.y,n.r*1.6,10);
+  });
+
+  // Chain lines between linked tech nodes (visible when both clusters expanded)
+  const chainDrawn = new Set();
+  visTechNodes.forEach(n => {
+    (n.item.tech.links||[]).forEach(lname => {
+      const key = [n.item.tech.name, lname].sort().join('|');
+      if (chainDrawn.has(key)) return;
+      const target = visTechNodes.find(t => t.item.tech.name === lname);
+      if (!target) return;
+      chainDrawn.add(key);
+      // Draw dashed chain line
+      ctx.save();
+      ctx.setLineDash([5, 4]);
+      ctx.strokeStyle = '#c8773a';
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.65;
+      ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(target.x,target.y); ctx.stroke();
+      // Midpoint label
+      const mx=(n.x+target.x)/2, my=(n.y+target.y)/2;
+      ctx.setLineDash([]);
+      ctx.globalAlpha=0.85;
+      ctx.fillStyle='#1a1410';
+      ctx.beginPath(); ctx.arc(mx,my,8,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle='#c8773a'; ctx.lineWidth=1; ctx.stroke();
+      ctx.fillStyle='#c8773a';
+      ctx.font='10px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('⛓',mx,my+1);
+      ctx.restore();
+    });
   });
 
   // Cat nodes (on top)
@@ -1757,7 +2061,8 @@ function drawMap() {
     else { ctx.fillText(words[0].toUpperCase(),n.x,n.y-9); ctx.fillText(words[1].toUpperCase(),n.x,n.y+3); }
     ctx.fillStyle='#555'; ctx.font='9px "DM Mono",monospace';
     const cnt=n.items.length;
-    ctx.fillText(cnt+(cnt===1?' tech':' techs'),n.x,n.y+(words.length>1?17:11));
+    const hasLinks=n.items.some(it=>(it.tech.links||[]).length>0);
+    ctx.fillText(cnt+(cnt===1?' tech':' techs')+(hasLinks?' ⛓':''),n.x,n.y+(words.length>1?17:11));
   });
 
   ctx.restore();
