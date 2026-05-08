@@ -1,0 +1,237 @@
+{
+  "version": 1,
+  "exported": "2026-05-08T06:32:10.422Z",
+  "exportedReadable": "5/7/2026, 11:32:10 PM",
+  "entryCount": 3,
+  "data": {
+    "entries": [
+      {
+        "id": 1778221825788,
+        "type": "class",
+        "date": "2026-05-08",
+        "techniques": [],
+        "keyInsights": [],
+        "instructor": "",
+        "classType": "",
+        "rounds": {
+          "partners": [],
+          "hit": [],
+          "caught": [],
+          "sweep": [],
+          "escape": [],
+          "td": [],
+          "gas": "",
+          "clicked": "",
+          "fix": ""
+        }
+      },
+      {
+        "id": 1778221807150,
+        "type": "class",
+        "date": "2026-05-08",
+        "techniques": [
+          {
+            "name": "Half Guard Pass",
+            "family": "Top Game",
+            "position": "Smash Pass",
+            "gi": "gi",
+            "cat": "Top Game",
+            "startPos": "Half Guard",
+            "endPos": "Side Control",
+            "method": "",
+            "concept": "Need to sit back far enough that my shoulder line is under the knee line in opponents half guard",
+            "steps": "Establish over under grip on pant leg,thru knee shield,  and grab opponent lapel around collar bone level. Keep elbow tucked\nSlide knee down to opponents heel in the half guard. Shoulders should now be below knee line.\npunch pant leg down, pull lapel grip and Tripod up and free knee to escape from half guard. you may need to get creative with knee movement to free knee . You can use lapel grip to steer opponents head for stronger pass\nclear knee line and get near sit hip Knee into J-point.",
+            "stepsList": [
+              {
+                "text": "Establish over under grip on pant leg,thru knee shield,  and grab opponent lapel around collar bone level. Keep elbow tucked",
+                "photo": null
+              },
+              {
+                "text": "Slide knee down to opponents heel in the half guard. Shoulders should now be below knee line.",
+                "photo": null
+              },
+              {
+                "text": "punch pant leg down, pull lapel grip and Tripod up and free knee to escape from half guard. you may need to get creative with knee movement to free knee . You can use lapel grip to steer opponents head for stronger pass",
+                "photo": null
+              },
+              {
+                "text": "clear knee line and get near sit hip Knee into J-point.",
+                "photo": null
+              }
+            ],
+            "drill": false,
+            "links": []
+          },
+          {
+            "name": "Side Pin to Back Takel Gift Wrap with submissions",
+            "family": "Top Game",
+            "position": "Side Control",
+            "gi": "both",
+            "cat": "Top Game",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "Your opponent is gonna try to go belly down for an escape but you need to react faster",
+            "steps": "from the side pin, release knee grip, take a big step around opponents back landing somewhere near shoulder blades\nat the same time take top arm and place elbow at J point and throw the other leg behind you. its one big spin move\nestablish gift wrap and control",
+            "stepsList": [
+              {
+                "text": "from the side pin, release knee grip, take a big step around opponents back landing somewhere near shoulder blades",
+                "photo": null
+              },
+              {
+                "text": "at the same time take top arm and place elbow at J point and throw the other leg behind you. its one big spin move",
+                "photo": null
+              },
+              {
+                "text": "establish gift wrap and control",
+                "photo": null
+              }
+            ],
+            "drill": false,
+            "links": []
+          }
+        ],
+        "keyInsights": [
+          {
+            "text": "When passing from half guard with knee shield, get below the knee line",
+            "type": "detail",
+            "position": "Half Guard"
+          },
+          {
+            "text": "keep knee high on the head, keep elbow holstered and use the figure four to control movement.",
+            "type": "principle",
+            "position": "Gift Wrap"
+          }
+        ],
+        "instructor": "Mike Prudencios",
+        "classType": "Mixed",
+        "rounds": {
+          "partners": [],
+          "hit": [],
+          "caught": [],
+          "sweep": [],
+          "escape": [],
+          "td": [],
+          "gas": "",
+          "clicked": "",
+          "fix": ""
+        }
+      },
+      {
+        "id": 1777702180031,
+        "type": "class",
+        "date": "2026-05-02",
+        "techniques": [
+          {
+            "name": "Bow and Arrrow Choke w",
+            "cat": "Submissions",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "Lean/fall TOWARDS the leg that is under hooked. DO NOT sit back like a conventional bow and arrow",
+            "steps": "Establish a good side control with a gift wrap. Can grab write or go writ over wrist.\nSecure belt line hook\nFrom figure 4 , use tod punch down and away to trap, and use other hand to secure collar grip. Use 2 fingers and index thumb. Can use other hand to pull slack out of collar\nOnce secure. LEAN/FALL towards the legs, then under hook top leg.\nTry to lock your guard or at cover the shoulder  that’s of the ground\nCompress legs while pulling the collar to sink choke",
+            "stepsList": [
+              {
+                "text": "Establish a good side control with a gift wrap. Can grab write or go writ over wrist.",
+                "photo": null
+              },
+              {
+                "text": "Secure belt line hook",
+                "photo": null
+              },
+              {
+                "text": "From figure 4 , use tod punch down and away to trap, and use other hand to secure collar grip. Use 2 fingers and index thumb. Can use other hand to pull slack out of collar",
+                "photo": null
+              },
+              {
+                "text": "Once secure. LEAN/FALL towards the legs, then under hook top leg.",
+                "photo": null
+              },
+              {
+                "text": "Try to lock your guard or at cover the shoulder  that’s of the ground",
+                "photo": null
+              },
+              {
+                "text": "Compress legs while pulling the collar to sink choke",
+                "photo": null
+              }
+            ],
+            "drill": false
+          },
+          {
+            "name": "Armband from Bow and arrow choke",
+            "cat": "Submissions",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "",
+            "steps": "From the bow and arrow choke,  look for arm and hook it\nMaintain undercooked leg and arm and apply and arm bar",
+            "stepsList": [
+              {
+                "text": "From the bow and arrow choke,  look for arm and hook it",
+                "photo": null
+              },
+              {
+                "text": "Maintain undercooked leg and arm and apply and arm bar",
+                "photo": null
+              }
+            ],
+            "drill": false
+          }
+        ],
+        "instructor": "Mike Prudencio",
+        "classType": "Technique",
+        "rounds": {
+          "positions": "",
+          "worked": "",
+          "mistakes": "",
+          "patterns": ""
+        }
+      }
+    ],
+    "drilled": [],
+    "positionNotes": {},
+    "debriefs": [
+      {
+        "id": "1778220686906",
+        "date": "2026-05-07",
+        "partners": [
+          {
+            "name": "",
+            "belt": "black"
+          },
+          {
+            "name": "",
+            "belt": "black"
+          },
+          {
+            "name": "",
+            "belt": "white"
+          },
+          {
+            "name": "",
+            "belt": "white"
+          }
+        ],
+        "hit": [
+          "Armbar"
+        ],
+        "caught": [],
+        "sweep": [
+          "John Wayne Sweep",
+          "K-Guard Sweep"
+        ],
+        "escape": [
+          "Elbow Escape (Shrimp)",
+          "Hip Escape",
+          "Underhook Belly Down"
+        ],
+        "td": [],
+        "gas": "good",
+        "clicked": "moving before opponent starts his game. also hitting the move from side control to back side control",
+        "fix": "need to react to a side pin or take down more quickly. dont let them settle in"
+      }
+    ],
+    "sequences": []
+  }
+}
