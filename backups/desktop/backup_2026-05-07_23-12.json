@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "exported": "2026-05-08T06:12:26.971Z",
+  "exportedReadable": "5/7/2026, 11:12:26 PM",
+  "entryCount": 0,
+  "data": {
+    "entries": [],
+    "drilled": [],
+    "positionNotes": {},
+    "debriefs": [
+      {
+        "id": "1778220686906",
+        "date": "2026-05-07",
+        "partners": [
+          {
+            "name": "",
+            "belt": "black"
+          },
+          {
+            "name": "",
+            "belt": "black"
+          },
+          {
+            "name": "",
+            "belt": "white"
+          },
+          {
+            "name": "",
+            "belt": "white"
+          }
+        ],
+        "hit": [
+          "Armbar"
+        ],
+        "caught": [],
+        "sweep": [
+          "John Wayne Sweep",
+          "K-Guard Sweep"
+        ],
+        "escape": [
+          "Elbow Escape (Shrimp)",
+          "Hip Escape",
+          "Underhook Belly Down"
+        ],
+        "td": [],
+        "gas": "good",
+        "clicked": "moving before opponent starts his game. also hitting the move from side control to back side control",
+        "fix": "need to react to a side pin or take down more quickly. dont let them settle in"
+      }
+    ]
+  }
+}
