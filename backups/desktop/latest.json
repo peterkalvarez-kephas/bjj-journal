@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "exported": "2026-05-11T03:16:05.414Z",
-  "exportedReadable": "5/10/2026, 8:16:05 PM",
-  "entryCount": 1,
+  "exported": "2026-05-11T03:43:58.456Z",
+  "exportedReadable": "5/10/2026, 8:43:58 PM",
+  "entryCount": 4,
   "data": {
     "entries": [
       {
@@ -33,19 +33,242 @@
         "notes": "Imported from Instructional note: Elbow Escape from Mount — Variation 5",
         "attachments": [],
         "rounds": null
+      },
+      {
+        "id": 1778221825788,
+        "type": "class",
+        "date": "2026-05-08",
+        "techniques": [],
+        "keyInsights": [],
+        "instructor": "",
+        "classType": "",
+        "rounds": {
+          "partners": [],
+          "hit": [],
+          "caught": [],
+          "sweep": [],
+          "escape": [],
+          "td": [],
+          "gas": "",
+          "clicked": "",
+          "fix": ""
+        }
+      },
+      {
+        "id": 1778221807150,
+        "type": "class",
+        "date": "2026-05-08",
+        "techniques": [
+          {
+            "name": "Half Guard Pass",
+            "family": "Top Game",
+            "position": "Smash Pass",
+            "gi": "gi",
+            "cat": "Top Game",
+            "startPos": "Half Guard",
+            "endPos": "Side Control",
+            "method": "",
+            "concept": "Need to sit back far enough that my shoulder line is under the knee line in opponents half guard",
+            "steps": "Establish over under grip on pant leg,thru knee shield,  and grab opponent lapel around collar bone level. Keep elbow tucked\nSlide knee down to opponents heel in the half guard. Shoulders should now be below knee line.\npunch pant leg down, pull lapel grip and Tripod up and free knee to escape from half guard. you may need to get creative with knee movement to free knee . You can use lapel grip to steer opponents head for stronger pass\nclear knee line and get near sit hip Knee into J-point.",
+            "stepsList": [
+              {
+                "text": "Establish over under grip on pant leg,thru knee shield,  and grab opponent lapel around collar bone level. Keep elbow tucked",
+                "photo": null
+              },
+              {
+                "text": "Slide knee down to opponents heel in the half guard. Shoulders should now be below knee line.",
+                "photo": null
+              },
+              {
+                "text": "punch pant leg down, pull lapel grip and Tripod up and free knee to escape from half guard. you may need to get creative with knee movement to free knee . You can use lapel grip to steer opponents head for stronger pass",
+                "photo": null
+              },
+              {
+                "text": "clear knee line and get near sit hip Knee into J-point.",
+                "photo": null
+              }
+            ],
+            "drill": false,
+            "links": []
+          },
+          {
+            "name": "Side Pin to Back Takel Gift Wrap with submissions",
+            "family": "Top Game",
+            "position": "Side Control",
+            "gi": "both",
+            "cat": "Top Game",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "Your opponent is gonna try to go belly down for an escape but you need to react faster",
+            "steps": "from the side pin, release knee grip, take a big step around opponents back landing somewhere near shoulder blades\nat the same time take top arm and place elbow at J point and throw the other leg behind you. its one big spin move\nestablish gift wrap and control",
+            "stepsList": [
+              {
+                "text": "from the side pin, release knee grip, take a big step around opponents back landing somewhere near shoulder blades",
+                "photo": null
+              },
+              {
+                "text": "at the same time take top arm and place elbow at J point and throw the other leg behind you. its one big spin move",
+                "photo": null
+              },
+              {
+                "text": "establish gift wrap and control",
+                "photo": null
+              }
+            ],
+            "drill": false,
+            "links": []
+          }
+        ],
+        "keyInsights": [
+          {
+            "text": "When passing from half guard with knee shield, get below the knee line",
+            "type": "detail",
+            "position": "Half Guard"
+          },
+          {
+            "text": "keep knee high on the head, keep elbow holstered and use the figure four to control movement.",
+            "type": "principle",
+            "position": "Gift Wrap"
+          }
+        ],
+        "instructor": "Mike Prudencios",
+        "classType": "Mixed",
+        "rounds": {
+          "partners": [],
+          "hit": [],
+          "caught": [],
+          "sweep": [],
+          "escape": [],
+          "td": [],
+          "gas": "",
+          "clicked": "",
+          "fix": ""
+        }
+      },
+      {
+        "id": 1777702180031,
+        "type": "class",
+        "date": "2026-05-02",
+        "techniques": [
+          {
+            "name": "Bow and Arrrow Choke w",
+            "cat": "Submissions",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "Lean/fall TOWARDS the leg that is under hooked. DO NOT sit back like a conventional bow and arrow",
+            "steps": "Establish a good side control with a gift wrap. Can grab write or go writ over wrist.\nSecure belt line hook\nFrom figure 4 , use tod punch down and away to trap, and use other hand to secure collar grip. Use 2 fingers and index thumb. Can use other hand to pull slack out of collar\nOnce secure. LEAN/FALL towards the legs, then under hook top leg.\nTry to lock your guard or at cover the shoulder  that’s of the ground\nCompress legs while pulling the collar to sink choke",
+            "stepsList": [
+              {
+                "text": "Establish a good side control with a gift wrap. Can grab write or go writ over wrist.",
+                "photo": null
+              },
+              {
+                "text": "Secure belt line hook",
+                "photo": null
+              },
+              {
+                "text": "From figure 4 , use tod punch down and away to trap, and use other hand to secure collar grip. Use 2 fingers and index thumb. Can use other hand to pull slack out of collar",
+                "photo": null
+              },
+              {
+                "text": "Once secure. LEAN/FALL towards the legs, then under hook top leg.",
+                "photo": null
+              },
+              {
+                "text": "Try to lock your guard or at cover the shoulder  that’s of the ground",
+                "photo": null
+              },
+              {
+                "text": "Compress legs while pulling the collar to sink choke",
+                "photo": null
+              }
+            ],
+            "drill": false
+          },
+          {
+            "name": "Armband from Bow and arrow choke",
+            "cat": "Submissions",
+            "startPos": "Side Control",
+            "endPos": "Side Control",
+            "method": "Submission",
+            "concept": "",
+            "steps": "From the bow and arrow choke,  look for arm and hook it\nMaintain undercooked leg and arm and apply and arm bar",
+            "stepsList": [
+              {
+                "text": "From the bow and arrow choke,  look for arm and hook it",
+                "photo": null
+              },
+              {
+                "text": "Maintain undercooked leg and arm and apply and arm bar",
+                "photo": null
+              }
+            ],
+            "drill": false
+          }
+        ],
+        "instructor": "Mike Prudencio",
+        "classType": "Technique",
+        "rounds": {
+          "positions": "",
+          "worked": "",
+          "mistakes": "",
+          "patterns": ""
+        }
       }
     ],
     "drilled": [],
     "positionNotes": {},
     "customMoves": [],
-    "debriefs": [],
+    "debriefs": [
+      {
+        "id": "1778220686906",
+        "date": "2026-05-07",
+        "partners": [
+          {
+            "name": "",
+            "belt": "black"
+          },
+          {
+            "name": "",
+            "belt": "black"
+          },
+          {
+            "name": "",
+            "belt": "white"
+          },
+          {
+            "name": "",
+            "belt": "white"
+          }
+        ],
+        "hit": [
+          "Armbar"
+        ],
+        "caught": [],
+        "sweep": [
+          "John Wayne Sweep",
+          "K-Guard Sweep"
+        ],
+        "escape": [
+          "Elbow Escape (Shrimp)",
+          "Hip Escape",
+          "Underhook Belly Down"
+        ],
+        "td": [],
+        "gas": "good",
+        "clicked": "moving before opponent starts his game. also hitting the move from side control to back side control",
+        "fix": "need to react to a side pin or take down more quickly. dont let them settle in"
+      }
+    ],
     "instructionalNotes": [
       {
         "id": "gff_t01_2_9",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "2",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 2,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 2",
         "chapterTitle": "Ch 10",
         "name": "Elbow Escape from Mount — Variation 5",
         "goal": "Use the rising shrimp to keep frames intact and create enough space to thread a leg through to guard.",
@@ -73,14 +296,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 9
       },
       {
         "id": "gff_t02_2_10",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "2",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 2,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 2",
         "chapterTitle": "Ch 11",
         "name": "Elbow Escape from Mount — Variation 6",
         "goal": "Prevent underhook attacks while creating space to shimmy out to guard.",
@@ -108,14 +334,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 10
       },
       {
         "id": "gff_t03_2_11",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "2",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 2,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 2",
         "chapterTitle": "Ch 12",
         "name": "Elbow Escape from Mount — Variation 7",
         "goal": "Use the cross face pressure against itself by shrimping into it, shifting opponent off and freeing the knee.",
@@ -143,14 +372,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 11
       },
       {
         "id": "gff_t04_3_0",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 1",
         "name": "Ankle Trap Method 1",
         "goal": "Intercept the mount transition by trapping the foot as it becomes exposed during the pass.",
@@ -178,14 +410,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 0
       },
       {
         "id": "gff_t05_3_1",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 2",
         "name": "Ankle Trap Method 2 — Straight to Knee",
         "goal": "Target the trailing knee directly as it becomes light and vulnerable during the transition.",
@@ -213,14 +448,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 1
       },
       {
         "id": "gff_t06_3_8",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 9",
         "name": "Elbow Escape from Side Pin — General Framework",
         "goal": "Get your limbs inside the wedges your opponent creates and recover guard.",
@@ -252,14 +490,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 8
       },
       {
         "id": "gff_t07_3_9",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 10",
         "name": "Elbow Escape from Side Pin 2 — Head Control",
         "goal": "Move opponent's head to the same side as their hips to make knee wedge entry much easier.",
@@ -287,14 +528,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 9
       },
       {
         "id": "gff_t08_3_10",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 11",
         "name": "Elbow Escape from Side Pin 3 — Hip Line Entry",
         "goal": "Enter from the hip line, shrimp out, and introduce the knee.",
@@ -318,14 +562,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 10
       },
       {
         "id": "gff_t09_3_11",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 12",
         "name": "Elbow Escape from Side Pin 4 — Strong Cross Face",
         "goal": "Walk away to create space, forcing opponent to relieve pressure, then insert knee.",
@@ -357,14 +604,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 11
       },
       {
         "id": "gff_t10_3_14",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "3",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 3,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 3",
         "chapterTitle": "Ch 15",
         "name": "Elbow Escape from Side Pin 7 — Hand on Same Side Hip",
         "goal": "Shrimp and pummel the bicep to create space, bring knee inside the bicep.",
@@ -392,14 +642,17 @@
         "steps2": [],
         "bjjPos": "Side Pin",
         "giNoGi": "gi",
-        "updated": 1778123064159
+        "updated": 1778123064159,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 14
       },
       {
         "id": "gff_t11_4_0",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "4",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 4,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 4",
         "chapterTitle": "Ch 1",
         "name": "Knee Escapes from Side Pin 1 + 2 — Underhook to One Knee",
         "goal": "Escape the side pin with an underhook and get to one knee.",
@@ -427,14 +680,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 0
       },
       {
         "id": "gff_t12_4_2",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "4",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 4,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 4",
         "chapterTitle": "Ch 3",
         "name": "Knee Escape from Side Pin 3 — Underhook vs Resisting Opponent",
         "goal": "Use frames and forehead pressure to sink the underhook, then get to single leg.",
@@ -470,14 +726,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 2
       },
       {
         "id": "gff_t13_7_0",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "7",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 7,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 7",
         "chapterTitle": "Ch 1",
         "name": "Side Pin Sit Thru Escape 1 — Anticipating the Move",
         "goal": "Anticipate the sit thru and take your elbow to the mat before opponent can exploit it.",
@@ -509,14 +768,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 0
       },
       {
         "id": "gff_t14_7_2",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "7",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 7,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 7",
         "chapterTitle": "Ch 3",
         "name": "Side Pin Sit Thru Escape 2 — Failed to Anticipate",
         "goal": "Post against opponent's bicep and jaw to yank the trapped arm free, then recover guard.",
@@ -544,14 +806,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 2
       },
       {
         "id": "gff_t15_7_3",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
         "instructor": "John Danaher",
-        "volumeNum": "7",
-        "volumeTitle": "Pin Escapes & Turtle Escapes",
+        "volumeNum": 7,
+        "volumeTitle": "Pin Escapes & Turtle Escapes 7",
         "chapterTitle": "Ch 4",
         "name": "Side Pin Sit Thru Escape 2 — Reverse Sit Thru",
         "goal": "Fight for elbow position as opponent transitions and use shrimp to bring knee in.",
@@ -583,14 +848,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1775548491787
+        "updated": 1775548491787,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 3
       },
       {
         "id": "gff_1778131270103_26_0",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Closed Guard",
         "instructor": "John Danaher",
-        "volumeNum": "26",
-        "volumeTitle": "Back Attack & Escape",
+        "volumeNum": 26,
+        "volumeTitle": "Closed Guard 2",
         "chapterTitle": "Ch 1",
         "name": "Understanding A Closed Guard",
         "goal": "",
@@ -601,14 +869,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "both",
-        "updated": 1778131270103
+        "updated": 1778131270103,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 0
       },
       {
         "id": "gff_1778466971421_25_0",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Closed Guard",
         "instructor": "John Danaher",
-        "volumeNum": "25",
-        "volumeTitle": "Back Attack & Escape",
+        "volumeNum": 25,
+        "volumeTitle": "Closed Guard 1",
         "chapterTitle": "Ch 1",
         "name": "Closed Guard Overview",
         "goal": "",
@@ -619,14 +890,17 @@
         "steps2": [],
         "bjjPos": "Closed Guard",
         "giNoGi": "gi",
-        "updated": 1778467229952
+        "updated": 1778467229952,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 0
       },
       {
         "id": "gff_1778468040600_25_1",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Closed Guard",
         "instructor": "John Danaher",
-        "volumeNum": "25",
-        "volumeTitle": "Back Attack & Escape",
+        "volumeNum": 25,
+        "volumeTitle": "Closed Guard 1",
         "chapterTitle": "Ch 2",
         "name": "What Is The Central Message Of This Video?",
         "goal": "close guard is an offensive position, not a defensive position.  \ntop hip position , results in a mounted postion from a sweep\nhave access to back takes\ntop hip position also has access to lots of submission ( its like being in mount)",
@@ -637,14 +911,17 @@
         "steps2": [],
         "bjjPos": "Closed guard",
         "giNoGi": "both",
-        "updated": 1778468040600
+        "updated": 1778468040600,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 1
       },
       {
         "id": "gff_1778468942502_25_2",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Closed Guard",
         "instructor": "John Danaher",
-        "volumeNum": "25",
-        "volumeTitle": "Back Attack & Escape",
+        "volumeNum": 25,
+        "volumeTitle": "Closed Guard 1",
         "chapterTitle": "Ch 3",
         "name": "The First Three Abilities We Need From Closed Guard",
         "goal": "break opp posture and balance using KUZUSHI it the goal. need to drill this to get a sense of it. super important.",
@@ -655,14 +932,17 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1778468942502
+        "updated": 1778468942502,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 2
       },
       {
         "id": "gff_1778469122509_25_3",
-        "seriesName": "Going First Family",
+        "seriesName": "Go Further Faster — Closed Guard",
         "instructor": "John Danaher",
-        "volumeNum": "25",
-        "volumeTitle": "Back Attack & Escape",
+        "volumeNum": 25,
+        "volumeTitle": "Closed Guard 1",
         "chapterTitle": "Ch 4",
         "name": "The Six Vulnerabilities Inside A Closed Guard",
         "goal": "If you can put your opp in 1 of these 6 vulnerabilities (situations) you will be able to be effective against a resisting opp.",
@@ -673,8 +953,12 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1778469122509
+        "updated": 1778469122509,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 3
       }
-    ]
+    ],
+    "sequences": []
   }
 }
