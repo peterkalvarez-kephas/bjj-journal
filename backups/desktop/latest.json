@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-11T04:08:16.186Z",
-  "exportedReadable": "5/10/2026, 9:08:16 PM",
+  "exported": "2026-05-11T04:21:25.757Z",
+  "exportedReadable": "5/10/2026, 9:21:25 PM",
   "entryCount": 4,
   "data": {
     "entries": [
@@ -299,7 +299,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 9
+        "chapterIdx": 9,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Establish primary frame (arm across hip) + secondary frame (elbow on knee).",
+            "photo": null
+          },
+          {
+            "text": "Execute rising shrimp, keeping elbow pinned to opponent's hip.",
+            "photo": null
+          },
+          {
+            "text": "Roll onto shoulder. Straighten same-side leg and thread it between opponent's legs.",
+            "photo": null
+          },
+          {
+            "text": "Recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t02_2_10",
@@ -337,7 +356,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 10
+        "chapterIdx": 10,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Establish primary and secondary frames.",
+            "photo": null
+          },
+          {
+            "text": "Get to your side. Place button hand on opponent's knee.",
+            "photo": null
+          },
+          {
+            "text": "Keep armpit closed off tightly.",
+            "photo": null
+          },
+          {
+            "text": "Shimmy bottom leg out to recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t03_2_11",
@@ -375,7 +413,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 11
+        "chapterIdx": 11,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Bump opponent to create space and insert frames.",
+            "photo": null
+          },
+          {
+            "text": "Rising shrimp in the direction of the cross face.",
+            "photo": null
+          },
+          {
+            "text": "Opponent shifts to opposite side — cross face relieved.",
+            "photo": null
+          },
+          {
+            "text": "Access the knee and shimmy out as in Variation 5.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t04_3_0",
@@ -413,7 +470,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 0
+        "chapterIdx": 0,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Feel the transition — open legs as opponent's knee slides past your belly.",
+            "photo": null
+          },
+          {
+            "text": "Trap the ankle as their foot falls into your thigh.",
+            "photo": null
+          },
+          {
+            "text": "Shrimp into opponent, end up in half guard.",
+            "photo": null
+          },
+          {
+            "text": "Elbow escape into full guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t05_3_1",
@@ -451,7 +527,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 1
+        "chapterIdx": 1,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Recognize the side-to-mount transition beginning.",
+            "photo": null
+          },
+          {
+            "text": "Target the trailing knee immediately as it becomes light.",
+            "photo": null
+          },
+          {
+            "text": "Slide the trailing knee into your guard.",
+            "photo": null
+          },
+          {
+            "text": "Recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t06_3_8",
@@ -493,7 +588,30 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 8
+        "chapterIdx": 8,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Identify exactly how you are being held down.",
+            "photo": null
+          },
+          {
+            "text": "Swim near-side elbow inside to form frame — turn away from opponent.",
+            "photo": null
+          },
+          {
+            "text": "Do not overextend the frame — get inside position first.",
+            "photo": null
+          },
+          {
+            "text": "Bridge cross arm into opponent to create space.",
+            "photo": null
+          },
+          {
+            "text": "Get knee inside, then get the rest of your limbs in.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t07_3_9",
@@ -531,7 +649,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 9
+        "chapterIdx": 9,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Apply bicep cross face or forearm cross face.",
+            "photo": null
+          },
+          {
+            "text": "Drive opponent's head to the same side as their hips.",
+            "photo": null
+          },
+          {
+            "text": "Wedge knee in once the path is open.",
+            "photo": null
+          },
+          {
+            "text": "Get remaining limbs inside and recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t08_3_10",
@@ -565,7 +702,22 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 10
+        "chapterIdx": 10,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Enter your framing from the hip line.",
+            "photo": null
+          },
+          {
+            "text": "Shrimp out to create space.",
+            "photo": null
+          },
+          {
+            "text": "Introduce knee and recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t09_3_11",
@@ -607,7 +759,30 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 11
+        "chapterIdx": 11,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Establish frames.",
+            "photo": null
+          },
+          {
+            "text": "Walk away from opponent — force them to relieve cross face pressure.",
+            "photo": null
+          },
+          {
+            "text": "Insert knee when space opens.",
+            "photo": null
+          },
+          {
+            "text": "If stuck: push into opponent to generate a reaction.",
+            "photo": null
+          },
+          {
+            "text": "Tip opponent and shoot knee in to recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t10_3_14",
@@ -645,7 +820,26 @@
         "updated": 1778123064159,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 14
+        "chapterIdx": 14,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Shrimp and pummel your bicep in against opponent.",
+            "photo": null
+          },
+          {
+            "text": "Shrimp against opponent's bicep to create space.",
+            "photo": null
+          },
+          {
+            "text": "Bring knee inside the bicep.",
+            "photo": null
+          },
+          {
+            "text": "Recover guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t11_4_0",
@@ -683,7 +877,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 0
+        "chapterIdx": 0,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Bridge hard into opponent to relieve pressure.",
+            "photo": null
+          },
+          {
+            "text": "Get face to opponent's chest.",
+            "photo": null
+          },
+          {
+            "text": "Fight for the underhook.",
+            "photo": null
+          },
+          {
+            "text": "Get to one knee and recover.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t12_4_2",
@@ -729,7 +942,34 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 2
+        "chapterIdx": 2,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Frame on near shoulder.",
+            "photo": null
+          },
+          {
+            "text": "Move forehead to opponent's chest.",
+            "photo": null
+          },
+          {
+            "text": "Sink underhook.",
+            "photo": null
+          },
+          {
+            "text": "If shut out: bicep cross face to bridge, get near-side hand between face and shoulder.",
+            "photo": null
+          },
+          {
+            "text": "Use position to bridge to single leg — step on calf muscle.",
+            "photo": null
+          },
+          {
+            "text": "Heavy pressure from locked hands opens the hip — use knee entry then single leg takedown.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t13_7_0",
@@ -771,7 +1011,30 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 0
+        "chapterIdx": 0,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Anticipate the sit thru movement.",
+            "photo": null
+          },
+          {
+            "text": "Take your elbow to the mat immediately — do not let them take it.",
+            "photo": null
+          },
+          {
+            "text": "Move bottom arm across opponent's chest, elbow on their hip.",
+            "photo": null
+          },
+          {
+            "text": "Shrimp out using your frames.",
+            "photo": null
+          },
+          {
+            "text": "Regain guard.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t14_7_2",
@@ -809,7 +1072,26 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 2
+        "chapterIdx": 2,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Post against opponent's bicep and jaw.",
+            "photo": null
+          },
+          {
+            "text": "Yank trapped arm free — watch for back exposure.",
+            "photo": null
+          },
+          {
+            "text": "Recover guard as in Escape 1.",
+            "photo": null
+          },
+          {
+            "text": "If knee hard to insert: use reverse shrimp to create space.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_t15_7_3",
@@ -851,7 +1133,30 @@
         "updated": 1775548491787,
         "bundleId": "gff",
         "seriesId": "s0",
-        "chapterIdx": 3
+        "chapterIdx": 3,
+        "noteType": "move",
+        "stepsList": [
+          {
+            "text": "Fight for elbow position as reverse sit thru begins.",
+            "photo": null
+          },
+          {
+            "text": "Keep elbow tucked inside — cannot be outside.",
+            "photo": null
+          },
+          {
+            "text": "Shrimp into opponent to force a reaction.",
+            "photo": null
+          },
+          {
+            "text": "Bring knee in and pull opponent back to guard.",
+            "photo": null
+          },
+          {
+            "text": "If foot slap heard: bridge back in the direction you came from.",
+            "photo": null
+          }
+        ]
       },
       {
         "id": "gff_1778131270103_26_0",
@@ -872,7 +1177,8 @@
         "updated": 1778131270103,
         "bundleId": "gff",
         "seriesId": "s3",
-        "chapterIdx": 0
+        "chapterIdx": 0,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778466971421_25_0",
@@ -893,7 +1199,8 @@
         "updated": 1778467229952,
         "bundleId": "gff",
         "seriesId": "s3",
-        "chapterIdx": 0
+        "chapterIdx": 0,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778468040600_25_1",
@@ -914,7 +1221,8 @@
         "updated": 1778468040600,
         "bundleId": "gff",
         "seriesId": "s3",
-        "chapterIdx": 1
+        "chapterIdx": 1,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778468942502_25_2",
@@ -935,7 +1243,8 @@
         "updated": 1778468942502,
         "bundleId": "gff",
         "seriesId": "s3",
-        "chapterIdx": 2
+        "chapterIdx": 2,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778469122509_25_3",
@@ -956,7 +1265,8 @@
         "updated": 1778469122509,
         "bundleId": "gff",
         "seriesId": "s3",
-        "chapterIdx": 3
+        "chapterIdx": 3,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778469867038_25_4",
@@ -977,7 +1287,8 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "nogi",
-        "updated": 1778470419728
+        "updated": 1778470419728,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778470003717_25_5",
@@ -998,7 +1309,8 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "both",
-        "updated": 1778470428995
+        "updated": 1778470428995,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778470243131_25_6",
@@ -1019,7 +1331,8 @@
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "both",
-        "updated": 1778470441709
+        "updated": 1778470441709,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778470766167_25_7",
@@ -1040,7 +1353,8 @@
         "steps2": [],
         "bjjPos": "Close Guard",
         "giNoGi": "both",
-        "updated": 1778470766167
+        "updated": 1778470766167,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778472034462_25_8",
@@ -1061,7 +1375,8 @@
         "steps2": [],
         "bjjPos": "Closed Guard",
         "giNoGi": "both",
-        "updated": 1778472034462
+        "updated": 1778472034462,
+        "noteType": "principle"
       },
       {
         "id": "gff_1778472273127_25_9",
@@ -1082,7 +1397,8 @@
         "updated": 1778472466127,
         "bundleId": "gff",
         "seriesId": "s3",
-        "chapterIdx": 0
+        "chapterIdx": 0,
+        "noteType": "principle"
       }
     ],
     "sequences": []
