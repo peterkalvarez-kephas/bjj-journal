@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-11T04:05:48.556Z",
-  "exportedReadable": "5/10/2026, 9:05:48 PM",
+  "exported": "2026-05-11T04:08:16.186Z",
+  "exportedReadable": "5/10/2026, 9:08:16 PM",
   "entryCount": 4,
   "data": {
     "entries": [
@@ -1065,13 +1065,10 @@
       },
       {
         "id": "gff_1778472273127_25_9",
-        "bundleId": "gff",
-        "seriesId": "s3",
         "seriesName": "Go Further Faster — Closed Guard",
         "instructor": "John Danaher",
         "volumeNum": 25,
         "volumeTitle": "Closed Guard 1",
-        "chapterIdx": 9,
         "chapterTitle": "Ch 10: The Six Vulnerabilities - Part 6",
         "name": "The Six Vulnerabilities - Part 6",
         "goal": "Get ops HIPS and ASS on the ground.",
@@ -1080,9 +1077,12 @@
         "warning": "",
         "steps": [],
         "steps2": [],
-        "bjjPos": "Closed guard.",
+        "bjjPos": "Closed Guard",
         "giNoGi": "both",
-        "updated": 1778472273127
+        "updated": 1778472466127,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 0
       }
     ],
     "sequences": []
