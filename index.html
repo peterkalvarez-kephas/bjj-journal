@@ -502,11 +502,30 @@
   .lib-add-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 7px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; }
   .lib-add-btn { font-family: 'DM Mono', monospace; font-size: 10px; padding: 5px 10px; background: none; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; margin-top: 4px; display: block; }
   .lib-add-btn:hover { border-color: var(--accent); color: var(--accent); }
+  /* STUDY SESSION */
+  .study-session-box { background: var(--surface2); border: 1px solid var(--accent)44; border-radius: var(--radius); padding: 16px; margin-bottom: 20px; }
+  .study-session-header { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .study-session-input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 7px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; margin-bottom: 8px; transition: border-color 0.15s; }
+  .study-session-input:focus { border-color: var(--accent); }
+  .study-note-row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+  .study-type-sel { background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 7px 6px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 10px; outline: none; cursor: pointer; flex-shrink: 0; }
+  .study-note-input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 7px 10px; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; transition: border-color 0.15s; }
+  .study-note-input:focus { border-color: var(--accent); }
+  .study-note-list { margin-bottom: 10px; }
+  .study-note-item { display: flex; align-items: flex-start; gap: 6px; padding: 5px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 4px; font-size: 12px; color: var(--text); }
+  .study-note-remove { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; flex-shrink: 0; margin-left: auto; }
+  .study-note-remove:hover { color: #f47272; }
+  .lib-note-video { font-family: 'DM Mono', monospace; font-size: 9px; color: #4da6ff; text-decoration: none; }
+  .lib-note-video:hover { text-decoration: underline; }
+  .lib-source-block { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; }
+  .lib-source-block-header { background: var(--surface2); padding: 8px 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .lib-source-instructor { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.5px; }
+  .lib-source-block-notes { padding: 8px; display: flex; flex-direction: column; gap: 4px; }
   /* INSIGHT ROW — updated with type + position tag */
   .insight-row { display: flex; gap: 5px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
   .insight-type-sel { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 6px 5px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 9px; outline: none; flex-shrink: 0; cursor: pointer; }
   .insight-pos-sel { background: var(--surface2); border: 1px solid var(--accent)44; color: var(--accent); padding: 6px 5px; border-radius: var(--radius); font-family: 'DM Mono', monospace; font-size: 9px; outline: none; flex-shrink: 0; max-width: 140px; cursor: pointer; }
-  /* ROUNDS DEBRIEF */
+  /* TRAINING DAY DEBRIEF */
   .debrief-block { margin-bottom: 14px; }
   .debrief-block-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
   .debrief-add-btn { font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 10px; background: none; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
@@ -577,12 +596,12 @@
 </head>
 <body>
 
+<!-- AUTH OVERLAY -->
 <header>
   <div class="logo">BJJ <span>/</span> JOURNAL</div>
   <div class="header-actions">
     <button class="btn-ghost" onclick="openExportModal()">EXPORT</button>
     <label class="btn-ghost" style="cursor:pointer">IMPORT<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
-    <label class="btn-ghost" style="cursor:pointer" title="Combine entries from another device without overwriting">MERGE<input type="file" accept=".json" style="display:none" onchange="mergeData(event)"></label>
     <div class="theme-switcher" title="Switch theme">
       <button class="theme-dot active" data-t="" style="background:#c8a96e" onclick="setTheme('')"></button>
       <button class="theme-dot" data-t="midnight" style="background:#4da6ff" onclick="setTheme('midnight')"></button>
@@ -601,6 +620,8 @@
   <button class="nav-tab" onclick="switchView('map',this)">MIND MAP</button>
   <button class="nav-tab" onclick="switchView('seq',this)">SEQUENCES</button>
   <button class="nav-tab" onclick="switchView('library',this)">LIBRARY</button>
+  <button class="nav-tab" onclick="switchView('instructionals',this)">INSTRUCTIONALS</button>
+  <button class="nav-tab" onclick="switchView('debrief',this)">DEBRIEF</button>
 </nav>
 
 <div id="main-scroll">
@@ -664,102 +685,14 @@
       <div id="insights-container"></div>
       <button class="add-insight-btn" type="button" onclick="addInsight()">+ ADD CONCEPT</button>
     </div>
-    <div class="form-section" id="rounds-section">
-      <div class="form-section-title">Rounds Debrief</div>
-      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;letter-spacing:0.5px">Post-training — log what sticks from memory</div>
-
-      <!-- Partners -->
-      <div class="debrief-block">
-        <div class="debrief-block-label">Rolled With</div>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          <div id="debrief-partners" style="display:contents"></div>
-          <button type="button" class="debrief-add-btn" onclick="togglePartnerForm()">+ PARTNER</button>
-        </div>
-        <div class="partner-mini-form" id="partner-mini-form" style="display:none">
-          <input id="pf-name" placeholder="Name or description (optional)">
-          <select id="pf-belt">
-            <option value="white">White belt</option>
-            <option value="blue" selected>Blue belt</option>
-            <option value="purple">Purple belt</option>
-            <option value="brown">Brown belt</option>
-            <option value="black">Black belt</option>
-          </select>
-          <button type="button" class="btn-ghost" style="padding:6px 12px;font-size:10px" onclick="confirmPartner()">ADD</button>
-        </div>
-      </div>
-
-      <!-- 2×2 outcomes grid -->
-      <div class="debrief-outcomes">
-        <div class="outcome-col">
-          <div class="outcome-col-label" style="color:#f47272">⚡ WHAT HIT</div>
-          <div id="oc-hit-chips"></div>
-          <div style="position:relative">
-            <input class="outcome-input" id="oc-hit-input" placeholder="Submission you landed..." oninput="debriefSuggest('hit',this.value)" onblur="setTimeout(()=>debriefHideSuggest('hit'),200)" autocomplete="off">
-            <div class="suggest-list" id="oc-hit-suggest" style="display:none"></div>
-          </div>
-        </div>
-        <div class="outcome-col">
-          <div class="outcome-col-label" style="color:var(--muted)">☠ CAUGHT BY</div>
-          <div id="oc-caught-chips"></div>
-          <div style="position:relative">
-            <input class="outcome-input" id="oc-caught-input" placeholder="Got tapped by..." oninput="debriefSuggest('caught',this.value)" onblur="setTimeout(()=>debriefHideSuggest('caught'),200)" autocomplete="off">
-            <div class="suggest-list" id="oc-caught-suggest" style="display:none"></div>
-          </div>
-        </div>
-        <div class="outcome-col">
-          <div class="outcome-col-label" style="color:#4da6ff">↕ SWEEPS</div>
-          <div id="oc-sweep-chips"></div>
-          <div style="position:relative">
-            <input class="outcome-input" id="oc-sweep-input" placeholder="Sweep you hit..." oninput="debriefSuggest('sweep',this.value)" onblur="setTimeout(()=>debriefHideSuggest('sweep'),200)" autocomplete="off">
-            <div class="suggest-list" id="oc-sweep-suggest" style="display:none"></div>
-          </div>
-        </div>
-        <div class="outcome-col">
-          <div class="outcome-col-label" style="color:#52c987">🛡 ESCAPES</div>
-          <div id="oc-escape-chips"></div>
-          <div style="position:relative">
-            <input class="outcome-input" id="oc-escape-input" placeholder="Escape you made..." oninput="debriefSuggest('escape',this.value)" onblur="setTimeout(()=>debriefHideSuggest('escape'),200)" autocomplete="off">
-            <div class="suggest-list" id="oc-escape-suggest" style="display:none"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Takedowns full width -->
-      <div class="outcome-col" style="margin-bottom:10px">
-        <div class="outcome-col-label" style="color:#34d399">↑ TAKEDOWNS / TRIPS</div>
-        <div id="oc-td-chips"></div>
-        <div style="position:relative">
-          <input class="outcome-input" id="oc-td-input" placeholder="Takedown you scored..." oninput="debriefSuggest('td',this.value)" onblur="setTimeout(()=>debriefHideSuggest('td'),200)" autocomplete="off">
-          <div class="suggest-list" id="oc-td-suggest" style="display:none"></div>
-        </div>
-      </div>
-
-      <!-- Gas tank -->
-      <div class="debrief-block">
-        <div class="debrief-block-label">Gas Tank</div>
-        <div class="gas-tank-row">
-          <button type="button" class="gas-btn" data-val="gassed"  onclick="setGasTank(this)">💀 GASSED</button>
-          <button type="button" class="gas-btn" data-val="pushed"  onclick="setGasTank(this)">😤 PUSHED IT</button>
-          <button type="button" class="gas-btn" data-val="good"    onclick="setGasTank(this)">✅ FELT GOOD</button>
-          <button type="button" class="gas-btn" data-val="fresh"   onclick="setGasTank(this)">⚡ FRESH</button>
-        </div>
-        <input type="hidden" id="gas-tank-val" value="">
-      </div>
-
-      <!-- Reflections -->
-      <div class="form-row">
-        <div class="form-field"><label>What clicked</label><input id="f-clicked" placeholder="e.g. hip entry on the leg drag..."></div>
-        <div class="form-field"><label>What to fix</label><input id="f-fix" placeholder="e.g. keeping back control when tired..."></div>
-      </div>
-    </div>
     <div class="form-section" id="online-notes-section" style="display:none">
       <div class="form-section-title">Notes</div>
       <div class="form-row">
         <div class="form-field"><label>General Notes</label><textarea id="f-online-notes" placeholder="Observations, context..." style="min-height:100px"></textarea></div>
       </div>
     </div>
-    <div class="save-row">
-      <button class="btn-ghost" onclick="clearForm()">CLEAR</button>
+    <div class="save-row" style="justify-content:space-between">
+      <button class="btn-ghost" onclick="if(confirm('Clear the form?'))clearForm()" style="color:var(--muted)">CLEAR FORM</button>
       <button class="btn-primary" id="save-entry-btn" onclick="saveEntry()">SAVE ENTRY</button>
     </div>
   </div>
@@ -830,7 +763,9 @@
     <button class="map-filter-btn" onclick="setMapFilter('Submission',this)">SUBMISSIONS</button>
     <button class="map-filter-btn" onclick="setMapFilter('Escape',this)">ESCAPES</button>
     <button class="map-filter-btn" onclick="setMapFilter('Takedown',this)">TAKEDOWNS</button>
-    <span class="map-hint">DRAG · SCROLL TO ZOOM · CLICK CLUSTER TO EXPAND · CLICK TECHNIQUE FOR DETAILS</span>
+    <button class="map-filter-btn" onclick="resetMapView()" style="margin-left:8px" title="Reset pan, zoom, and collapse all clusters">⟲ RESET VIEW</button>
+    <button class="map-filter-btn" onclick="toggleAllClusters()" title="Expand or collapse every cluster at once">⇕ EXPAND/COLLAPSE ALL</button>
+    <span class="map-hint">DRAG · SCROLL TO ZOOM · CLICK CLUSTER · CLICK TECH FOR DETAILS</span>
   </div>
   <div class="map-family-row">
     <span class="map-family-label">FAMILY:</span>
@@ -856,6 +791,246 @@
         <div class="empty-state" style="padding:80px 0">SELECT A POSITION<br><span style="font-size:11px;font-family:'DM Sans',sans-serif;color:var(--muted);text-transform:none;letter-spacing:0">Choose a position from the sidebar to view its knowledge base</span></div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- INSTRUCTIONALS VIEW -->
+<div class="view" id="view-instructionals" style="overflow-y:auto;padding:24px 24px 80px">
+  <div style="max-width:960px;margin:0 auto">
+    <!-- Breadcrumb -->
+    <div id="inst-breadcrumb" style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.5px;margin-bottom:14px;flex-wrap:wrap"></div>
+
+    <!-- Page header (changes per level) -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:12px">
+      <div>
+        <div id="inst-page-title" style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text)">INSTRUCTIONALS</div>
+        <div id="inst-page-sub" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px"></div>
+      </div>
+      <div id="inst-page-actions" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    </div>
+
+    <!-- Search (always visible) -->
+    <div class="filters" style="margin-bottom:14px">
+      <input type="text" id="inst-search" placeholder="Search across all notes..." oninput="renderInstructionals()">
+    </div>
+
+    <!-- Level content area -->
+    <div id="inst-level-content"></div>
+
+    <!-- Search results area (hidden unless search is non-empty) -->
+    <div id="inst-search-results" style="display:none;margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- INSTRUCTIONAL NOTE MODAL -->
+<div class="modal-overlay" id="inst-modal" onclick="if(event.target===this)closeInstructionalForm()">
+  <div class="modal-sheet" style="max-width:680px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+      <div>
+        <div class="modal-title" id="inst-modal-title">NEW INSTRUCTIONAL NOTE</div>
+        <div class="modal-subtitle">FROM A VIDEO/DVD SERIES</div>
+      </div>
+      <button onclick="closeInstructionalForm()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1">×</button>
+    </div>
+
+    <div class="form-section" style="margin-bottom:14px">
+      <div class="form-section-title">Source</div>
+      <div class="form-row">
+        <div class="form-field" style="flex:2"><label>Series Name</label><input type="text" id="if-series" placeholder="e.g. Going First Family" list="if-series-list" autocomplete="off"><datalist id="if-series-list"></datalist></div>
+        <div class="form-field"><label>Instructor</label><input type="text" id="if-instructor" placeholder="e.g. John Danaher" list="if-instructor-list" autocomplete="off"><datalist id="if-instructor-list"></datalist></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Volume #</label><input type="text" id="if-volnum" placeholder="e.g. 7"></div>
+        <div class="form-field" style="flex:2"><label>Volume Title</label><input type="text" id="if-voltitle" placeholder="e.g. Front Headlock to Anaconda"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field" style="flex:1"><label>Chapter Title (optional)</label><input type="text" id="if-chapter" placeholder="e.g. Ch 3: Anaconda from Snapdown"></div>
+      </div>
+    </div>
+
+    <!-- TYPE TOGGLE -->
+    <div class="form-section" style="margin-bottom:14px">
+      <div class="form-section-title">Note Type</div>
+      <div class="type-toggle" style="margin-bottom:0">
+        <button type="button" class="type-btn active" id="if-type-principle-btn" onclick="setInstNoteType('principle')">💡 PRINCIPLE / CONCEPT</button>
+        <button type="button" class="type-btn" id="if-type-move-btn" onclick="setInstNoteType('move')">🥋 MOVE / TECHNIQUE</button>
+      </div>
+      <input type="hidden" id="if-type-val" value="principle">
+    </div>
+
+    <!-- COMMON FIELDS -->
+    <div class="form-section" style="margin-bottom:14px">
+      <div class="form-section-title">Note</div>
+      <div class="form-row">
+        <div class="form-field" style="flex:2"><label>Note Name *</label><input type="text" id="if-name" placeholder="What's this note about?"></div>
+        <div class="form-field"><label>Gi / No-Gi</label>
+          <div class="gi-toggle" id="if-gi-toggle">
+            <button type="button" class="gi-btn" data-gi="gi" onclick="ifSetGi('gi')">GI</button>
+            <button type="button" class="gi-btn active" data-gi="nogi" onclick="ifSetGi('nogi')">NO-GI</button>
+          </div>
+          <input type="hidden" id="if-gi-val" value="nogi">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field" style="flex:1"><label>BJJ Position (for Library)</label>
+          <input type="text" id="if-bjjpos" list="if-poslist" placeholder="Type or pick a position..." autocomplete="off">
+          <datalist id="if-poslist"></datalist>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINCIPLE-SPECIFIC FIELDS -->
+    <div class="form-section" id="if-principle-fields" style="margin-bottom:14px">
+      <div class="form-section-title">Concept Details</div>
+      <div class="form-row">
+        <div class="form-field"><label>Goal</label><input type="text" id="if-goal" placeholder="What this is trying to achieve..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Key Concept</label><input type="text" id="if-concept" placeholder="The core principle..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Details</label><textarea id="if-details" placeholder="Notes, observations..." style="min-height:80px"></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Common Mistake / Warning</label><textarea id="if-warning" placeholder="What goes wrong..." style="min-height:60px"></textarea></div>
+      </div>
+    </div>
+
+    <!-- MOVE-SPECIFIC FIELDS -->
+    <div class="form-section" id="if-move-fields" style="margin-bottom:14px;display:none">
+      <div class="form-section-title">Move Details</div>
+      <div class="form-row">
+        <div class="form-field"><label>Starting Position</label><select id="if-startpos"></select></div>
+        <div class="form-field"><label>Outcome Position</label><select id="if-endpos"></select></div>
+        <div class="form-field"><label>Outcome Method</label><select id="if-method"></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Key Concept / Why It Works</label><input type="text" id="if-move-concept" placeholder="The core principle..."></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field" style="flex:1">
+          <label>Steps <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— numbered execution steps</span></label>
+          <div class="steps-builder" id="if-steps-container"></div>
+          <button type="button" class="add-step-btn" onclick="ifAddStep()">+ ADD STEP</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Common Mistake / Warning</label><textarea id="if-move-warning" placeholder="What goes wrong..." style="min-height:60px"></textarea></div>
+      </div>
+    </div>
+
+    <div class="save-row" style="justify-content:space-between;margin-top:18px">
+      <button class="btn-danger" id="if-delete-btn" onclick="deleteInstructionalNote()" style="display:none">DELETE</button>
+      <div style="display:flex;gap:8px;margin-left:auto">
+        <button class="btn-ghost" onclick="closeInstructionalForm()">CANCEL</button>
+        <button class="btn-primary" onclick="saveInstructionalNote()">SAVE NOTE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRAINING DAY DEBRIEF VIEW -->
+<div class="view" id="view-debrief" style="overflow-y:auto;padding:24px 24px 80px">
+  <div style="max-width:700px;margin:0 auto">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--text);margin-bottom:4px">TRAINING DAY DEBRIEF</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-bottom:20px">AFTER TRAINING — WHAT HAPPENED ON THE MAT TODAY</div>
+
+    <!-- Debrief form -->
+    <div class="card" style="margin-bottom:16px;padding:18px 20px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <input type="date" id="tdd-date" style="font-size:12px;height:34px;max-width:180px">
+        <div style="flex:1;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px">Log what sticks from memory</div>
+      </div>
+
+      <!-- Partners -->
+      <div class="debrief-block">
+        <div class="debrief-block-label">Rolled With</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div id="tdd-partners" style="display:contents"></div>
+          <button type="button" class="debrief-add-btn" onclick="tddTogglePartner()">+ PARTNER</button>
+        </div>
+        <div class="partner-mini-form" id="tdd-partner-form" style="display:none">
+          <input id="tdd-pf-name" placeholder="Name or description (optional)">
+          <select id="tdd-pf-belt">
+            <option value="white">White belt</option>
+            <option value="blue" selected>Blue belt</option>
+            <option value="purple">Purple belt</option>
+            <option value="brown">Brown belt</option>
+            <option value="black">Black belt</option>
+          </select>
+          <button type="button" class="btn-ghost" style="padding:6px 12px;font-size:10px" onclick="tddConfirmPartner()">ADD</button>
+        </div>
+      </div>
+
+      <!-- Outcomes grid -->
+      <div class="debrief-outcomes">
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:#f47272">⚡ WHAT HIT</div>
+          <div id="tdd-hit-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="tdd-hit-input" placeholder="Submission you landed..." oninput="tddSuggest('hit',this.value)" onblur="setTimeout(()=>tddHideSuggest('hit'),200)" autocomplete="off">
+            <div class="suggest-list" id="tdd-hit-suggest" style="display:none"></div>
+          </div>
+        </div>
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:var(--muted)">☠ CAUGHT BY</div>
+          <div id="tdd-caught-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="tdd-caught-input" placeholder="Got tapped by..." oninput="tddSuggest('caught',this.value)" onblur="setTimeout(()=>tddHideSuggest('caught'),200)" autocomplete="off">
+            <div class="suggest-list" id="tdd-caught-suggest" style="display:none"></div>
+          </div>
+        </div>
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:#4da6ff">↕ SWEEPS</div>
+          <div id="tdd-sweep-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="tdd-sweep-input" placeholder="Sweep you hit..." oninput="tddSuggest('sweep',this.value)" onblur="setTimeout(()=>tddHideSuggest('sweep'),200)" autocomplete="off">
+            <div class="suggest-list" id="tdd-sweep-suggest" style="display:none"></div>
+          </div>
+        </div>
+        <div class="outcome-col">
+          <div class="outcome-col-label" style="color:#52c987">🛡 ESCAPES</div>
+          <div id="tdd-escape-chips"></div>
+          <div style="position:relative">
+            <input class="outcome-input" id="tdd-escape-input" placeholder="Escape you made..." oninput="tddSuggest('escape',this.value)" onblur="setTimeout(()=>tddHideSuggest('escape'),200)" autocomplete="off">
+            <div class="suggest-list" id="tdd-escape-suggest" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Takedowns -->
+      <div class="outcome-col" style="margin-bottom:14px">
+        <div class="outcome-col-label" style="color:#34d399">↑ TAKEDOWNS / TRIPS</div>
+        <div id="tdd-td-chips"></div>
+        <div style="position:relative">
+          <input class="outcome-input" id="tdd-td-input" placeholder="Takedown you scored..." oninput="tddSuggest('td',this.value)" onblur="setTimeout(()=>tddHideSuggest('td'),200)" autocomplete="off">
+          <div class="suggest-list" id="tdd-td-suggest" style="display:none"></div>
+        </div>
+      </div>
+
+      <!-- Gas tank -->
+      <div class="debrief-block">
+        <div class="debrief-block-label">Gas Tank</div>
+        <div class="gas-tank-row">
+          <button type="button" class="gas-btn" data-val="gassed"  onclick="tddSetGas(this)">💀 GASSED</button>
+          <button type="button" class="gas-btn" data-val="pushed"  onclick="tddSetGas(this)">😤 PUSHED IT</button>
+          <button type="button" class="gas-btn" data-val="good"    onclick="tddSetGas(this)">✅ FELT GOOD</button>
+          <button type="button" class="gas-btn" data-val="fresh"   onclick="tddSetGas(this)">⚡ FRESH</button>
+        </div>
+        <input type="hidden" id="tdd-gas-val" value="">
+      </div>
+
+      <!-- Reflections -->
+      <div class="form-row" style="margin-top:12px">
+        <div class="form-field"><label>What clicked</label><input id="tdd-clicked" placeholder="e.g. hip entry on the leg drag..."></div>
+        <div class="form-field"><label>What to fix</label><input id="tdd-fix" placeholder="e.g. keeping back control when tired..."></div>
+      </div>
+
+      <button class="btn-primary" style="width:100%;margin-top:16px;font-size:11px;letter-spacing:1px" onclick="saveTDD()">SAVE DEBRIEF</button>
+    </div>
+
+    <!-- Past debriefs -->
+    <div id="tdd-list"></div>
   </div>
 </div>
 
@@ -1020,6 +1195,8 @@
 
 <script>
 const STORAGE_KEY = 'bjj_journal_v2';
+
+
 const POSITIONS = ['Guard','Half Guard','Mount','Back Control','Side Control','Knee on Belly','Turtle','Standing'];
 const METHODS = ['Sweep','Submission','Escape','Takedown'];
 const CATEGORIES = ['Guard','Guard Passing','Pins','Submissions','Escapes','Takedowns','Back Control','Leg Locks','Other'];
@@ -1078,6 +1255,30 @@ const FAMILY_COLORS = {
   'Escapes':'#6ee7b7',
   'Other':'#888',
 };
+// --- INSTRUCTIONAL BUNDLES (ported from GFF Bank) ---
+const INSTRUCTIONAL_BUNDLES = [
+  {
+    id: 'gff',
+    name: 'Go Further Faster',
+    instructor: 'John Danaher',
+    series: [
+    {id:'s0',label:'Pin Escapes & Turtle Escapes',short:'Pin Escapes',vols:[1,2,3,4,5,6,7,8]},
+    {id:'s1',label:'Guard Retention',short:'Guard Retention',vols:[9,10,11,12,13,14,15,16]},
+    {id:'s2',label:'Half Guard',short:'Half Guard',vols:[17,18,19,20,21,22,23,24]},
+    {id:'s3',label:'Closed Guard',short:'Closed Guard',vols:[25,26,27,28,29,30,31,32]},
+    {id:'s4',label:'Open Guard',short:'Open Guard',vols:[33,34,35,36,37,38,39,40]},
+    {id:'s5',label:'Passing the Guard',short:'Guard Passing',vols:[41,42,43,44,45,46,47,48]},
+    {id:'s6',label:'Half Guard Passing & Dynamic Pins',short:'HG Passing & Pins',vols:[49,50,51,52,53,54,55,56]},
+    {id:'s7',label:'Strangles & Turtle Breakdowns',short:'Strangles',vols:[57,58,59,60,61,62,63,64]}
+  ],
+    volumes: {"1":{"title":"Pin Escapes & Turtle Escapes 1","chapters":[{"t":"Introduction","ts":"0:00"},{"t":"Escapes Overview","ts":"6:56"},{"t":"Defense & Escapes - General Reflections","ts":"43:37"},{"t":"Your First Goal in Jiu Jitsu: Pin Escapes","ts":"49:50"},{"t":"Pin Escapes","ts":"51:25"},{"t":"Escape is a Responsibility","ts":"56:11"},{"t":"3 Modes of Pin Escape in Jiu Jitsu","ts":"57:27"},{"t":"Minimal Escapes & Positive Escapes","ts":"1:01:46"},{"t":"The 2 Elements of Pinning in Jiu Jitsu","ts":"1:06:20"},{"t":"Single Biggest Insight Required To Escape Pins","ts":"1:13:31"},{"t":"Essential Body Movements Required For Pin Escapes","ts":"1:24:06"},{"t":"Bridging","ts":"1:25:21"},{"t":"Bridging 2","ts":"1:33:00"},{"t":"Walking Bridges","ts":"1:37:07"},{"t":"Shrimping","ts":"1:38:47"},{"t":"Back Heisting","ts":"1:47:20"},{"t":"Sitting","ts":"1:51:09"},{"t":"Shoulder Rolling","ts":"1:54:33"},{"t":"Inverted Spin","ts":"1:57:26"},{"t":"Putting Body Movements Together","ts":"1:59:46"}]},"2":{"title":"Pin Escapes & Turtle Escapes 2","chapters":[{"t":"Bridging Escape From Mounted Position (UPA)","ts":"0:00"},{"t":"Bridging Escape From Mounted Position 2","ts":"15:02"},{"t":"Bridging Escape From Mounted Position 3","ts":"19:01"},{"t":"Bridging Escape From Mounted Position 4","ts":"22:04"},{"t":"Bridging Escape From Mounted Position 5","ts":"25:18"},{"t":"Elbow Escape From Mounted Position","ts":"30:01"},{"t":"Elbow Escape From Mounted Position 2","ts":"40:45"},{"t":"Elbow Escape From Mounted Position 3","ts":"47:34"},{"t":"Elbow Escape From Mounted Position 4","ts":"58:29"},{"t":"Elbow Escape From Mounted Position 5","ts":"1:07:24"},{"t":"Elbow Escape From Mounted Position 6","ts":"1:13:48"},{"t":"Elbow Escape From Mounted Position 7","ts":"1:18:12"}]},"3":{"title":"Pin Escapes & Turtle Escapes 3","chapters":[{"t":"Elbow Escape From Mounted Position - Ankle Trap Method","ts":"0:00"},{"t":"Elbow Escape From Mounted Position - Ankle Trap Method 2","ts":"6:50"},{"t":"Elbow Escape From Mounted Position - Ankle Trap Method 3","ts":"11:14"},{"t":"Putting It All Together","ts":"15:37"},{"t":"Foot Fighting From Bottom Mount","ts":"22:50"},{"t":"The Goal of Foot Fighting: The Long/Short Position","ts":"28:42"},{"t":"Dealing With High Mounts","ts":"35:20"},{"t":"The Problem of Back Exposure When Escaping Mount","ts":"41:21"},{"t":"Elbow Escapes From Side Position Introduction","ts":"46:54"},{"t":"Elbow Escapes From Side Position 2","ts":"56:40"},{"t":"Elbow Escapes From Side Position 3","ts":"1:00:49"},{"t":"Elbow Escapes From Side Position 4","ts":"1:07:10"},{"t":"Elbow Escapes From Side Position 5","ts":"1:14:57"},{"t":"Elbow Escapes From Side Position 6","ts":"1:24:10"},{"t":"Elbow Escapes From Side Position 7","ts":"1:28:37"}]},"4":{"title":"Pin Escapes & Turtle Escapes 4","chapters":[{"t":"Knee Escapes From Side Position","ts":"0:00"},{"t":"Knee Escapes From Side Position 2","ts":"6:07"},{"t":"Knee Escapes From Side Position 3","ts":"9:23"},{"t":"Knee Escapes From Side Position 4","ts":"16:49"},{"t":"Knee Escapes From Side Position 5","ts":"21:23"},{"t":"Knee Escapes From Side Position 6","ts":"27:32"},{"t":"Knee Escapes From Side Position 7","ts":"33:52"},{"t":"Knee Escapes From Side Position 8","ts":"40:51"},{"t":"Knee Escapes From Side Position 9","ts":"44:38"},{"t":"Knee Escapes From Side Position 10","ts":"49:29"}]},"5":{"title":"Pin Escapes & Turtle Escapes 5","chapters":[{"t":"A General Theory of Framing and Space","ts":"0:00"},{"t":"A General Theory of Framing and Space 2","ts":"9:54"},{"t":"A General Theory of Framing and Space 3","ts":"15:02"},{"t":"3 Most Important Frame From Bottom Side Control For Escape","ts":"19:10"},{"t":"Knee Escape: Single Leg Cut Back Finish","ts":"38:06"},{"t":"Knee Escape: Single Leg To The Back","ts":"42:03"},{"t":"Knee Escape: Single Leg To Half Guard","ts":"46:55"},{"t":"Knee Escape: Single Leg To Butterfly Guard","ts":"52:04"},{"t":"Knee Escape: Single Leg To Full Guard","ts":"54:44"}]},"6":{"title":"Pin Escapes & Turtle Escapes 6","chapters":[{"t":"High Leg Escape From Side Pin","ts":"0:00"},{"t":"Details of High Leg Escape","ts":"5:31"},{"t":"Ankle Trap Escape From Side Pin","ts":"11:19"},{"t":"Shoulder Roll Escape From Side Pin","ts":"23:44"},{"t":"Creating Effective Frames Under Pins","ts":"32:41"},{"t":"The Critical Importance of Knee Entry Angle and Position","ts":"38:30"},{"t":"Single Most Important Tool for Escapes From Bottom Position","ts":"47:25"},{"t":"Understanding The Crucial Importance of Insertion Points","ts":"51:12"},{"t":"Spinning Escape From Side Control","ts":"57:24"},{"t":"Prop Escapes From Side Control","ts":"1:04:42"}]},"7":{"title":"Pin Escapes & Turtle Escapes 7","chapters":[{"t":"Escaping From Side Pins Where Opponent Sits Out","ts":"0:00"},{"t":"Escaping From Side Pins Where Opponent Sits Out 2","ts":"9:05"},{"t":"Escaping From Side Pins Where Opponent Uses Reverse Sit Out","ts":"14:43"},{"t":"Escaping From Knee on Belly Position","ts":"28:00"},{"t":"Ankle Trap Escape From Knee on Belly","ts":"36:36"},{"t":"Escaping From North-South Position","ts":"44:36"},{"t":"3 Different Kinds of North South Position","ts":"51:16"},{"t":"Escaping North South: Transition Escape","ts":"56:38"},{"t":"Escaping Double Over North/South","ts":"1:02:24"},{"t":"Escaping Double Under North/South","ts":"1:06:38"},{"t":"Escaping Double Under North/South Part 2","ts":"1:16:31"},{"t":"Escaping Over Under North/South","ts":"1:22:02"}]},"8":{"title":"Pin Escapes & Turtle Escapes 8","chapters":[{"t":"Rear Mount Escapes","ts":"0:00"},{"t":"Rear Mount Escapes Sliding Elbow Escape","ts":"7:13"},{"t":"Rear Mount Escapes Sliding Elbow Escape 2","ts":"21:58"},{"t":"Rear Mount Escapes Sliding Elbow Escape 3","ts":"26:48"},{"t":"Rear Mount Escapes Sliding Elbow Escape 4","ts":"30:34"},{"t":"Escapes From Turtle Position","ts":"36:08"},{"t":"Shoulder Roll Escapes","ts":"46:20"},{"t":"Shoulder Roll Escapes 2","ts":"1:00:01"},{"t":"Countering The Seatbelt: Inside Leg Escape","ts":"1:02:36"},{"t":"Countering The Seatbelt: Inside Leg Escape 2","ts":"1:17:34"},{"t":"Countering The Seatbelt: Inside Leg Escape 3","ts":"1:20:33"}]},"9":{"title":"Guard Retention 1","chapters":[{"t":"Introduction To Guard Retention","ts":"0:00"},{"t":"Guard Retention Overview","ts":"24:00"}]},"10":{"title":"Guard Retention 2","chapters":[{"t":"The Big Picture - General Theory of Guard Retention","ts":"0:00"},{"t":"2 Most Basic Requirements of Guard Retention","ts":"7:37"},{"t":"The Importance of Guard Retention","ts":"11:23"},{"t":"The Unforgivable Sin of Guard Retention","ts":"20:13"},{"t":"The 3 Postures of Guard Retention","ts":"26:01"}]},"11":{"title":"Guard Retention 3","chapters":[{"t":"The First Skill of Guard Retention - Scooting","ts":"0:00"},{"t":"Rolling Inversion","ts":"4:04"},{"t":"Hip Heisting","ts":"8:52"},{"t":"Supine Position - Shrimping","ts":"15:46"},{"t":"Pummelling","ts":"21:55"},{"t":"Pendulum","ts":"26:24"},{"t":"Scissoring","ts":"29:36"},{"t":"Spinning Inversion","ts":"34:59"},{"t":"Rollbacks","ts":"38:06"},{"t":"Back Heist","ts":"40:59"},{"t":"Turtle Position - Shoulder Roll","ts":"45:41"},{"t":"Sitting","ts":"53:33"}]},"12":{"title":"Guard Retention 4","chapters":[{"t":"2nd Skill of Guard Retention - Framing","ts":"0:00"},{"t":"Frames & Distance - Forehand Frame","ts":"6:40"},{"t":"Forearm Frame","ts":"10:22"},{"t":"Back Hand Frames","ts":"14:35"},{"t":"Self Framing","ts":"20:58"},{"t":"3rd Skill - Breaking and Negating Grips","ts":"24:07"},{"t":"Ultimate Theory of Guard Retention - Demarcation Lines","ts":"32:45"}]},"13":{"title":"Guard Retention 5","chapters":[{"t":"Connection","ts":"0:00"},{"t":"5 Things Opponent Needs to Pass Your Guard","ts":"6:26"},{"t":"Single Most Important Tool - Scissor Guard","ts":"20:49"},{"t":"2nd Most Important Tool - Hip Heist","ts":"30:59"},{"t":"3rd Most Important Tool - Back Heist","ts":"36:02"},{"t":"4th Most Important Tool - Power Prop","ts":"38:55"},{"t":"The Theory of Cycles of Offense & Defense","ts":"49:14"},{"t":"The Theory of Cycles of Offense & Defense 2","ts":"1:01:09"},{"t":"The Critical Importance of Head Control in Guard Retention","ts":"1:05:21"}]},"14":{"title":"Guard Retention 6","chapters":[{"t":"The Specific Theory of Guard Retention","ts":"0:00"},{"t":"Double Under Pass","ts":"4:20"},{"t":"Double Under Pass Part 2","ts":"13:57"},{"t":"Double Under Pass Part 3","ts":"18:10"},{"t":"Double Under Pass Part 4","ts":"22:23"},{"t":"Putting It All Together","ts":"25:23"},{"t":"Over Under Guard Pass Retention","ts":"28:17"},{"t":"Over Under Guard Pass Retention 2","ts":"38:47"},{"t":"Over Under Guard Pass Retention 3","ts":"43:28"},{"t":"Over Under Guard Pass Retention 4","ts":"50:13"}]},"15":{"title":"Guard Retention 7","chapters":[{"t":"Toreando Guard Pass Retention","ts":"0:00"},{"t":"Toreando Guard Pass Retention 2","ts":"8:21"},{"t":"Toreando Guard Pass Retention 3","ts":"12:17"},{"t":"Toreando Guard Pass Retention 4","ts":"17:14"},{"t":"Toreando Guard Pass Retention 5","ts":"19:49"},{"t":"Toreando Guard Pass Retention 6","ts":"24:47"},{"t":"Knee Slice Guard Pass Retention","ts":"26:53"},{"t":"Knee Slice Guard Pass Retention 2","ts":"35:14"}]},"16":{"title":"Guard Retention 8","chapters":[{"t":"Leg Drag Retention","ts":"0:00"},{"t":"Leg Drag Retention 2","ts":"7:13"},{"t":"Leg Drag Retention 3","ts":"9:52"},{"t":"Leg Drag Retention 4","ts":"13:41"},{"t":"Leg Drag Retention 5","ts":"15:38"},{"t":"Long Step Guard Pass Retention","ts":"20:28"},{"t":"The Cranial Shift","ts":"32:15"},{"t":"Back Exposure Benign and Destructive","ts":"41:21"},{"t":"Head Protection","ts":"50:51"}]},"17":{"title":"Half Guard 1","chapters":[{"t":"Overview","ts":"0:00"},{"t":"General Introduction to Half Guard Bottom","ts":"7:52"}]},"18":{"title":"Half Guard 2","chapters":[{"t":"The Paradox of Half Guard","ts":"0:00"},{"t":"Half Guard Bottom - The Alignment Issue","ts":"6:01"},{"t":"Kuzushi From Half Guard Bottom","ts":"10:40"},{"t":"Half Elbow Escape Series","ts":"21:11"},{"t":"Grip Dominance in Half Guard","ts":"36:42"}]},"19":{"title":"Half Guard 3","chapters":[{"t":"Single Elbow Escape Series","ts":"0:00"},{"t":"Single Elbow Escape Part 2 - Shoulder Crunch Sumi Gaeshi","ts":"11:43"},{"t":"Single Elbow Escape Part 3 - Scoop Half Butterfly","ts":"18:10"},{"t":"Scoop Half Butterfly Series","ts":"23:14"},{"t":"Scoop Half Butterfly Series Part 2","ts":"30:17"},{"t":"Scoop Half Butterfly Series Part 3","ts":"38:12"},{"t":"The Double Elbow Escape Series","ts":"42:40"},{"t":"Reverse Crossface - Reverse Elbow Escape","ts":"54:13"},{"t":"Elbow Escape vs Reverse Underhook","ts":"1:01:56"},{"t":"Summarizing Half Guard From Inferior Grips","ts":"1:07:39"}]},"20":{"title":"Half Guard 4","chapters":[{"t":"Getting to Underhooks","ts":"0:00"},{"t":"Winning From Underhooks - The Tight Waist Series","ts":"7:15"},{"t":"The Tight Waist Trilemma","ts":"15:07"},{"t":"Roll Through Sweeps","ts":"21:57"},{"t":"Roll Through Sweeps 2","ts":"30:32"},{"t":"Roll Through Sweeps 3","ts":"33:33"},{"t":"The Movements Behind The Moves","ts":"39:53"},{"t":"The Lower Leg Shift","ts":"47:26"}]},"21":{"title":"Half Guard 5","chapters":[{"t":"The 90 Degree Rule","ts":"0:00"},{"t":"The Knee Lift","ts":"4:07"},{"t":"The Hip Shift","ts":"8:48"},{"t":"The Law of The Elbow","ts":"13:39"},{"t":"Directionality of Force For Roll Through Sweeps","ts":"20:54"},{"t":"The Single Most Important Section On This Video","ts":"28:04"},{"t":"Taking Your Opponents Back: Duck Under","ts":"41:30"},{"t":"Taking The Back From Tight Waist","ts":"46:25"},{"t":"The Limp Arm","ts":"54:45"}]},"22":{"title":"Half Guard 6","chapters":[{"t":"Tight Waist vs Whizzer Situation","ts":"0:00"},{"t":"Tight Waist vs Whizzer Situation 2","ts":"7:44"},{"t":"Tight Waist vs Whizzer Situation 3","ts":"10:42"},{"t":"Tight Waist vs Whizzer Situation 4","ts":"14:42"},{"t":"Going From Half Guard to Tight Waist","ts":"17:44"},{"t":"Foot Fighting From Half Guard","ts":"24:21"},{"t":"Practical Applications of Foot Fighting","ts":"32:38"},{"t":"Takedowns From Tight Waist: Outside Hook - Circular Finish","ts":"35:36"},{"t":"Linear Finish Double Leg","ts":"43:35"},{"t":"Linear Finish Double Leg Part 2","ts":"48:51"},{"t":"Reverse Double Leg","ts":"54:16"},{"t":"Stepping Around a Whizzer to a Far Hook","ts":"1:01:22"},{"t":"Summary of Tight Waist Series","ts":"1:07:48"}]},"23":{"title":"Half Guard 7","chapters":[{"t":"Lapel Single Legs From Half Guard","ts":"0:00"},{"t":"Lapel Single Legs From Half Guard 2","ts":"6:27"},{"t":"Lapel Single Legs From Half Guard 3","ts":"17:20"},{"t":"General Consideration on Posture for Half Guard Sweeps","ts":"21:53"},{"t":"General Consideration on Posture for Half Guard Sweeps 2","ts":"31:28"},{"t":"Summary of the Lapel Single Leg Series","ts":"40:00"}]},"24":{"title":"Half Guard 8","chapters":[{"t":"Knee Lever Series","ts":"0:00"},{"t":"Knee Lever Series 2","ts":"12:21"},{"t":"The Back Roll Sweep","ts":"18:10"},{"t":"Problem of Reverse Half Guards","ts":"38:14"},{"t":"Problem of Reverse Half Guards 2","ts":"53:56"}]},"25":{"title":"Closed Guard 1","chapters":[{"t":"Closed Guard Overview","ts":"0:00"},{"t":"What Is The Central Message Of This Video?","ts":"10:57"},{"t":"The First Three Abilities We Need From Closed Guard","ts":"20:02"},{"t":"The Six Vulnerabilities Inside A Closed Guard","ts":"32:54"},{"t":"The Six Vulnerabilities - Part 1","ts":"36:27"},{"t":"The Six Vulnerabilities - Part 2","ts":"39:40"},{"t":"The Six Vulnerabilities - Part 3","ts":"42:24"},{"t":"The Six Vulnerabilities - Part 4","ts":"46:08"},{"t":"The Six Vulnerabilities - Part 5","ts":"52:02"},{"t":"The Six Vulnerabilities - Part 6","ts":"59:44"}]},"26":{"title":"Closed Guard 2","chapters":[{"t":"Understanding A Closed Guard","ts":"0:00"},{"t":"General Overview Of The Closed Guard","ts":"7:36"},{"t":"A Key Insight: Who Is Really On Top?","ts":"26:37"},{"t":"Holding And Controlling A Closed Guard","ts":"31:16"},{"t":"The Cross Collar Grip","ts":"54:08"},{"t":"Establishing Angle From Closed Guard","ts":"1:02:24"},{"t":"The Theory Of A Strong First Move","ts":"1:11:58"}]},"27":{"title":"Closed Guard 3","chapters":[{"t":"The Side Scissor: Elbow Across The Centerline","ts":"0:00"},{"t":"The Subtle Push Pull Dynamic of the Side Scissor","ts":"26:02"},{"t":"Locking Down The Side Scissor","ts":"30:26"},{"t":"Unlocking The Great Secret of the Side Scissor","ts":"35:10"},{"t":"The Wrist Sweep From Side Scissor","ts":"41:54"},{"t":"The Elbow Sweep From Side Scissor","ts":"51:06"},{"t":"Rolling Armbar (Juji Gatame)","ts":"56:17"},{"t":"Side Scissor into Rear Triangle","ts":"1:02:59"},{"t":"Flower Sweep","ts":"1:08:41"},{"t":"Pendulum Sweep","ts":"1:14:13"},{"t":"Knee Lever Sweep","ts":"1:22:04"},{"t":"Hook Sweep (Sumi Gaeshi)","ts":"1:27:00"},{"t":"Hook Sweep (Sumi Gaeshi) Part 2","ts":"1:31:06"},{"t":"Shoulder Posting Troubleshooting","ts":"1:35:39"},{"t":"Shoulder Posting 2","ts":"1:44:22"},{"t":"Hip Sweep","ts":"1:47:20"},{"t":"Overview of the Side Scissor Series","ts":"1:53:51"}]},"28":{"title":"Closed Guard 4","chapters":[{"t":"The Top Lock","ts":"0:00"},{"t":"The Number One Grip","ts":"8:52"},{"t":"Attacking With the Arm Lock (Juji Gatame) From Top Lock","ts":"20:27"},{"t":"The 45 Inside Position","ts":"30:40"},{"t":"Arm Bar (Juji Gatame) From Closed Guard","ts":"44:01"}]},"29":{"title":"Closed Guard 5","chapters":[{"t":"Flower Sweep","ts":"0:00"},{"t":"The Hip Sweep","ts":"11:06"},{"t":"Hip Sweep Setup - Misdirection","ts":"23:21"},{"t":"Hip Sweep Setup - Cross Elbow Post","ts":"28:01"},{"t":"Hip Sweep Setup - Grip Break Method","ts":"31:04"},{"t":"The Golden Rule of The Hip Sweep","ts":"34:37"},{"t":"Breaking Posture - Flower Sweep to Hip Sweep","ts":"39:56"},{"t":"Breaking Posture - Collar Tie Method","ts":"46:23"},{"t":"Breaking Posture - Scoop Sweep to Hip Sweep","ts":"49:48"},{"t":"Scoop Sweep to Hip Sweep - Opponent Posts One Leg","ts":"55:45"},{"t":"Cross Cuff Hip Sweep","ts":"59:21"},{"t":"The Hip Sweep: Putting It All Together","ts":"1:08:18"}]},"30":{"title":"Closed Guard 6","chapters":[{"t":"Scissor Sweep","ts":"0:00"},{"t":"Scissor Sweep Double Sleeve Grips","ts":"14:41"},{"t":"2 On 1 Grip Scissor Sweep","ts":"19:56"},{"t":"Scissor Sweep On a Posted Leg","ts":"23:00"},{"t":"The Pendulum Sweep","ts":"26:37"},{"t":"Pendulum Sweep With Cuff Grip","ts":"43:31"},{"t":"The Pendulum Sweep as a Learning Device","ts":"48:31"},{"t":"The Strongest Pendulum Sweep: Trapping The Arm","ts":"52:17"},{"t":"The Versatility of The Arm Trap","ts":"59:09"},{"t":"The Versatility of The Arm Trap Part 2","ts":"1:02:27"},{"t":"The Versatility of The Arm Trap Part 3","ts":"1:06:03"}]},"31":{"title":"Closed Guard 7","chapters":[{"t":"The Clamp - Transition From Closed Guard","ts":"0:00"},{"t":"Attacking From The Clamp","ts":"6:56"},{"t":"Trap Triangle/Inside Wrist Grip","ts":"30:13"},{"t":"Overhead Sweep","ts":"51:05"}]},"32":{"title":"Closed Guard 8","chapters":[{"t":"The Scooping Sweep","ts":"0:00"},{"t":"The Handstand Sweep","ts":"12:40"},{"t":"The Leg Trap Sweep","ts":"18:27"},{"t":"Omoplata Sweeps on a Standing Opponent","ts":"22:23"},{"t":"The Double Ankle Sweep","ts":"39:49"}]},"33":{"title":"Open Guard 1","chapters":[{"t":"Introduction to Open Guard","ts":"0:00"},{"t":"Theory - What is the value of the open guard?","ts":"3:32"},{"t":"A Contradiction in Jiu-Jitsu","ts":"10:08"},{"t":"Finding Advantage Within a Neutral Position","ts":"14:18"},{"t":"The Four Main Scenarios From Open Guard","ts":"19:42"},{"t":"How to Grip the Gi for Maximum Results","ts":"28:50"},{"t":"The Single Biggest Determinant of Success: Kuzushi","ts":"44:11"},{"t":"Kuzushi Part 2","ts":"52:38"},{"t":"6 Principles of Sweeps - Feet Off the Floor","ts":"1:02:54"},{"t":"Double Direction","ts":"1:06:53"},{"t":"Arm Trap","ts":"1:10:31"},{"t":"Action Reaction","ts":"1:14:46"},{"t":"Wrestling Reversal","ts":"1:21:20"},{"t":"Double Trouble","ts":"1:27:49"}]},"34":{"title":"Open Guard 2","chapters":[{"t":"Balancing Guard Retention with Guard Offense","ts":"0:00"},{"t":"Two Crucial Skill Sets - Double Seated Position","ts":"35:09"},{"t":"First Contact and Entry Into Open Guard","ts":"47:37"}]},"35":{"title":"Open Guard 3","chapters":[{"t":"Hook Sweep/Sumi Gaeshi","ts":"0:00"},{"t":"Directionality of Force","ts":"10:06"},{"t":"Principle of Ken Ken","ts":"17:52"},{"t":"Changing Direction Sumi Gaeshi","ts":"27:17"},{"t":"Hook Sweep/Sumi Gaeshi Practical Application","ts":"31:00"},{"t":"The Role of Your Two Legs in Hook Sweeps","ts":"41:18"},{"t":"Hook Sweep/Sumi Gaeshi Angles of Attack","ts":"46:58"},{"t":"Look Where You Want Them to Land","ts":"57:06"},{"t":"Multiple Grips for Hook Sweep/Sumi Gaeshi","ts":"1:00:57"},{"t":"Hook Sweep/Sumi Gaeshi Grip and Go","ts":"1:23:50"},{"t":"Dealing with a Posted Hand","ts":"1:28:22"},{"t":"Double Direction Sasae","ts":"1:35:36"}]},"36":{"title":"Open Guard 4","chapters":[{"t":"Sumi Gaeshi and Chest Contact","ts":"0:00"},{"t":"Hook Sweep From a Supine Position","ts":"10:05"},{"t":"Hook Sweep From a Supine Position Part 2","ts":"14:33"},{"t":"Leg Frames From Butterfly Guard","ts":"18:19"},{"t":"Arm Trap Sumi Gaeshi/Hook Sweep Series","ts":"27:47"},{"t":"Hook Sweep Sumi Gaeshi with Arm Trap","ts":"38:41"},{"t":"Hook Sweep Sumi Gaeshi Combined with Sasae","ts":"45:06"},{"t":"Supine Arm Traps","ts":"52:20"},{"t":"Yoko Sumi Gaeshi","ts":"57:03"},{"t":"Side to Side Arm Trap Sumi Gaeshi","ts":"1:01:37"},{"t":"Arm Drag/Arm Trap Hook Sweep","ts":"1:06:29"},{"t":"Sumi Gaeshi on a Standing Opponent","ts":"1:12:27"},{"t":"Spider Sumi Gaeshi","ts":"1:19:03"},{"t":"Hiza Guruma","ts":"1:23:37"},{"t":"Hiza Guruma From Underhooks","ts":"1:33:53"},{"t":"Spider Guard on a Kneeling Opponent","ts":"1:39:00"}]},"37":{"title":"Open Guard 5","chapters":[{"t":"Attacking an Opponent on One Knee","ts":"0:00"},{"t":"Hiza Guruma When Opponent is on One Knee","ts":"7:32"},{"t":"Ankle Pick (Kibisu Gaeshi)","ts":"9:58"},{"t":"Shoe Lace to Shoe Lace","ts":"14:55"},{"t":"Kneeling Opponent Transition to Ashi Garami","ts":"19:23"},{"t":"Getting Feet Off the Mat with Tomoe Nage","ts":"25:33"},{"t":"Tomoe Nage Sweep De La Riva Variation","ts":"26:26"},{"t":"Tomoe Nage De La Riva Variation Part 2","ts":"38:46"},{"t":"Tomoe Nage De La Riva Variation Part 3","ts":"44:17"},{"t":"Sumi Tomoe Nage","ts":"50:43"},{"t":"Sumi Tomoe Nage Part 2","ts":"56:36"},{"t":"Lapel and Spider Tomoe Nage","ts":"1:02:09"},{"t":"Double Footed Tomoe Nage","ts":"1:09:34"},{"t":"Lasso Tomoe Nage","ts":"1:16:12"},{"t":"Yoko Tomoe Nage as a Sweep","ts":"1:20:36"}]},"38":{"title":"Open Guard 6","chapters":[{"t":"Cross Collar Cuff and Bicep - The Single Greatest Open Guard","ts":"0:00"},{"t":"Triangle from Cross Collar Cuff and Bicep","ts":"10:10"},{"t":"Armbar Juji Gatame","ts":"13:41"},{"t":"Omoplata","ts":"22:44"},{"t":"Tripod Sweep","ts":"28:04"},{"t":"Ankle Pick/Kibisu Gaeshi","ts":"34:02"},{"t":"Uke Waza/Lapel Drag","ts":"40:36"},{"t":"Tomoe Nage","ts":"45:28"},{"t":"De La Riva Guard","ts":"51:18"},{"t":"De La Riva Guard Part 2","ts":"1:02:22"},{"t":"De La Riva Guard Part 3","ts":"1:05:13"},{"t":"De La Riva Guard Part 4","ts":"1:08:13"},{"t":"Transition to Inside Control: Ashi Garami","ts":"1:13:10"},{"t":"Ashi Garami Part 2","ts":"1:19:39"},{"t":"Ashi Garami Part 3","ts":"1:22:21"},{"t":"Ashi Garami Part 4","ts":"1:26:25"}]},"39":{"title":"Open Guard 7","chapters":[{"t":"Ashi Garami","ts":"0:00"},{"t":"Ashi Garami Standard Sweep","ts":"11:50"},{"t":"Double Leg Ashi Garami","ts":"17:31"},{"t":"Relationship Between Ashi Garami & X-Guard","ts":"23:41"},{"t":"X Guard Scoop Sweep","ts":"29:36"},{"t":"X Guard Scoop Sweep Part 2","ts":"35:07"},{"t":"X Guard Near Cuff Sweep","ts":"37:58"},{"t":"X Guard Far Cuff Sweep","ts":"42:08"},{"t":"Double Leg X Guard Sweep","ts":"44:57"},{"t":"X Guard Tomoe Nage","ts":"49:06"},{"t":"X Guard Back to Ashi Garami","ts":"54:52"}]},"40":{"title":"Open Guard 8","chapters":[{"t":"Double Kouchi Gari Part 1","ts":"0:00"},{"t":"Double Kouchi Gari Part 2","ts":"11:09"},{"t":"Double Kouchi Gari Part 3","ts":"13:53"},{"t":"Double Kouchi Gari Part 4","ts":"16:39"},{"t":"Double Kouchi Gari Part 5","ts":"19:28"},{"t":"Double Kouchi Gari Part 6","ts":"22:07"},{"t":"Negating the Split Squat (Headquarters)","ts":"27:54"},{"t":"Negating the Split Squat Part 2","ts":"40:51"},{"t":"Negating the Split Squat Part 3","ts":"49:37"},{"t":"Negating the Split Squat Part 4","ts":"55:27"},{"t":"Putting It All Together","ts":"59:53"}]},"41":{"title":"Passing the Guard 1","chapters":[{"t":"Introduction to Passing the Guard","ts":"0:00"},{"t":"Philosophy of Opening a Closed Guard","ts":"3:40"},{"t":"Top Position: Opening a Closed Guard","ts":"12:11"},{"t":"Opening Closed Guard 2","ts":"30:31"},{"t":"Opening Closed Guard 3","ts":"37:41"},{"t":"Opening Closed Guard 4","ts":"44:26"},{"t":"Opening Closed Guard 5","ts":"53:02"},{"t":"Opening Closed Guard 6","ts":"56:05"},{"t":"Opening Closed Guard 7","ts":"1:00:39"},{"t":"Opening Closed Guard 8","ts":"1:05:40"},{"t":"Opening Closed Guard 9","ts":"1:07:20"},{"t":"Opening Closed Guard 10","ts":"1:11:48"},{"t":"Opening Closed Guard 11","ts":"1:19:03"}]},"42":{"title":"Passing the Guard 2","chapters":[{"t":"Overview of Standard Method Of Opening Closed Guard","ts":"0:00"},{"t":"Opening Closed Guard: Knee Post Method","ts":"8:29"},{"t":"Knee Post Method 2","ts":"16:12"},{"t":"Knee Post Method 3","ts":"21:40"},{"t":"Knee Post Method 4","ts":"23:53"},{"t":"Knee Post Method 5","ts":"27:33"},{"t":"Knee Post Method 6","ts":"29:30"},{"t":"Opening Closed Guard / Lifting Method","ts":"34:07"},{"t":"Overview of 3 Methods","ts":"41:16"},{"t":"Problem of Procrastination","ts":"47:10"},{"t":"The 5 Steps Of Guard Passing - Step 1","ts":"52:50"},{"t":"Step 2","ts":"1:00:13"},{"t":"Step 3","ts":"1:06:25"},{"t":"Step 4","ts":"1:10:52"},{"t":"Step 5","ts":"1:17:44"},{"t":"NAC Open Guard Passing Method","ts":"1:27:10"},{"t":"Split Squat as Ultimate Staging Platform","ts":"1:31:35"},{"t":"Single Biggest Insight: Side to Side Pressure","ts":"1:36:29"},{"t":"Mechanical and Tactical Advantage","ts":"1:43:50"}]},"43":{"title":"Passing the Guard 3","chapters":[{"t":"Technical Proficiency With High Percentage Methods","ts":"0:00"},{"t":"Double Under Pass","ts":"1:34"},{"t":"Over Under Pass","ts":"26:12"},{"t":"Knee Cut Pass","ts":"46:17"}]},"44":{"title":"Passing the Guard 4","chapters":[{"t":"Toreando Pass","ts":"0:00"}]},"45":{"title":"Passing the Guard 5","chapters":[{"t":"Leg Drag","ts":"0:00"},{"t":"Long Step Guard Pass","ts":"35:06"},{"t":"The Smash Pass","ts":"1:09:15"}]},"46":{"title":"Passing the Guard 6","chapters":[{"t":"Breaking Connections and Shutting Down a Dangerous Guard","ts":"0:00"},{"t":"Cross Collar Cuff And Bicep Guard","ts":"7:26"},{"t":"De La Riva Guard","ts":"28:36"},{"t":"Reverse De La Riva","ts":"42:37"},{"t":"Lasso Guard","ts":"47:13"},{"t":"Spider And Lasso Guard","ts":"52:56"},{"t":"Double Spider Guard","ts":"1:00:18"},{"t":"Emergency Measures","ts":"1:07:27"},{"t":"Ashi Garami","ts":"1:14:13"},{"t":"Maintaining Top Position","ts":"1:21:37"},{"t":"The Ancient Law of Push When Pulled","ts":"1:23:40"},{"t":"Recovering From A Fall","ts":"1:31:26"}]},"47":{"title":"Passing the Guard 7","chapters":[{"t":"The Split Squat Position (Headquarters)","ts":"0:00"},{"t":"Hip Control and Head Control From Split Squat","ts":"12:47"},{"t":"Negating Both Feet From Split Squat","ts":"16:30"},{"t":"The Knee Drop","ts":"21:45"},{"t":"Double Knee Position","ts":"26:13"},{"t":"Outside Advantage Position","ts":"29:56"},{"t":"Putting Skills & Theory Into Combative Context","ts":"39:07"},{"t":"Flattening an Opponent","ts":"51:47"},{"t":"Negating An Opponent's Guard","ts":"1:00:45"},{"t":"Creating Advantage While Passing","ts":"1:07:46"}]},"48":{"title":"Passing the Guard 8","chapters":[{"t":"Guard Passing From The Shoulder Line","ts":"0:00"},{"t":"Beating Frames - Distance","ts":"8:35"},{"t":"Angle Change","ts":"13:48"},{"t":"Direction","ts":"16:04"},{"t":"Directly Attacking The Frames","ts":"20:39"},{"t":"Side To Side Pressure","ts":"24:11"},{"t":"Beating Inversion","ts":"29:35"},{"t":"Turning In To Turtle","ts":"33:40"},{"t":"Turning Out To Turtle","ts":"38:24"},{"t":"Propping","ts":"42:33"}]},"49":{"title":"Half Guard Passing and Dynamic Pins 1","chapters":[{"t":"Half Guard Passing Introduction","ts":"0:00"},{"t":"Overview: The 4.6.3 System","ts":"4:49"},{"t":"1st Skill: Forcing Half Guard","ts":"26:54"},{"t":"Pinning the Knee to the Mat","ts":"33:29"},{"t":"Inside Knee Position","ts":"37:58"},{"t":"Using Standard Guard Passes to Attain Half Guard","ts":"43:05"},{"t":"Double Knee Position","ts":"48:53"},{"t":"Clearing the Knee Shield","ts":"59:12"},{"t":"Clearing a Scorpion (Lockdown)","ts":"1:18:39"},{"t":"Clearing a Deep Half Guard","ts":"1:30:35"},{"t":"Negating Your Opponents Attacks","ts":"1:41:02"},{"t":"The Fundamental Gripping Stance","ts":"1:45:16"},{"t":"The Fundamental Starting Position (FSP)","ts":"1:54:33"}]},"50":{"title":"Half Guard Passing and Dynamic Pins 2","chapters":[{"t":"The Skill of Crossfacing & Underhooking","ts":"0:00"},{"t":"Shoelace Method","ts":"22:10"},{"t":"The Ball of Foot Method","ts":"29:16"},{"t":"The Hand Post & Elbow Post Method","ts":"36:25"},{"t":"Square Tripod Hand Post Method","ts":"43:42"},{"t":"The Shaking Method","ts":"47:57"},{"t":"Zig Zag Knee Direction","ts":"51:35"},{"t":"Pass from 3/4 Side Sit-Out","ts":"55:05"},{"t":"Pass from 3/4 Side","ts":"1:07:38"},{"t":"Reverse 3/4 Side","ts":"1:12:55"},{"t":"3/4 Mount","ts":"1:20:11"},{"t":"Moving Between the 4 Dominant Passing Positions","ts":"1:40:29"},{"t":"Half Guard Passing Direction & The Law of Perpendicularity","ts":"1:46:24"}]},"51":{"title":"Half Guard Passing and Dynamic Pins 3","chapters":[{"t":"The Single Most Important Reason for Emphasis on Half Guard Passing","ts":"0:00"},{"t":"Different Upper Body Configurations for Half Guard Passing","ts":"11:06"},{"t":"A Crucial Skill: Setting a Crossface","ts":"18:19"},{"t":"Setting a Crossface 2","ts":"25:30"},{"t":"Dealing with an Opponent's Underhook","ts":"38:33"}]},"52":{"title":"Half Guard Passing and Dynamic Pins 4","chapters":[{"t":"Configuring Your Free Leg","ts":"0:00"},{"t":"Configuring Your Free Leg 2","ts":"5:23"},{"t":"Configuring Your Free Leg 3","ts":"8:01"},{"t":"Passing Half Guard 1: Half Kata Gatame","ts":"12:43"},{"t":"Passing Half Guard 2: Lapel Cross Face","ts":"21:04"},{"t":"Passing Half Guard 3: Top Head and Arm","ts":"29:06"},{"t":"Passing Half Guard 4: Head Block Half Guard Pass","ts":"37:49"},{"t":"Passing Half Guard 5: Double Underhook Half Guard Passing","ts":"42:30"},{"t":"Near Side & Far Side Knee Wedges","ts":"47:36"},{"t":"Getting the Inside Knee To the Floor","ts":"52:08"},{"t":"Overview of the 4.6.3 Passing System","ts":"57:07"}]},"53":{"title":"Half Guard Passing and Dynamic Pins 5","chapters":[{"t":"Passing Half Butterfly Guard","ts":"0:00"},{"t":"The Golden Rule of Half Butterfly Guard Passing","ts":"4:30"},{"t":"Upper Body Gripping","ts":"10:11"},{"t":"Lower Body Leg Positioning 1","ts":"22:51"},{"t":"Lower Body Leg Positioning 2","ts":"43:49"},{"t":"Passing Half Butterfly Guard: Putting It All Together","ts":"1:00:19"}]},"54":{"title":"Half Guard Passing and Dynamic Pins 6","chapters":[{"t":"Introduction to Dynamic Pinning","ts":"0:00"},{"t":"Definition of a Pin","ts":"9:02"},{"t":"Location of Wedges","ts":"12:34"},{"t":"Base of Support","ts":"17:50"},{"t":"No Pin is Perfect But There is Perfect Pinning","ts":"20:38"},{"t":"The Main Directive of Dynamic Pinning","ts":"25:22"},{"t":"The 3 Golden Rules of Dynamic Pinning","ts":"33:55"},{"t":"Understanding The Scoring Criteria for Pins","ts":"40:47"},{"t":"The Battle for Inside Position","ts":"57:23"},{"t":"A Theory of Wedges, Inside Position, & Base","ts":"1:05:30"},{"t":"Static Pinning","ts":"1:21:01"},{"t":"Pushing","ts":"1:31:15"},{"t":"Shrimping","ts":"1:40:50"},{"t":"Bridging","ts":"1:46:10"},{"t":"Knee Escapes","ts":"1:51:34"}]},"55":{"title":"Half Guard Passing and Dynamic Pins 7","chapters":[{"t":"The 1st Skill","ts":"0:00"},{"t":"North South Pin (Variations)","ts":"19:30"},{"t":"Mounted Position (Variations)","ts":"29:43"},{"t":"Rear Mount (Variations)","ts":"47:46"},{"t":"Transitioning Between Pins","ts":"56:42"},{"t":"Kneeling Step Over","ts":"1:14:44"},{"t":"A Sit","ts":"1:26:46"},{"t":"Side to Side","ts":"1:35:16"},{"t":"Side to Knee on Belly","ts":"1:46:23"},{"t":"Knee on Belly to Knee on Belly","ts":"1:53:40"},{"t":"Mount to Back (Reactive)","ts":"2:00:31"},{"t":"Mount to Back (Proactive)","ts":"2:11:16"},{"t":"Mount to Back (Leg Entry)","ts":"2:23:09"}]},"56":{"title":"Half Guard Passing and Dynamic Pins 8","chapters":[{"t":"Transitioning Between Pins (cont.)","ts":"0:00"},{"t":"Rear Mount to Mount","ts":"7:39"},{"t":"Side to Rear Mount","ts":"12:10"},{"t":"Side to Rear Mount (Reactive)","ts":"20:21"},{"t":"Extracting a Foot","ts":"28:51"},{"t":"Maintaining the Mounted Position: Practical Applications","ts":"38:45"},{"t":"Maintaining the Side Position: Practical Applications","ts":"50:43"},{"t":"Retaining the Rear Mount","ts":"1:01:04"},{"t":"The Minimum Requirement of Back Control: Diagonal Control","ts":"1:13:27"},{"t":"Lower Body Game","ts":"1:18:52"},{"t":"The Three Most Important Moves to Maintain Lower Body Control","ts":"1:24:45"}]},"57":{"title":"Strangles & Turtle Breakdowns 1","chapters":[{"t":"Overview","ts":"0:00"},{"t":"Introduction to Strangles","ts":"5:48"},{"t":"The 3x3 Approach to Gi Strangles","ts":"9:33"},{"t":"Understanding The Gi and Strangles","ts":"15:35"},{"t":"Sliding Collar Strangle - Demarcation Line","ts":"23:44"},{"t":"Wrist Flick","ts":"28:02"},{"t":"How Much is Too Much?","ts":"32:01"},{"t":"Hands In Unison","ts":"35:36"},{"t":"Comparing Gi & No Gi Strangulation","ts":"39:23"},{"t":"3 Alternatives For Control Hand","ts":"46:06"},{"t":"Single Greatest Advantage of Lapel Strangles","ts":"55:07"},{"t":"Strengthening the Strangle Hand - 3 Finger Grip","ts":"1:04:36"},{"t":"Role of the Thumb on the Strangle Hand","ts":"1:16:44"},{"t":"Short & Long Leg Strangles","ts":"1:23:37"},{"t":"The Hidden Hand","ts":"1:29:32"},{"t":"The Strangle Shift and Cross Back Position","ts":"1:35:10"}]},"58":{"title":"Strangles & Turtle Breakdowns 2","chapters":[{"t":"Sliding Collar Strangle System Overview","ts":"0:00"},{"t":"Step 1: Establishing Your Position","ts":"1:07"},{"t":"Step 2: Establishing The Strangle Hand","ts":"5:16"},{"t":"Step 3: Establishing Control Hand","ts":"9:05"},{"t":"Step 4: Maximizing Mechanical Power","ts":"11:46"},{"t":"Full Mastery of the Sliding Collar Strangle","ts":"20:03"},{"t":"System Modification","ts":"34:51"},{"t":"System Modification 2","ts":"44:06"},{"t":"System Modification 3","ts":"49:29"},{"t":"Strangling Without Hooks - Clock Strangle","ts":"54:10"},{"t":"Clock Strangle - Foot Work","ts":"1:08:04"},{"t":"Clock Strangle - Throwing Weight Onto Your Hands","ts":"1:13:15"},{"t":"Clock Strangle - Walking The Circle","ts":"1:20:15"},{"t":"Clock Strangle - Unified Hands are Opposing Hands","ts":"1:23:55"},{"t":"Clock Strangle - Power of Sprawling Finish","ts":"1:27:02"},{"t":"Clock Strangle - Critical Role of Head Position","ts":"1:29:44"},{"t":"Clock Strangle - Nullifying Defense","ts":"1:31:54"},{"t":"Clock Strangle - Nullifying Defense 2","ts":"1:34:38"},{"t":"Clock Strangle - Alternative Grips","ts":"1:36:50"}]},"59":{"title":"Strangles & Turtle Breakdowns 3","chapters":[{"t":"Cross Collar Strangle - Juji Jime","ts":"0:00"},{"t":"Cross Collar Strangles - Preliminaries","ts":"2:25"},{"t":"Strangle Hand & Finishing Hand","ts":"5:28"},{"t":"Setting The Lapels","ts":"8:46"},{"t":"Setting Strangle Hand","ts":"12:44"},{"t":"Biting Method","ts":"17:40"},{"t":"Setting Finishing Hand","ts":"21:46"},{"t":"Head Position","ts":"26:15"},{"t":"Directionality of Force","ts":"32:28"},{"t":"Juji Jime - A Dilemma Based Attack","ts":"39:56"},{"t":"Juji Jime - Bottom Position Kuzushi Based Method","ts":"45:55"},{"t":"Fighting Through The Hands - High Elbow / Low Elbow","ts":"53:58"},{"t":"Juji Jime From Mounted Position","ts":"1:03:58"},{"t":"Mounted Juji Jime - Setting The Finishing Hand","ts":"1:13:51"},{"t":"Troubleshooting Mounted Juji Jime","ts":"1:26:47"},{"t":"Troubleshooting Mounted Juji Jime 2","ts":"1:33:25"},{"t":"Kata Juji Jime","ts":"1:41:48"}]},"60":{"title":"Strangles & Turtle Breakdowns 4","chapters":[{"t":"Kata Juji Jime Open Guard Position","ts":"0:00"},{"t":"Kata Juji Jime Open Guard Position 2","ts":"4:38"},{"t":"Kata Juji Jime from Front Side Top Turtle Position","ts":"8:34"},{"t":"Using Your Legs in Kata Juji Jime","ts":"12:23"},{"t":"Spinning Juji Jime","ts":"23:17"},{"t":"Spinning Juji Jime 2","ts":"32:09"},{"t":"Sprawling Juji Jime","ts":"45:17"},{"t":"Troubleshooting Sprawling Juji Jime","ts":"50:16"},{"t":"Cross Collar Strangle From Open Guard","ts":"55:52"},{"t":"Low Lapel Juji Jime","ts":"1:03:10"}]},"61":{"title":"Strangles & Turtle Breakdowns 5","chapters":[{"t":"The Ezekiel Strangle: Sode Guruma","ts":"0:00"},{"t":"The Relationship Between the Back Ezekiel and the Sliding Collar","ts":"3:03"},{"t":"Combat Applications of the Back Ezekiel","ts":"17:32"},{"t":"The Front Ezekiel Strangle","ts":"24:28"},{"t":"The Single Biggest Problem with Front Ezekiel and Solution","ts":"35:35"},{"t":"Rear Strangle System Order of Operations","ts":"47:47"},{"t":"Bonus: Low Lapel Strangle","ts":"58:02"}]},"62":{"title":"Strangles & Turtle Breakdowns 6","chapters":[{"t":"Overview of Turtle Breakdowns","ts":"0:00"},{"t":"The Main Variations Of Turtle Position","ts":"3:16"},{"t":"The Fundamental Dilemma of Turtle Breakdowns","ts":"9:59"},{"t":"The 2 Central Problems - Escapes and Counters","ts":"14:44"},{"t":"Second Problem: The Elbow Knee Connection","ts":"22:27"},{"t":"Four Stances From Which To Attack Turtle Position","ts":"25:39"},{"t":"The Three Main Targets - Target #1: The Hips","ts":"43:24"},{"t":"Target #2: The Head","ts":"58:17"},{"t":"Target #3: The Wrists","ts":"1:05:50"},{"t":"Which Hook Should I Put In First?","ts":"1:18:23"}]},"63":{"title":"Strangles & Turtle Breakdowns 7","chapters":[{"t":"Start By Breaking Your Opponent's Stance","ts":"0:00"},{"t":"Breaking Your Opponent Down To A Hip","ts":"6:16"},{"t":"The Theory Of The Clock","ts":"14:56"},{"t":"The Easiest Way To Use Clock Theory","ts":"22:24"},{"t":"Scoring From The Hip Breakdown","ts":"32:22"},{"t":"Scoring From The Seated Breakdown","ts":"48:04"},{"t":"Scoring From The Shoulder Breakdown","ts":"53:58"}]},"64":{"title":"Strangles & Turtle Breakdowns 8","chapters":[{"t":"The Two On One Method","ts":"0:00"},{"t":"Reverse Tight Waist Two On One Method","ts":"18:28"},{"t":"Seat Belt Roll Method","ts":"23:14"},{"t":"Back Crucifix Method","ts":"32:10"},{"t":"Kimura Method","ts":"43:19"}]}}
+  }
+];
+function getBundle(id) { return INSTRUCTIONAL_BUNDLES.find(b=>b.id===id); }
+function getSeriesByVol(bundleId, volNum) {
+  const b = getBundle(bundleId); if (!b) return null;
+  return b.series.find(s => s.vols.includes(parseInt(volNum))) || null;
+}
 const OLD_CAT_TO_FAMILY = {
   'Guard':'Foundational Guards','Guard Passing':'Top Game','Pins':'Top Game',
   'Submissions':'Submissions','Escapes':'Escapes','Takedowns':'Takedowns',
@@ -1094,6 +1295,8 @@ const FAMILY_MAP_GROUP = {
 };
 
 function esc(s) { const d=document.createElement('div'); d.textContent=s??''; return d.innerHTML; }
+// Escape JSON-encoded values for safe inclusion inside an HTML attribute (replaces " with &quot;)
+function attr(v) { return JSON.stringify(v).replace(/"/g,'&quot;'); }
 
 let state = { entries: [], drilled: [] };
 let editingId = null;
@@ -1106,13 +1309,63 @@ let mapFamilyFilter = 'all';
 let mapPan = {x:0,y:0}, mapZoom = 1;
 let mapDragging = false, mapDragStart = {x:0,y:0}, mapPanStart = {x:0,y:0}, mapDragMoved = false;
 let mapNodes = [], mapHover = null;
-let stepCount = 0;
 
 function load() {
   try { const r = localStorage.getItem(STORAGE_KEY); if (r) state = JSON.parse(r); } catch(e) {}
   if (!state.positionNotes) state.positionNotes = {};
+  if (!state.customMoves) state.customMoves = [];
+  if (!state.debriefs) state.debriefs = [];
+  if (!state.instructionalNotes) state.instructionalNotes = [];
+  // Migrate older instructional notes to the bundle/series/chapterIdx + noteType schema
+  let _migInst = false;
+  state.instructionalNotes = state.instructionalNotes.map(n => {
+    if (n && n.bundleId && n.chapterIdx != null && n.noteType) return n;
+    const out = {...n};
+    out.bundleId = out.bundleId || 'gff';
+    // Classify as move if it has step content, otherwise principle
+    if (!out.noteType) {
+      const hasSteps = (Array.isArray(n.stepsList) && n.stepsList.length)
+                    || (Array.isArray(n.steps) && n.steps.length);
+      out.noteType = hasSteps ? 'move' : 'principle';
+      // Hoist legacy GFF Bank steps into stepsList for moves
+      if (hasSteps && !out.stepsList) {
+        out.stepsList = (n.steps || []).map(s => ({text: s.text || '', photo: s.img || s.photo || null})).filter(s => s.text || s.photo);
+      }
+    }
+    const volNum = parseInt(n.volumeNum);
+    if (!Number.isNaN(volNum)) {
+      const s = (typeof getSeriesByVol === 'function') ? getSeriesByVol(out.bundleId, volNum) : null;
+      if (s) out.seriesId = s.id;
+      if (out.chapterIdx == null && n.chapterTitle) {
+        const m = String(n.chapterTitle).match(/Ch[\.\s]*(\d+)/i);
+        if (m) out.chapterIdx = parseInt(m[1]) - 1;
+      }
+      if (out.chapterIdx == null) out.chapterIdx = 0;
+      const bundle = (typeof getBundle === 'function') ? getBundle(out.bundleId) : null;
+      if (bundle && bundle.volumes[String(volNum)]) {
+        out.volumeTitle = bundle.volumes[String(volNum)].title;
+        const sLab = bundle.series.find(x=>x.id===out.seriesId);
+        if (sLab) out.seriesName = bundle.name + ' — ' + sLab.label;
+      }
+      out.volumeNum = volNum;
+    }
+    _migInst = true;
+    return out;
+  });
+  if (_migInst) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
 }
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); updateDrillBadge(); }
+let _backupTimer = null;
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateDrillBadge();
+  // Auto-push backup to GitHub 60s after last save
+  if (ghConfigured()) {
+    clearTimeout(_backupTimer);
+    _backupTimer = setTimeout(pushBackupToGitHub, 30000);
+  }
+}
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
@@ -1124,7 +1377,7 @@ function switchView(name, btn) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   btn.classList.add('active');
-  document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq' || name === 'library') ? 'none' : '';
+  document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq' || name === 'library' || name === 'instructionals' || name === 'debrief') ? 'none' : '';
   if (name === 'timeline') renderTimeline();
   if (name === 'drill') renderDrillList();
   if (name === 'flash') initFlashcards();
@@ -1132,6 +1385,8 @@ function switchView(name, btn) {
   if (name === 'seq') renderSeqList();
   if (name === 'stats') renderStats();
   if (name === 'library') initLibrary();
+  if (name === 'instructionals') renderInstructionals();
+  if (name === 'debrief') initTDD();
 }
 
 function setType(type) {
@@ -1140,7 +1395,6 @@ function setType(type) {
   document.getElementById('type-online').classList.toggle('active', type==='online');
   document.getElementById('class-fields').style.display = type==='class'?'':'none';
   document.getElementById('online-fields').style.display = type==='online'?'':'none';
-  document.getElementById('rounds-section').style.display = type==='class'?'':'none';
   document.getElementById('insights-section-title').textContent = type==='class' ? "Coach's Key Concepts" : 'Key Takeaways';
   document.getElementById('insights-section-hint').textContent = type==='class'
     ? 'Small details the instructor mentioned that make a big difference'
@@ -1175,7 +1429,20 @@ function positionOpts(family, sel) {
   return '<option value="">Select position...</option>' +
     subs.map(p=>`<option${p===sel?' selected':''}>${p}</option>`).join('');
 }
-// ─── ROUNDS DEBRIEF ─────────────────────────────────────────────────────────
+// Get all known positions: hardcoded MOVE_TREE + user-added custom positions
+function getAllKnownPositions(family) {
+  const builtins = family ? (MOVE_TREE[family]||[]) : Object.values(MOVE_TREE).flat();
+  const custom = (state.customMoves||[]).filter(p => {
+    if (!family) return true;
+    // include user-added positions for this family (stored as "Family::Position")
+    return p.startsWith(family+'::') || !p.includes('::');
+  }).map(p => p.includes('::') ? p.split('::')[1] : p);
+  return [...new Set([...builtins, ...custom])].sort();
+}
+function positionDatalistHTML(family) {
+  return getAllKnownPositions(family).map(p=>`<option value="${esc(p)}">`).join('');
+}
+// ─── TRAINING DAY DEBRIEF ─────────────────────────────────────────────────────────
 const BELT_COLORS = { white:'#d8d8d8', blue:'#4da6ff', purple:'#a78bfa', brown:'#a0522d', black:'#555' };
 const GAS_LABELS  = { gassed:'💀 Gassed', pushed:'😤 Pushed it', good:'✅ Felt good', fresh:'⚡ Fresh' };
 const OC_TYPES    = ['hit','caught','sweep','escape','td'];
@@ -1187,118 +1454,10 @@ const OC_SUGGEST_POOL = {
   td:     ()=>[...MOVE_TREE['Takedowns']],
 };
 
-function togglePartnerForm() {
-  const f=document.getElementById('partner-mini-form');
-  f.style.display = f.style.display==='none' ? 'flex' : 'none';
-  if (f.style.display!=='none') document.getElementById('pf-name').focus();
-}
-function confirmPartner() {
-  const name=document.getElementById('pf-name').value.trim();
-  const belt=document.getElementById('pf-belt').value;
-  addPartnerChip(name, belt);
-  document.getElementById('pf-name').value='';
-  document.getElementById('partner-mini-form').style.display='none';
-}
-function addPartnerChip(name, belt) {
-  const container=document.getElementById('debrief-partners');
-  const chip=document.createElement('span');
-  chip.className='partner-chip';
-  chip.dataset.name=name; chip.dataset.belt=belt;
-  const color=BELT_COLORS[belt]||'#888';
-  chip.innerHTML=`<span class="belt-dot" style="background:${color}"></span>${esc(name||belt+' belt')}<button class="oc-chip-x" type="button" onclick="this.closest('.partner-chip').remove()">×</button>`;
-  container.appendChild(chip);
-}
-
-function debriefSuggest(type, val) {
-  const suggest=document.getElementById('oc-'+type+'-suggest');
-  if (!suggest) return;
-  if (!val||val.length<1) { suggest.style.display='none'; return; }
-  const pool=[...(OC_SUGGEST_POOL[type]?.()||[]), ...getTechniqueNames()];
-  const unique=[...new Set(pool)];
-  const matches=unique.filter(n=>n.toLowerCase().includes(val.toLowerCase())).slice(0,7);
-  if (!matches.length) { suggest.style.display='none'; return; }
-  suggest.innerHTML=matches.map(n=>`<div class="suggest-item" onclick="debriefAddChip('${type}',${JSON.stringify(n)})">${esc(n)}</div>`).join('');
-  suggest.style.display='block';
-}
-function debriefHideSuggest(type) {
-  const s=document.getElementById('oc-'+type+'-suggest');
-  if (s) s.style.display='none';
-}
-function debriefAddChip(type, val) {
-  const input=document.getElementById('oc-'+type+'-input');
-  const suggest=document.getElementById('oc-'+type+'-suggest');
-  const container=document.getElementById('oc-'+type+'-chips');
-  if (!container) return;
-  if (suggest) suggest.style.display='none';
-  const name=(val||(input?.value.trim()));
-  if (!name) return;
-  if (input) input.value='';
-  const existing=[...container.querySelectorAll('[data-oc-val]')].map(e=>e.dataset.ocVal);
-  if (existing.includes(name)) return;
-  const chip=document.createElement('span');
-  chip.className=`outcome-chip oc-chip-${type}`;
-  chip.dataset.ocVal=name;
-  chip.innerHTML=`${esc(name)}<button class="oc-chip-x" type="button" onclick="this.closest('.outcome-chip').remove()">×</button>`;
-  container.appendChild(chip);
-}
-// allow enter key on outcome inputs
-document.addEventListener('keydown', e=>{
-  OC_TYPES.forEach(type=>{
-    const inp=document.getElementById('oc-'+type+'-input');
-    if (e.target===inp && e.key==='Enter') { e.preventDefault(); debriefAddChip(type, inp.value.trim()); }
-  });
-  const pn=document.getElementById('pf-name');
-  if (e.target===pn && e.key==='Enter') { e.preventDefault(); confirmPartner(); }
-});
-
-function setGasTank(btn) {
-  document.querySelectorAll('.gas-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('gas-tank-val').value=btn.dataset.val;
-}
-
-function getDebriefData() {
-  const partners=[...document.querySelectorAll('#debrief-partners .partner-chip')].map(c=>({name:c.dataset.name||'',belt:c.dataset.belt||''}));
-  const outcome=type=>[...document.querySelectorAll('#oc-'+type+'-chips [data-oc-val]')].map(c=>c.dataset.ocVal);
-  return {
-    partners,
-    hit:    outcome('hit'),
-    caught: outcome('caught'),
-    sweep:  outcome('sweep'),
-    escape: outcome('escape'),
-    td:     outcome('td'),
-    gas:    document.getElementById('gas-tank-val')?.value||'',
-    clicked:document.getElementById('f-clicked')?.value.trim()||'',
-    fix:    document.getElementById('f-fix')?.value.trim()||'',
-  };
-}
-function restoreDebrief(rounds) {
-  // clear
-  document.getElementById('debrief-partners').innerHTML='';
-  OC_TYPES.forEach(t=>{ const c=document.getElementById('oc-'+t+'-chips'); if(c) c.innerHTML=''; });
-  document.querySelectorAll('.gas-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('gas-tank-val').value='';
-  document.getElementById('f-clicked').value='';
-  document.getElementById('f-fix').value='';
-  if (!rounds) return;
-  // new format
-  if (Array.isArray(rounds.partners)) rounds.partners.forEach(p=>addPartnerChip(p.name,p.belt));
-  OC_TYPES.forEach(t=>{ (rounds[t]||[]).forEach(v=>debriefAddChip(t,v)); });
-  if (rounds.gas) {
-    const btn=document.querySelector(`.gas-btn[data-val="${rounds.gas}"]`);
-    if (btn) { btn.classList.add('active'); document.getElementById('gas-tank-val').value=rounds.gas; }
-  }
-  if (rounds.clicked) document.getElementById('f-clicked').value=rounds.clicked;
-  if (rounds.fix) document.getElementById('f-fix').value=rounds.fix;
-  // old format backward compat
-  if (rounds.worked && !rounds.clicked) document.getElementById('f-clicked').value=rounds.worked;
-  if (rounds.mistakes && !rounds.fix) document.getElementById('f-fix').value=rounds.mistakes;
-}
-
 function updatePositionOpts(techId) {
   const fam = document.getElementById('tfam-'+techId)?.value || '';
-  const sel = document.getElementById('tpos-'+techId);
-  if (sel) sel.innerHTML = positionOpts(fam, '');
+  const datalist = document.getElementById('poslist-'+techId);
+  if (datalist) datalist.innerHTML = positionDatalistHTML(fam);
 }
 function setGi(techId, val) {
   document.querySelectorAll(`#gi-toggle-${techId} .gi-btn`).forEach(btn => {
@@ -1334,21 +1493,6 @@ function addTechniqueField(data) {
       </div>
     </div>
     <div class="form-row">
-      <div class="form-field">
-        <label>Family</label>
-        <select id="tfam-${id}" onchange="updatePositionOpts(${id})">${familyOpts(data?.family||getOldFamily(data?.cat||''))}</select>
-      </div>
-      <div class="form-field" style="flex:2">
-        <label>Specific Position / Type</label>
-        <select id="tpos-${id}">${positionOpts(data?.family||getOldFamily(data?.cat||''), data?.position||'')}</select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-field"><label>Starting Position</label><select id="tstart-${id}">${posOpts(data?.startPos||'')}</select></div>
-      <div class="form-field"><label>Outcome Position</label><select id="tend-${id}">${posOpts(data?.endPos||'')}</select></div>
-      <div class="form-field"><label>Outcome Method</label><select id="tmethod-${id}">${methodOpts(data?.method||'')}</select></div>
-    </div>
-    <div class="form-row">
       <div class="form-field"><label>Key Concept / Why It Works</label><input type="text" id="tconcept-${id}" placeholder="The core principle..." value="${esc(data?.concept||'')}"></div>
     </div>
     <div class="form-row">
@@ -1358,15 +1502,36 @@ function addTechniqueField(data) {
         <button class="add-step-btn" type="button" onclick="addStep(${id})">+ ADD STEP</button>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-field" style="flex:1">
-        <label>Linked Moves <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— chain to other techniques (e.g. armbar option off this)</span></label>
-        <div style="display:flex;gap:6px">
-          <input type="text" id="tlink-input-${id}" placeholder="Type a technique name..." style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none" oninput="suggestLinks(${id},this.value)" onblur="setTimeout(()=>{const s=document.getElementById('tlink-suggest-${id}');if(s)s.style.display='none'},200)" autocomplete="off">
-          <button type="button" class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addLink(${id})">+ LINK</button>
+    <div style="margin-bottom:8px">
+      <button type="button" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.nextElementSibling.style.display==='none'?'+ DETAILS':'− DETAILS'" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);background:none;border:1px dashed var(--border);border-radius:var(--radius);padding:4px 10px;cursor:pointer;letter-spacing:0.5px;transition:all 0.15s" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">${(data?.family||data?.startPos||data?.endPos||data?.method||data?.links?.length)?'− DETAILS':'+ DETAILS'}</button>
+      <div style="display:${(data?.family||data?.startPos||data?.endPos||data?.method||data?.links?.length)?'block':'none'}">
+        <div class="form-row" style="margin-top:10px">
+          <div class="form-field">
+            <label>Family</label>
+            <select id="tfam-${id}" onchange="updatePositionOpts(${id})">${familyOpts(data?.family||getOldFamily(data?.cat||''))}</select>
+          </div>
+          <div class="form-field" style="flex:2">
+            <label>Specific Position / Type <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— type any name, saved automatically</span></label>
+            <input type="text" id="tpos-${id}" list="poslist-${id}" placeholder="Type or pick from list..." value="${esc(data?.position||'')}" autocomplete="off">
+            <datalist id="poslist-${id}">${positionDatalistHTML(data?.family||getOldFamily(data?.cat||''))}</datalist>
+          </div>
         </div>
-        <div class="suggest-list" id="tlink-suggest-${id}"></div>
-        <div class="links-container" id="tlinks-${id}"></div>
+        <div class="form-row">
+          <div class="form-field"><label>Starting Position</label><select id="tstart-${id}">${posOpts(data?.startPos||'')}</select></div>
+          <div class="form-field"><label>Outcome Position</label><select id="tend-${id}">${posOpts(data?.endPos||'')}</select></div>
+          <div class="form-field"><label>Outcome Method</label><select id="tmethod-${id}">${methodOpts(data?.method||'')}</select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field" style="flex:1">
+            <label>Linked Moves <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— chain to other techniques</span></label>
+            <div style="display:flex;gap:6px">
+              <input type="text" id="tlink-input-${id}" placeholder="Type a technique name..." style="flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none" oninput="suggestLinks(${id},this.value)" onblur="setTimeout(()=>{const s=document.getElementById('tlink-suggest-${id}');if(s)s.style.display='none'},200)" autocomplete="off">
+              <button type="button" class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addLink(${id})">+ LINK</button>
+            </div>
+            <div class="suggest-list" id="tlink-suggest-${id}"></div>
+            <div class="links-container" id="tlinks-${id}"></div>
+          </div>
+        </div>
       </div>
     </div>`;
   document.getElementById('techniques-container').appendChild(div);
@@ -1382,7 +1547,6 @@ function addTechniqueField(data) {
 function addStep(techId, data) {
   const container = document.getElementById('steps-'+techId);
   if (!container) return;
-  stepCount++;
   const idx = container.children.length + 1;
   const row = document.createElement('div');
   row.className = 'step-row';
@@ -1505,7 +1669,7 @@ function suggestLinks(techId, val) {
   if (!val || val.length < 1) { suggest.style.display='none'; return; }
   const matches = getTechniqueNames().filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
   if (!matches.length) { suggest.style.display='none'; return; }
-  suggest.innerHTML = matches.map(n=>`<div class="suggest-item" onclick="pickLink(${techId},${JSON.stringify(n)})">${esc(n)}</div>`).join('');
+  suggest.innerHTML = matches.map(n=>`<div class="suggest-item" onmousedown="event.preventDefault()" onclick="pickLink(${techId},${attr(n)})">${esc(n)}</div>`).join('');
   suggest.style.display = 'block';
 }
 
@@ -1569,7 +1733,7 @@ function getTechniques() {
     techs.push({
       name,
       family,
-      position: document.getElementById('tpos-'+id)?.value||'',
+      position: (document.getElementById('tpos-'+id)?.value||'').trim(),
       gi: document.getElementById('tgi-'+id)?.value||'both',
       cat: family, // keep cat in sync for backward compat (stats, filters)
       startPos: document.getElementById('tstart-'+id)?.value||'',
@@ -1590,12 +1754,25 @@ function saveEntry() {
   const date = isClass ? document.getElementById('f-date').value : document.getElementById('f-date-online').value;
   if (!date) { showToast('Please add a date'); return; }
   const techniques = getTechniques();
+  // Capture any user-typed custom positions for future suggestions
+  if (!state.customMoves) state.customMoves = [];
+  techniques.forEach(t => {
+    const pos = (t.position||'').trim();
+    if (!pos) return;
+    const builtinForFamily = MOVE_TREE[t.family] || [];
+    const allBuiltins = Object.values(MOVE_TREE).flat();
+    const tagged = t.family ? (t.family+'::'+pos) : pos;
+    if (!builtinForFamily.includes(pos) && !allBuiltins.includes(pos)
+        && !state.customMoves.includes(pos) && !state.customMoves.includes(tagged)) {
+      state.customMoves.push(tagged);
+    }
+  });
   const id = editingId !== null ? editingId : Date.now();
   let entry = { id, type: currentType, date, techniques, keyInsights: getKeyInsights() };
   if (isClass) {
     entry.instructor = document.getElementById('f-instructor').value.trim();
     entry.classType = document.getElementById('f-classtype').value;
-    entry.rounds = getDebriefData();
+    entry.rounds = null;
   } else {
     entry.instructor = document.getElementById('f-online-instructor').value.trim();
     entry.sourceType = document.getElementById('f-sourcetype').value;
@@ -1609,10 +1786,12 @@ function saveEntry() {
     editingId = null;
     document.getElementById('edit-banner').classList.remove('visible');
     document.getElementById('save-entry-btn').textContent = 'SAVE ENTRY';
-    save(); clearForm(); showToast('Entry updated');
+    save(); clearForm(); showToast('Entry updated ✓');
+    switchView('timeline', document.querySelector('.nav-tab[onclick*="\'timeline\'"]'));
   } else {
     state.entries.unshift(entry);
-    save(); clearForm(); showToast('Entry saved');
+    save(); clearForm(); showToast('Entry saved ✓');
+    switchView('timeline', document.querySelector('.nav-tab[onclick*="\'timeline\'"]'));
   }
 }
 
@@ -1633,7 +1812,6 @@ function editEntry(id) {
     document.getElementById('f-date').value = e.date || '';
     document.getElementById('f-instructor').value = e.instructor || '';
     document.getElementById('f-classtype').value = e.classType || '';
-    restoreDebrief(e.rounds || null);
     document.getElementById('insights-container').innerHTML = '';
     (e.keyInsights || []).forEach(i => addInsight(i));
   } else {
@@ -1659,7 +1837,6 @@ function cancelEdit() {
 }
 
 function clearForm() {
-  restoreDebrief(null);
   ['f-date','f-instructor','f-classtype','f-date-online','f-online-instructor','f-sourcetype','f-url','f-online-notes'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value='';
   });
@@ -1670,6 +1847,7 @@ function clearForm() {
   const today = new Date().toISOString().slice(0,10);
   document.getElementById('f-date').value = today;
   document.getElementById('f-date-online').value = today;
+  setType('class'); // always reset to class lesson after clearing
   addTechniqueField();
 }
 
@@ -1722,7 +1900,7 @@ function renderTimeline() {
         ${posFlowHTML(t)}
         ${t.concept?`<div class="technique-row-concept">↳ ${esc(t.concept)}</div>`:''}
         ${renderStepsList(t)}
-        ${t.links?.length?`<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">${t.links.map(l=>`<span class="link-chip-display" onclick="searchLinkedMove(${JSON.stringify(l)})">⛓ ${esc(l)}</span>`).join('')}</div>`:''}
+        ${t.links?.length?`<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">${t.links.map(l=>`<span class="link-chip-display" onclick="searchLinkedMove(${attr(l)})">⛓ ${esc(l)}</span>`).join('')}</div>`:''}
       </div>`).join('');
     const insightsHTML = e.keyInsights?.length ? `
       <div class="entry-section-label">Key Concepts</div>
@@ -1749,7 +1927,7 @@ function renderTimeline() {
           r.escape?.length ?`<span style="color:#52c987;font-family:'DM Mono',monospace;font-size:10px">🛡 ${r.escape.map(esc).join(', ')}</span>`:'',
           r.td?.length     ?`<span style="color:#34d399;font-family:'DM Mono',monospace;font-size:10px">↑ ${r.td.map(esc).join(', ')}</span>`:'',
         ].filter(Boolean).join('');
-        return `<div class="entry-section-label">Rounds Debrief</div>
+        return `<div class="entry-section-label">Training Day Debrief</div>
         <div style="padding:8px 0">
           ${partnerRow}
           ${outcomes?`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:${r.clicked||r.fix||r.gas?'7':'0'}px">${outcomes}</div>`:''}
@@ -2019,7 +2197,8 @@ function setMapFamilyFilter(group, btn) {
 
 function buildLayout() {
   const canvas=document.getElementById('map-canvas');
-  const W=canvas.width, H=canvas.height;
+  // Use CSS pixel size (canvas.width is physical px after DPR scaling)
+  const W=parseInt(canvas.style.width)||canvas.width, H=parseInt(canvas.style.height)||canvas.height;
   const cx=W/2, cy=H/2;
   mapNodes=[];
   const all=getAllTechs();
@@ -2059,7 +2238,7 @@ function buildLayout() {
       const n=groups[cat].length;
       const ta=(Math.PI*2/Math.max(n,1))*ti + angle;
       const tr=85+Math.min(n*8,55);
-      mapNodes.push({type:'tech',label:item.tech.name,x:cx2+Math.cos(ta)*tr,y:cy2+Math.sin(ta)*tr,r:24,color:catColor,item,parentCat:cat,visible:false});
+      mapNodes.push({type:'tech',label:item.tech.name,x:cx2+Math.cos(ta)*tr,y:cy2+Math.sin(ta)*tr,r:28,color:catColor,item,parentCat:cat,visible:false});
     });
   });
 }
@@ -2068,12 +2247,35 @@ function drawMap() {
   const canvas=document.getElementById('map-canvas');
   if (!canvas) return;
   const ctx=canvas.getContext('2d');
-  const W=canvas.width, H=canvas.height;
-  ctx.clearRect(0,0,W,H);
+  // Use CSS pixel size (physical px is canvas.width after DPR scaling)
+  const W=parseInt(canvas.style.width)||canvas.width, H=parseInt(canvas.style.height)||canvas.height;
+  const dpr = window.devicePixelRatio || 1;
+  // Clear entire physical buffer
   ctx.save();
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+  ctx.save();
+  ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.translate(mapPan.x,mapPan.y);
   ctx.scale(mapZoom,mapZoom);
   const cx=W/2, cy=H/2;
+
+  // Empty state — show helpful message when no techniques
+  if (!mapNodes.length) {
+    ctx.restore();
+    ctx.save();
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.fillStyle = '#5a4f42';
+    ctx.font = '14px "DM Mono",monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('NO TECHNIQUES LOGGED YET', W/2, H/2 - 12);
+    ctx.font = '11px "DM Sans",sans-serif';
+    ctx.fillText('Log entries with a Family/Position to see them mapped', W/2, H/2 + 12);
+    ctx.restore();
+    return;
+  }
 
   // Center node
   ctx.beginPath(); ctx.arc(cx,cy,30,0,Math.PI*2);
@@ -2127,10 +2329,10 @@ function drawMap() {
     ctx.fillStyle=hov?n.color+'20':'#161616';
     ctx.strokeStyle=n.color+(hov?'bb':'55'); ctx.lineWidth=hov?1.5:1;
     ctx.fill(); ctx.stroke();
-    ctx.fillStyle=hov?n.color:'#aaa';
-    ctx.font=(hov?'500':'400')+' 9px "DM Sans",sans-serif';
+    ctx.fillStyle=hov?n.color:'#d4c9b8';
+    ctx.font=(hov?'600':'500')+' 10px "DM Sans",sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
-    wrapText(ctx,n.label,n.x,n.y,n.r*1.6,10);
+    wrapText(ctx,n.label,n.x,n.y,n.r*1.7,11);
   });
 
   // Chain lines between linked tech nodes (visible when both clusters expanded)
@@ -2213,8 +2415,25 @@ function getPositionData(posName) {
   });
   // Direct notes added in library
   const direct = (state.positionNotes[posName]||[]).map(n=>({...n, fromEntry:false}));
+  // Instructional notes tagged to this position
+  const instNotes = [];
+  (state.instructionalNotes||[]).forEach(n => {
+    if (n.bjjPos === posName) {
+      instNotes.push({
+        id: 'inst_'+n.id,
+        type: n.warning ? 'mistake' : (n.concept ? 'principle' : 'detail'),
+        text: n.concept || n.goal || n.name,
+        sourceLabel: (n.instructor||'Instructional')+(n.seriesName?' — '+n.seriesName:'')+(n.volumeNum?' Vol.'+n.volumeNum:''),
+        sourceDate: '',
+        entryId: null,
+        fromEntry: false,
+        fromInstructional: true,
+        instructionalId: n.id,
+      });
+    }
+  });
   // All combined, sorted by date ascending
-  const notes = [...tagged, ...direct].sort((a,b)=>(a.sourceDate||a.date||'')>(b.sourceDate||b.date||'')?1:-1);
+  const notes = [...tagged, ...direct, ...instNotes].sort((a,b)=>(a.sourceDate||a.date||'')>(b.sourceDate||b.date||'')?1:-1);
   // Connected techniques (position matches startPos, endPos, or specific position field)
   const techsSeen = new Set();
   const techniques = [];
@@ -2283,8 +2502,9 @@ function renderLibPanel(posName) {
   const data = getPositionData(posName);
   const family = Object.entries(MOVE_TREE).find(([,pos])=>pos.includes(posName))?.[0]||'';
   const famColor = FAMILY_COLORS[family]||'#888';
-
   const posNameSafe = posName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+
+  // Inline note renderer (no source block — used for entry-linked notes)
   const noteHTML = n => {
     const meta = NOTE_TYPE_META[n.type||'detail'];
     const idSafe = String(n.id).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
@@ -2292,15 +2512,30 @@ function renderLibPanel(posName) {
       <div class="lib-note-text">${esc(n.text)}</div>
       <div class="lib-note-meta">
         <span style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color}">${meta.icon} ${meta.label}</span>
-        ${n.sourceLabel?`<span class="lib-note-source">↳ ${esc(n.sourceLabel)}${n.sourceDate?' · '+esc(n.sourceDate):''}</span>`:''}
+        ${n.source&&n.source.url?`<a class="lib-note-video" href="${esc(n.source.url)}" target="_blank">▶ ${esc(n.source.instructor||'video')}</a>`:''}
+        ${n.source&&n.source.instructor&&!n.source.url?`<span class="lib-note-source">↳ ${esc(n.source.instructor)}</span>`:''}
+        ${n.sourceLabel&&!n.source?`<span class="lib-note-source">↳ ${esc(n.sourceLabel)}${n.sourceDate?' · '+esc(n.sourceDate):''}</span>`:''}
         ${n.fromEntry?`<span class="lib-note-badge">FROM ENTRY</span>`:`<button class="lib-note-del" onclick="deletePositionNote('${posNameSafe}','${idSafe}')">remove</button>`}
       </div>
     </div>`;
   };
 
+  // Group direct (non-entry) notes by source
+  const directNotes = data.notes.filter(n=>!n.fromEntry);
+  const entryNotes  = data.notes.filter(n=>n.fromEntry);
+
+  // Collect unique video sources for the stats line
+  const sourceGroups = [];
+  directNotes.forEach(n => {
+    if (n.source && n.source.instructor) {
+      const key = (n.source.instructor||'') + '|' + (n.source.url||'');
+      if (!sourceGroups.find(g=>g.key===key)) sourceGroups.push({key, source:n.source});
+    }
+  });
+
   const typeSection = (type) => {
     const meta = NOTE_TYPE_META[type];
-    const notes = data.notes.filter(n=>(n.type||'detail')===type);
+    const notes = directNotes.filter(n=>(n.type||'detail')===type);
     return `<div class="lib-section">
       <div class="lib-section-label" style="color:${meta.color}">${meta.icon} ${meta.label.toUpperCase()}S${notes.length?` <span style="opacity:0.4">(${notes.length})</span>`:''}</div>
       ${notes.map(noteHTML).join('')}
@@ -2316,18 +2551,17 @@ function renderLibPanel(posName) {
   panel.innerHTML = `
     <div class="lib-panel-title" style="color:${famColor}">${esc(posName)}</div>
     ${family?`<div class="lib-panel-family">${esc(family)}</div>`:''}
-    <div class="lib-panel-stats">${data.notes.length} note${data.notes.length!==1?'s':''} · ${data.techniques.length} technique${data.techniques.length!==1?'s':''} · ${data.sources.length} source${data.sources.length!==1?'s':''}</div>
+    <div class="lib-panel-stats">${data.notes.length} note${data.notes.length!==1?'s':''} · ${data.techniques.length} technique${data.techniques.length!==1?'s':''} · ${sourceGroups.length} video source${sourceGroups.length!==1?'s':''}</div>
 
-    ${data.sources.length?`<div class="lib-section">
-      <div class="lib-section-label">SOURCES STUDIED</div>
-      ${data.sources.map(s=>`<div class="lib-source-item">
-        <span class="cat-tag ${s.type==='class'?'pill-class':'pill-online'}" style="font-size:9px">${s.type==='class'?'CLASS':'ONLINE'}</span>
-        <span class="lib-source-label">${esc(s.label)}</span>
-        <span class="lib-source-date">${esc(s.date)}</span>
-      </div>`).join('')}
-    </div>`:''}
+    <button class="btn-primary" style="width:100%;margin-bottom:20px;font-size:11px" onclick="showStudySession('${posNameSafe}')">📹 STUDY FROM VIDEO / SOURCE</button>
+    <div id="study-session-container-${posNameSafe}"></div>
 
     ${['detail','principle','mistake','counter'].map(typeSection).join('')}
+
+    ${entryNotes.length?`<div class="lib-section">
+      <div class="lib-section-label">FROM TRAINING ENTRIES</div>
+      ${entryNotes.map(noteHTML).join('')}
+    </div>`:''}
 
     ${data.techniques.length?`<div class="lib-section">
       <div class="lib-section-label">CONNECTED TECHNIQUES</div>
@@ -2336,7 +2570,7 @@ function renderLibPanel(posName) {
       </div>
     </div>`:''}
 
-    ${!data.notes.length&&!data.techniques.length?`<div class="empty-state" style="padding:30px 0">NO NOTES YET<br><span style="font-size:11px;font-family:'DM Sans',sans-serif;color:var(--muted);text-transform:none;letter-spacing:0">Tag insights to this position when logging entries,<br>or add notes directly with the buttons above</span></div>`:''}
+    ${!data.notes.length&&!data.techniques.length?`<div class="empty-state" style="padding:30px 0">NO NOTES YET<br><span style="font-size:11px;font-family:'DM Sans',sans-serif;color:var(--muted);text-transform:none;letter-spacing:0">Study a video or tag insights from training entries</span></div>`:''}
   `;
 }
 
@@ -2359,13 +2593,95 @@ function deletePositionNote(posName, noteId) {
   save(); renderLibPanel(posName); renderLibrarySidebar();
 }
 
+// ── STUDY SESSION ──────────────────────────────────────────────────────────────
+let _studySession = { posName:'', instructor:'', url:'', title:'', notes:[] };
+
+function showStudySession(posName) {
+  const container = document.getElementById(`study-session-container-${posName}`);
+  if (!container) return;
+  _studySession = { posName, instructor:'', url:'', title:'', notes:[] };
+  container.innerHTML = `
+    <div class="study-session-box" id="study-session-box">
+      <div class="study-session-header">📹 NEW STUDY SESSION
+        <button onclick="hideStudySession('${posName}')" style="background:none;border:none;color:var(--muted);cursor:pointer;margin-left:auto;font-size:14px">×</button>
+      </div>
+      <input class="study-session-input" id="ss-instructor" placeholder="Instructor name (e.g. John Danaher)" oninput="_studySession.instructor=this.value">
+      <input class="study-session-input" id="ss-url" placeholder="Video URL (optional — YouTube, etc.)" oninput="_studySession.url=this.value">
+      <input class="study-session-input" id="ss-title" placeholder="Topic / title (optional)" oninput="_studySession.title=this.value">
+      <div id="ss-note-list" class="study-note-list"></div>
+      <div class="study-note-row">
+        <select class="study-type-sel" id="ss-type">
+          <option value="detail">▸ Detail</option>
+          <option value="principle">◆ Principle</option>
+          <option value="mistake">✕ Mistake</option>
+          <option value="counter">⟳ Counter</option>
+        </select>
+        <input class="study-note-input" id="ss-note-input" placeholder="Type a note, press Enter to add..." onkeydown="if(event.key==='Enter')addStudyNote()">
+        <button class="btn-ghost" style="padding:6px 10px;font-size:10px;flex-shrink:0" onclick="addStudyNote()">ADD</button>
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:8px" onclick="saveStudySession('${posName}')">SAVE SESSION</button>
+    </div>
+  `;
+  document.getElementById('ss-instructor').focus();
+}
+
+function hideStudySession(posName) {
+  const container = document.getElementById(`study-session-container-${posName}`);
+  if (container) container.innerHTML = '';
+}
+
+function addStudyNote() {
+  const input = document.getElementById('ss-note-input');
+  const type  = document.getElementById('ss-type').value;
+  const text  = input.value.trim();
+  if (!text) return;
+  _studySession.notes.push({ type, text });
+  input.value = '';
+  input.focus();
+  // Re-render note list
+  const list = document.getElementById('ss-note-list');
+  if (!list) return;
+  const meta = NOTE_TYPE_META;
+  list.innerHTML = _studySession.notes.map((n,i) => `
+    <div class="study-note-item">
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:${meta[n.type].color};flex-shrink:0">${meta[n.type].icon}</span>
+      <span style="flex:1">${esc(n.text)}</span>
+      <button class="study-note-remove" onclick="_studySession.notes.splice(${i},1);addStudyNote()&&false;document.getElementById('ss-note-input').dispatchEvent(new Event('input'))">×</button>
+    </div>
+  `).join('');
+}
+
+function saveStudySession(posName) {
+  if (!_studySession.notes.length) { showToast('Add at least one note first'); return; }
+  if (!_studySession.instructor.trim()) { showToast('Add an instructor name'); return; }
+  const source = {
+    instructor: _studySession.instructor.trim(),
+    url:   _studySession.url.trim(),
+    title: _studySession.title.trim()
+  };
+  if (!state.positionNotes[posName]) state.positionNotes[posName] = [];
+  _studySession.notes.forEach(n => {
+    state.positionNotes[posName].push({
+      id:   Date.now().toString() + Math.random().toString(36).slice(2),
+      type: n.type,
+      text: n.text,
+      date: new Date().toISOString().slice(0,10),
+      source
+    });
+  });
+  save();
+  showToast(`Saved ${_studySession.notes.length} note${_studySession.notes.length!==1?'s':''} from ${source.instructor}`);
+  renderLibPanel(posName);
+  renderLibrarySidebar();
+}
+
 function wrapText(ctx,text,x,y,maxW,lineH) {
   const words=text.split(' ');
-  if (words.length===1||ctx.measureText(text).width<=maxW) { ctx.fillText(trunc(text,14),x,y); return; }
+  if (words.length===1||ctx.measureText(text).width<=maxW) { ctx.fillText(trunc(text,18),x,y); return; }
   const line1=words.slice(0,Math.ceil(words.length/2)).join(' ');
   const line2=words.slice(Math.ceil(words.length/2)).join(' ');
-  ctx.fillText(trunc(line1,14),x,y-lineH/2);
-  ctx.fillText(trunc(line2,14),x,y+lineH/2);
+  ctx.fillText(trunc(line1,18),x,y-lineH/2);
+  ctx.fillText(trunc(line2,18),x,y+lineH/2);
 }
 function trunc(s,n) { return s.length>n?s.slice(0,n-1)+'…':s; }
 
@@ -2442,10 +2758,40 @@ function setMapFilter(filter,btn) {
 function initMap() {
   const canvas=document.getElementById('map-canvas');
   const container=document.getElementById('view-map');
-  canvas.width=container.clientWidth;
-  canvas.height=container.clientHeight - document.querySelector('.map-toolbar').offsetHeight;
+  // High-DPI handling — render at devicePixelRatio for crisp text
+  const dpr = window.devicePixelRatio || 1;
+  const toolbarH = document.querySelector('.map-toolbar').offsetHeight
+                 + (document.querySelector('.map-family-row')?.offsetHeight||0);
+  const cssW = container.clientWidth;
+  const cssH = container.clientHeight - toolbarH;
+  canvas.style.width = cssW + 'px';
+  canvas.style.height = cssH + 'px';
+  canvas.width = Math.round(cssW * dpr);
+  canvas.height = Math.round(cssH * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   mapPan={x:0,y:0}; mapZoom=1;
   buildLayout(); drawMap(); setupMapEvents();
+}
+
+function resetMapView() {
+  mapPan={x:0,y:0}; mapZoom=1;
+  // Collapse all clusters
+  mapNodes.filter(n=>n.type==='cat').forEach(n=>n.expanded=false);
+  mapNodes.filter(n=>n.type==='tech').forEach(n=>n.visible=false);
+  drawMap();
+}
+
+function toggleAllClusters() {
+  const cats = mapNodes.filter(n=>n.type==='cat');
+  if (!cats.length) return;
+  // If any is collapsed, expand all; if all expanded, collapse all
+  const anyCollapsed = cats.some(c=>!c.expanded);
+  cats.forEach(c => {
+    c.expanded = anyCollapsed;
+    mapNodes.filter(tn=>tn.type==='tech'&&tn.parentCat===c.label).forEach(tn=>tn.visible=anyCollapsed);
+  });
+  drawMap();
 }
 
 function showDetail(item) {
@@ -2539,35 +2885,43 @@ function importData(event) {
   const file=event.target.files[0]; if (!file) return;
   const reader=new FileReader();
   reader.onload=e=>{
-    try { state=JSON.parse(e.target.result); save(); showToast('Imported '+state.entries.length+' entries'); renderTimeline(); }
-    catch { showToast('Invalid file'); }
-  };
-  reader.readAsText(file);
-}
-
-function mergeData(event) {
-  const file=event.target.files[0]; if (!file) return;
-  const reader=new FileReader();
-  reader.onload=e=>{
     try {
       const parsed=JSON.parse(e.target.result);
       const incoming=parsed.data||parsed;
-      // Merge entries — dedupe by id, sort by date descending
+      if (!incoming.entries) throw new Error('No entries array');
+      // Always merge — never replace
       const existingIds=new Set(state.entries.map(e=>e.id));
       const newEntries=(incoming.entries||[]).filter(e=>!existingIds.has(e.id));
-      state.entries=[...state.entries,...newEntries].sort((a,b)=>b.date.localeCompare(a.date));
-      // Merge drilled keys
+      state.entries=[...state.entries,...newEntries].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
       const drilledSet=new Set(state.drilled);
       (incoming.drilled||[]).forEach(k=>drilledSet.add(k));
       state.drilled=[...drilledSet];
-      // Merge sequences — dedupe by id
       const existingSeqIds=new Set((state.sequences||[]).map(s=>s.id));
       const newSeqs=(incoming.sequences||[]).filter(s=>!existingSeqIds.has(s.id));
       state.sequences=[...(state.sequences||[]),...newSeqs];
+      if (!state.positionNotes) state.positionNotes={};
+      const incPN=incoming.positionNotes||{};
+      Object.keys(incPN).forEach(pos=>{
+        if (!state.positionNotes[pos]) state.positionNotes[pos]=[];
+        const existNoteIds=new Set(state.positionNotes[pos].map(n=>n.id));
+        (incPN[pos]||[]).filter(n=>!existNoteIds.has(n.id)).forEach(n=>state.positionNotes[pos].push(n));
+      });
+      if (!state.debriefs) state.debriefs=[];
+      const existDebriefIds=new Set(state.debriefs.map(d=>d.id));
+      (incoming.debriefs||[]).filter(d=>!existDebriefIds.has(d.id)).forEach(d=>state.debriefs.unshift(d));
+      if (!state.customMoves) state.customMoves=[];
+      const customSet=new Set(state.customMoves);
+      (incoming.customMoves||[]).forEach(m=>customSet.add(m));
+      state.customMoves=[...customSet];
+      if (!state.instructionalNotes) state.instructionalNotes=[];
+      const existInstIds=new Set(state.instructionalNotes.map(n=>n.id));
+      (incoming.instructionalNotes||[]).forEach(n=>{
+        if (!existInstIds.has(n.id)) { state.instructionalNotes.push(n); existInstIds.add(n.id); }
+      });
       save();
-      showToast('Merged — '+newEntries.length+' new entr'+(newEntries.length===1?'y':'ies')+' added');
-      renderTimeline();
-    } catch { showToast('Invalid file'); }
+      showToast('Merged — '+newEntries.length+' new entr'+(newEntries.length===1?'y':'ies')+' added ('+state.entries.length+' total)');
+      renderTimeline(); initLibrary();
+    } catch(err) { showToast('Invalid file — '+err.message); }
   };
   reader.readAsText(file);
 }
@@ -2595,7 +2949,7 @@ function renderSeqList() {
     return;
   }
   list.innerHTML = seqs.map(s => `
-    <div class="seq-list-item ${s.id===activeSeqId?'active':''}" onclick="openSeq(${JSON.stringify(s.id)})">
+    <div class="seq-list-item ${s.id===activeSeqId?'active':''}" onclick="openSeq(${attr(s.id)})">
       <div class="seq-list-item-name">${esc(s.name)}</div>
       <div class="seq-list-item-meta">${esc(s.startPos||'—')} · ${countNodes(s.tree)} node${countNodes(s.tree)!==1?'s':''}</div>
     </div>`).join('');
@@ -3077,29 +3431,41 @@ async function uploadPhotoToGitHub(file) {
 
 // ── Push backup ─────────────────────────────────────────────────────────────
 async function pushBackupToGitHub() {
-  if (!ghConfigured()) { openSettings(); return; }
+  if (!ghConfigured()) return;
   const btn=document.getElementById('gh-push-btn');
-  const orig=btn.textContent; btn.textContent='PUSHING...'; btn.disabled=true;
+  if (btn) { btn.textContent='PUSHING...'; btn.disabled=true; }
   try {
+    const device=(ghSettings().deviceName||'default');
+    const path=`backups/${device}/latest.json`;
     const now=new Date();
     const pad=n=>String(n).padStart(2,'0');
     const stamp=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}`;
-    const device=(ghSettings().deviceName||'default');
-    const path=`backups/${device}/backup_${stamp}.json`;
     const payload={version:1,exported:now.toISOString(),exportedReadable:now.toLocaleString(),entryCount:state.entries.length,data:state};
     const content=btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
+    // Try to get existing file SHA so we can overwrite it
+    let sha;
+    try {
+      const getRes=await fetch(`${ghApiBase()}/contents/${path}`,{headers:ghHeaders()});
+      if (getRes.ok) { const existing=await getRes.json(); sha=existing.sha; }
+    } catch(_){}
+    const body={message:`Backup ${stamp} — ${state.entries.length} entries`,content};
+    if (sha) body.sha=sha;
     const res=await fetch(`${ghApiBase()}/contents/${path}`,{
-      method:'PUT', headers:ghHeaders(),
-      body:JSON.stringify({message:`Backup ${stamp}`,content})
+      method:'PUT', headers:ghHeaders(), body:JSON.stringify(body)
     });
     if (res.ok) {
-      showToast('✓ Backup pushed — '+state.entries.length+' entries');
+      showToast('✓ Backup saved — '+state.entries.length+' entries');
+      localStorage.setItem('bjj_last_backup',now.toISOString());
     } else {
-      const err=await res.json();
-      showToast('Backup failed ('+res.status+'): '+(err.message||'unknown'));
+      const err=await res.json().catch(()=>({}));
+      const msg=err.message||res.status;
+      if (res.status===401) showToast('Backup failed — GitHub token expired. Update in ⚙ Settings');
+      else showToast('Backup failed ('+msg+')');
     }
   } catch(e) { showToast('Backup failed — check connection'); }
-  finally { btn.textContent=orig; btn.disabled=false; updateGHButtons(); }
+  finally {
+    if (btn) { btn.textContent='↑ PUSH BACKUP'; btn.disabled=false; updateGHButtons(); }
+  }
 }
 
 // ── Browse + restore backups ─────────────────────────────────────────────────
@@ -3140,7 +3506,7 @@ async function loadGHBackups() {
           const kb=(f.size/1024).toFixed(1)+'KB';
           return `<div class="gh-backup-item">
             <div><div class="gh-backup-name">${esc(label)}</div><div class="gh-backup-size">${kb}</div></div>
-            <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub(${JSON.stringify(f.download_url)},${JSON.stringify(f.name)})">RESTORE</button>
+            <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub(${attr(f.download_url)},${attr(f.name)})">RESTORE</button>
           </div>`;
         }).join('');
     }).join('');
@@ -3212,9 +3578,12 @@ async function handleUploadGH(event) {
 }
 
 // INIT
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-}
+// service worker disabled in local version
+
+// Load from localStorage immediately (fast start)
+
+// GitHub credentials are NOT pre-loaded in this public build.
+// Users connect their own GitHub via Settings (⚙) on first run.
 load();
 const savedTheme = localStorage.getItem('bjj_theme') || '';
 document.body.dataset.theme = savedTheme;
@@ -3226,6 +3595,795 @@ addTechniqueField();
 updateDrillBadge();
 window.addEventListener('resize',()=>{
   if (document.getElementById('view-map').classList.contains('active')) initMap();
+});
+
+// ─── INSTRUCTIONALS ─────────────────────────────────────────────────────────
+let _instEditingId = null;
+let _instGi = 'nogi';
+let _instNoteType = 'principle';   // 'principle' | 'move'
+
+function openInstructionalForm(note) {
+  _instEditingId = note?.id || null;
+  document.getElementById('inst-modal-title').textContent = note ? 'EDIT NOTE' : 'NEW INSTRUCTIONAL NOTE';
+  document.getElementById('if-delete-btn').style.display = note ? 'inline-block' : 'none';
+  refreshInstDatalists();
+  // Source + common fields
+  const map = {
+    series: 'seriesName', instructor: 'instructor', volnum: 'volumeNum',
+    voltitle: 'volumeTitle', chapter: 'chapterTitle', name: 'name',
+    bjjpos: 'bjjPos'
+  };
+  Object.keys(map).forEach(k => {
+    const el = document.getElementById('if-' + k);
+    if (el) el.value = note ? (note[map[k]] || '') : '';
+  });
+  _instGi = note?.giNoGi || 'nogi';
+  ifSetGi(_instGi);
+  // Determine note type — default 'principle', or use note's stored type
+  _instNoteType = note?.noteType || 'principle';
+  setInstNoteType(_instNoteType);
+  // Fill principle-side fields
+  ['goal','concept','details','warning'].forEach(k => {
+    const el = document.getElementById('if-' + k);
+    if (el) el.value = (note && _instNoteType === 'principle') ? (note[k] || '') : '';
+  });
+  // Fill move-side fields
+  const moveConcept = document.getElementById('if-move-concept');
+  const moveWarning = document.getElementById('if-move-warning');
+  if (moveConcept) moveConcept.value = (note && _instNoteType === 'move') ? (note.concept || '') : '';
+  if (moveWarning) moveWarning.value = (note && _instNoteType === 'move') ? (note.warning || '') : '';
+  const sp = document.getElementById('if-startpos');
+  const ep = document.getElementById('if-endpos');
+  const mt = document.getElementById('if-method');
+  if (sp) sp.innerHTML = posOpts((note && _instNoteType === 'move') ? (note.startPos || '') : '');
+  if (ep) ep.innerHTML = posOpts((note && _instNoteType === 'move') ? (note.endPos || '') : '');
+  if (mt) mt.innerHTML = methodOpts((note && _instNoteType === 'move') ? (note.method || '') : '');
+  // Reset + fill steps
+  const stepsC = document.getElementById('if-steps-container');
+  if (stepsC) {
+    stepsC.innerHTML = '';
+    if (note && _instNoteType === 'move' && note.stepsList?.length) {
+      note.stepsList.forEach(s => ifAddStep(s));
+    } else if (note && _instNoteType === 'move' && note.steps?.length) {
+      // Legacy: GFF Bank `steps` array of {text, img} — load text only
+      note.steps.forEach(s => ifAddStep({text: s.text || ''}));
+    } else if (_instNoteType === 'move') {
+      ifAddStep();
+    }
+  }
+  // Prefill source fields from hierarchical nav state when creating a new note from inside a chapter
+  if (!note && _instBundleId && _instChapterIdx != null) {
+    const bundle = getBundle(_instBundleId);
+    const series = bundle && bundle.series.find(s=>s.id===_instSeriesId);
+    const vol = bundle && bundle.volumes[String(_instVolNum)];
+    const ch = vol && vol.chapters[_instChapterIdx];
+    if (bundle) document.getElementById('if-series').value = bundle.name + (series?' — '+series.label:'');
+    if (bundle) document.getElementById('if-instructor').value = bundle.instructor;
+    if (_instVolNum) document.getElementById('if-volnum').value = String(_instVolNum);
+    if (vol) document.getElementById('if-voltitle').value = vol.title;
+    if (ch) document.getElementById('if-chapter').value = 'Ch '+(_instChapterIdx+1)+': '+ch.t+' ('+ch.ts+')';
+  }
+  document.getElementById('inst-modal').classList.add('open');
+  setTimeout(() => document.getElementById('if-name')?.focus(), 30);
+}
+
+function closeInstructionalForm() {
+  document.getElementById('inst-modal').classList.remove('open');
+  _instEditingId = null;
+}
+
+function ifSetGi(g) {
+  _instGi = g;
+  document.querySelectorAll('#if-gi-toggle .gi-btn').forEach(b => b.classList.toggle('active', b.dataset.gi === g));
+  document.getElementById('if-gi-val').value = g;
+}
+
+function setInstNoteType(t) {
+  _instNoteType = (t === 'move') ? 'move' : 'principle';
+  document.getElementById('if-type-val').value = _instNoteType;
+  document.getElementById('if-type-principle-btn').classList.toggle('active', _instNoteType === 'principle');
+  document.getElementById('if-type-move-btn').classList.toggle('active', _instNoteType === 'move');
+  document.getElementById('if-principle-fields').style.display = _instNoteType === 'principle' ? '' : 'none';
+  document.getElementById('if-move-fields').style.display     = _instNoteType === 'move' ? '' : 'none';
+  // First time switching to move — populate position dropdowns if empty
+  if (_instNoteType === 'move') {
+    const sp = document.getElementById('if-startpos');
+    if (sp && !sp.options.length) sp.innerHTML = posOpts('');
+    const ep = document.getElementById('if-endpos');
+    if (ep && !ep.options.length) ep.innerHTML = posOpts('');
+    const mt = document.getElementById('if-method');
+    if (mt && !mt.options.length) mt.innerHTML = methodOpts('');
+    // Ensure at least one step row exists
+    const c = document.getElementById('if-steps-container');
+    if (c && !c.children.length) ifAddStep();
+  }
+}
+
+function ifAddStep(data) {
+  const container = document.getElementById('if-steps-container');
+  if (!container) return;
+  const idx = container.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'step-row';
+  row.innerHTML = `
+    <span class="step-num">${idx}</span>
+    <textarea class="step-text" placeholder="Step ${idx}..." rows="1">${esc(data?.text || '')}</textarea>
+    <button class="step-remove" type="button" onclick="ifRemoveStep(this)">×</button>`;
+  container.appendChild(row);
+}
+
+function ifRemoveStep(btn) {
+  const row = btn.closest('.step-row');
+  if (!row) return;
+  const container = row.parentElement;
+  row.remove();
+  Array.from(container.children).forEach((r, i) => {
+    r.querySelector('.step-num').textContent = i + 1;
+    const t = r.querySelector('.step-text');
+    if (t) t.placeholder = 'Step ' + (i + 1) + '...';
+  });
+}
+
+function ifGetSteps() {
+  const c = document.getElementById('if-steps-container');
+  if (!c) return [];
+  return Array.from(c.children).map(row => ({
+    text: row.querySelector('.step-text')?.value.trim() || ''
+  })).filter(s => s.text);
+}
+
+function refreshInstDatalists() {
+  const notes = state.instructionalNotes || [];
+  const seriesSet = new Set(notes.map(n => n.seriesName).filter(Boolean));
+  const instructorSet = new Set(notes.map(n => n.instructor).filter(Boolean));
+  ['Going First Family','Escapes','New Wave Jiu-Jitsu','Half Guard Anthology'].forEach(s => seriesSet.add(s));
+  ['John Danaher','Gordon Ryan','Lachlan Giles','Craig Jones','Marcelo Garcia'].forEach(i => instructorSet.add(i));
+  document.getElementById('if-series-list').innerHTML = [...seriesSet].sort().map(s => `<option value="${esc(s)}">`).join('');
+  document.getElementById('if-instructor-list').innerHTML = [...instructorSet].sort().map(s => `<option value="${esc(s)}">`).join('');
+  if (typeof positionDatalistHTML === 'function') {
+    document.getElementById('if-poslist').innerHTML = positionDatalistHTML('');
+  }
+}
+
+function saveInstructionalNote() {
+  const name = document.getElementById('if-name').value.trim();
+  if (!name) { showToast('Note name required'); document.getElementById('if-name').focus(); return; }
+  const isMove = _instNoteType === 'move';
+  const note = {
+    id: _instEditingId || Date.now().toString(),
+    noteType: _instNoteType,
+    seriesName: document.getElementById('if-series').value.trim(),
+    instructor: document.getElementById('if-instructor').value.trim(),
+    volumeNum: document.getElementById('if-volnum').value.trim(),
+    volumeTitle: document.getElementById('if-voltitle').value.trim(),
+    chapterTitle: document.getElementById('if-chapter').value.trim(),
+    name,
+    // Principle-specific (empty when isMove)
+    goal:    isMove ? '' : document.getElementById('if-goal').value.trim(),
+    details: isMove ? '' : document.getElementById('if-details').value.trim(),
+    // Concept + Warning are shared, read from whichever section is active
+    concept: (isMove ? document.getElementById('if-move-concept').value : document.getElementById('if-concept').value).trim(),
+    warning: (isMove ? document.getElementById('if-move-warning').value : document.getElementById('if-warning').value).trim(),
+    // Move-specific (empty when principle)
+    startPos:  isMove ? (document.getElementById('if-startpos').value || '') : '',
+    endPos:    isMove ? (document.getElementById('if-endpos').value || '')   : '',
+    method:    isMove ? (document.getElementById('if-method').value || '')   : '',
+    stepsList: isMove ? ifGetSteps() : [],
+    steps: [], steps2: [],
+    bjjPos: document.getElementById('if-bjjpos').value.trim(),
+    giNoGi: _instGi,
+    updated: Date.now(),
+  };
+  // Hierarchical fields
+  if (_instBundleId && _instChapterIdx != null) {
+    note.bundleId = _instBundleId;
+    note.seriesId = _instSeriesId;
+    note.volumeNum = _instVolNum;
+    note.chapterIdx = _instChapterIdx;
+    const bundle = getBundle(_instBundleId);
+    const vol = bundle && bundle.volumes[String(_instVolNum)];
+    if (vol) note.volumeTitle = vol.title;
+  } else {
+    const vn = parseInt(note.volumeNum);
+    if (!Number.isNaN(vn)) {
+      note.bundleId = 'gff';
+      const s = getSeriesByVol('gff', vn);
+      if (s) note.seriesId = s.id;
+      note.volumeNum = vn;
+      if (note.chapterIdx == null) note.chapterIdx = 0;
+    }
+  }
+  if (!state.instructionalNotes) state.instructionalNotes = [];
+  if (_instEditingId) {
+    const i = state.instructionalNotes.findIndex(n => n.id === _instEditingId);
+    if (i >= 0) {
+      note.steps = state.instructionalNotes[i].steps || [];
+      note.steps2 = state.instructionalNotes[i].steps2 || [];
+      state.instructionalNotes[i] = note;
+    } else state.instructionalNotes.unshift(note);
+  } else {
+    state.instructionalNotes.unshift(note);
+  }
+  save();
+  // Make sure the chapter where this note lives stays expanded after save
+  if (note.bundleId && note.volumeNum != null && note.chapterIdx != null) {
+    _instExpanded.add('b:'+note.bundleId);
+    if (note.seriesId) _instExpanded.add('s:'+note.bundleId+':'+note.seriesId);
+    _instExpanded.add('v:'+note.bundleId+':'+note.volumeNum);
+    _instExpanded.add('c:'+note.bundleId+':'+note.volumeNum+':'+note.chapterIdx);
+  }
+  closeInstructionalForm();
+  renderInstructionals();
+  if (typeof initLibrary === 'function') initLibrary();
+  showToast(_instEditingId ? 'Note updated ✓' : 'Note saved ✓');
+}
+
+function deleteInstructionalNote() {
+  if (!_instEditingId) return;
+  if (!confirm('Delete this note?')) return;
+  state.instructionalNotes = (state.instructionalNotes || []).filter(n => n.id !== _instEditingId);
+  save();
+  closeInstructionalForm();
+  renderInstructionals();
+  if (typeof initLibrary === 'function') initLibrary();
+  showToast('Note deleted');
+}
+
+// ── ACCORDION TREE NAVIGATION ──────────────────────────────────────────────
+// Single-page expand-in-place. No drill-down jumps. Each row toggles its
+// children directly below it. State = a Set of expanded node keys.
+//   Bundle:  b:{bundleId}
+//   Series:  s:{bundleId}:{seriesId}
+//   Volume:  v:{bundleId}:{volNum}
+//   Chapter: c:{bundleId}:{volNum}:{chIdx}
+let _instExpanded = new Set();
+// "Currently editing into chapter X" context for the add-note modal:
+let _instBundleId = null;
+let _instSeriesId = null;
+let _instVolNum = null;
+let _instChapterIdx = null;
+// (legacy compat — referenced by older form helpers; remains harmless)
+let _instLevel = 'bundles';
+
+function instCountAtBundle(bundleId) {
+  return (state.instructionalNotes||[]).filter(n=>n.bundleId===bundleId).length;
+}
+function instCountAtSeries(bundleId, seriesId) {
+  return (state.instructionalNotes||[]).filter(n=>n.bundleId===bundleId && n.seriesId===seriesId).length;
+}
+function instCountAtVol(bundleId, volNum) {
+  return (state.instructionalNotes||[]).filter(n=>n.bundleId===bundleId && parseInt(n.volumeNum)===parseInt(volNum)).length;
+}
+function instCountAtChapter(bundleId, volNum, chIdx) {
+  return (state.instructionalNotes||[]).filter(n=>n.bundleId===bundleId && parseInt(n.volumeNum)===parseInt(volNum) && parseInt(n.chapterIdx)===parseInt(chIdx)).length;
+}
+
+function instPageHeader(title, sub, actions) {
+  const t = document.getElementById('inst-page-title');
+  const s = document.getElementById('inst-page-sub');
+  const a = document.getElementById('inst-page-actions');
+  if (t) t.textContent = title;
+  if (s) s.textContent = sub || '';
+  if (a) a.innerHTML = actions || '';
+}
+
+function toggleInst(key) {
+  if (_instExpanded.has(key)) _instExpanded.delete(key);
+  else _instExpanded.add(key);
+  renderInstructionals();
+}
+
+function instExpandAll() {
+  INSTRUCTIONAL_BUNDLES.forEach(b => {
+    _instExpanded.add('b:'+b.id);
+    b.series.forEach(s => _instExpanded.add('s:'+b.id+':'+s.id));
+    Object.keys(b.volumes||{}).forEach(v => _instExpanded.add('v:'+b.id+':'+v));
+    // Chapters left collapsed by default — 1280+ chapters too noisy expanded
+  });
+  renderInstructionals();
+}
+function instCollapseAll() {
+  _instExpanded.clear();
+  renderInstructionals();
+}
+
+// Open the add-note modal with bundle/vol/chapter context set
+function openInstructionalFormCtx(bundleId, volNum, chIdx) {
+  _instBundleId = bundleId;
+  const series = getSeriesByVol(bundleId, parseInt(volNum));
+  _instSeriesId = series ? series.id : '';
+  _instVolNum = parseInt(volNum);
+  _instChapterIdx = parseInt(chIdx);
+  openInstructionalForm();
+}
+
+function renderInstructionals() {
+  // If search box has content, show flat search results instead of the tree
+  const q = (document.getElementById('inst-search')?.value || '').trim();
+  const lc = document.getElementById('inst-level-content');
+  const sr = document.getElementById('inst-search-results');
+  // Hide breadcrumb (unused with accordion)
+  const bc = document.getElementById('inst-breadcrumb');
+  if (bc) bc.style.display = 'none';
+  instPageHeader('INSTRUCTIONALS',
+    'CLICK A ROW TO EXPAND · SEARCH TO JUMP',
+    `<button class="btn-ghost" onclick="instExpandAll()" title="Expand bundle/series/volumes (chapters stay collapsed)">EXPAND ALL</button>
+     <button class="btn-ghost" onclick="instCollapseAll()" title="Collapse everything">COLLAPSE ALL</button>
+     <label class="btn-ghost" style="cursor:pointer" title="Import notes from a GFF Bank JSON export">IMPORT GFF<input type="file" accept=".json" style="display:none" onchange="importGFFBank(event)"></label>`);
+
+  if (q) {
+    if (lc) lc.style.display = 'none';
+    if (sr) sr.style.display = 'block';
+    renderInstructionalsSearch();
+    return;
+  }
+  if (sr) sr.style.display = 'none';
+  if (lc) {
+    lc.style.display = 'block';
+    lc.innerHTML = INSTRUCTIONAL_BUNDLES.map(b => instBundleRowHTML(b)).join('');
+  }
+}
+
+function _instChevron(expanded) {
+  return `<span style="font-family:'DM Mono',monospace;color:${expanded?'var(--accent)':'var(--muted)'};font-size:11px;width:12px;display:inline-block;transition:transform 0.15s;${expanded?'':'opacity:0.7'}">${expanded?'▼':'▶'}</span>`;
+}
+
+function instBundleRowHTML(bundle) {
+  const key = 'b:'+bundle.id;
+  const exp = _instExpanded.has(key);
+  const cnt = instCountAtBundle(bundle.id);
+  return `<div style="margin-bottom:8px">
+    <div onclick="toggleInst(${attr(key)})" style="cursor:pointer;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;display:flex;align-items:center;gap:12px;transition:background 0.1s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+      ${_instChevron(exp)}
+      <div style="flex:1">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;color:var(--accent)">${esc(bundle.name)}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.5px">${esc(bundle.instructor)} · ${bundle.series.length} series · ${Object.keys(bundle.volumes||{}).length} volumes</div>
+      </div>
+      ${cnt?`<span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);font-weight:700">${cnt} ✓</span>`:`<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">no notes</span>`}
+    </div>
+    ${exp ? `<div style="padding-left:14px;border-left:1px solid var(--border);margin-left:14px;margin-top:5px">${bundle.series.map(s => instSeriesRowHTML(bundle, s)).join('')}</div>` : ''}
+  </div>`;
+}
+
+function instSeriesRowHTML(bundle, series) {
+  const key = 's:'+bundle.id+':'+series.id;
+  const exp = _instExpanded.has(key);
+  const cnt = instCountAtSeries(bundle.id, series.id);
+  return `<div style="margin-bottom:5px">
+    <div onclick="event.stopPropagation();toggleInst(${attr(key)})" style="cursor:pointer;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:9px 13px;display:flex;align-items:center;gap:10px;transition:background 0.1s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+      ${_instChevron(exp)}
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--text)">${esc(series.label)}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px">Vols ${series.vols[0]}–${series.vols[series.vols.length-1]}</div>
+      </div>
+      ${cnt?`<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:700">${cnt} ✓</span>`:''}
+    </div>
+    ${exp ? `<div style="padding-left:12px;border-left:1px solid var(--border);margin-left:12px;margin-top:4px">${series.vols.map(v => instVolRowHTML(bundle, v)).join('')}</div>` : ''}
+  </div>`;
+}
+
+function instVolRowHTML(bundle, volNum) {
+  const vol = bundle.volumes[String(volNum)];
+  if (!vol) return '';
+  const key = 'v:'+bundle.id+':'+volNum;
+  const exp = _instExpanded.has(key);
+  const cnt = instCountAtVol(bundle.id, volNum);
+  return `<div style="margin-bottom:3px">
+    <div onclick="event.stopPropagation();toggleInst(${attr(key)})" style="cursor:pointer;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:7px 11px;display:flex;align-items:center;gap:9px;transition:background 0.1s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+      ${_instChevron(exp)}
+      <div style="width:26px;height:26px;border-radius:4px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--label);flex-shrink:0">${volNum}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--text)">${esc(vol.title)}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${vol.chapters.length} chapters</div>
+      </div>
+      ${cnt?`<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:700">${cnt} ✓</span>`:''}
+    </div>
+    ${exp ? `<div style="padding-left:12px;border-left:1px solid var(--border);margin-left:12px;margin-top:3px">${vol.chapters.map((ch, i) => instChRowHTML(bundle, volNum, i)).join('')}</div>` : ''}
+  </div>`;
+}
+
+function instChRowHTML(bundle, volNum, chIdx) {
+  const vol = bundle.volumes[String(volNum)];
+  const ch = vol.chapters[chIdx];
+  const key = 'c:'+bundle.id+':'+volNum+':'+chIdx;
+  const exp = _instExpanded.has(key);
+  const cnt = instCountAtChapter(bundle.id, volNum, chIdx);
+  const hasNotesBorder = cnt ? ';border-color:rgba(200,169,110,0.35)' : '';
+  return `<div style="margin-bottom:2px">
+    <div onclick="event.stopPropagation();toggleInst(${attr(key)})" style="cursor:pointer;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;display:flex;align-items:center;gap:8px;transition:background 0.1s${hasNotesBorder}" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+      ${_instChevron(exp)}
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);font-weight:700;min-width:20px">${String(chIdx+1).padStart(2,'0')}</span>
+      <span style="flex:1;font-size:12px;color:var(--text)">${esc(ch.t)}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${esc(ch.ts)}</span>
+      ${cnt?`<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);font-weight:700;margin-left:6px">${cnt} ✓</span>`:''}
+    </div>
+    ${exp ? `<div style="background:var(--bg);border:1px solid var(--border);border-top:0;border-radius:0 0 var(--radius) var(--radius);padding:10px 12px;margin-top:-1px;margin-bottom:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px">STARTS AT ${esc(ch.ts)}</div>
+        <button class="btn-primary" style="font-size:10px;padding:5px 12px" onclick="event.stopPropagation();openInstructionalFormCtx(${attr(bundle.id)},${volNum},${chIdx})">+ NEW NOTE HERE</button>
+      </div>
+      ${renderInstChapterNoteList(bundle.id, volNum, chIdx)}
+    </div>` : ''}
+  </div>`;
+}
+
+function renderInstChapterNoteList(bundleId, volNum, chIdx) {
+  const notes = (state.instructionalNotes||[]).filter(n =>
+    n.bundleId===bundleId && parseInt(n.volumeNum)===parseInt(volNum) && parseInt(n.chapterIdx)===parseInt(chIdx)
+  );
+  if (!notes.length) return `<div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:6px 0;letter-spacing:0.5px">No notes yet — click + NEW NOTE HERE</div>`;
+  return notes.map(n => instNoteCardHTML(n)).join('');
+}
+
+function instNoteCardHTML(n) {
+  const isMove = n.noteType === 'move';
+  const typeBadge = isMove
+    ? `<span class="cat-tag" style="border-color:#34d39955;color:#34d399">🥋 MOVE</span>`
+    : `<span class="cat-tag" style="border-color:#4da6ff55;color:#4da6ff">💡 PRINCIPLE</span>`;
+  const posFlow = (isMove && (n.startPos || n.endPos || n.method)) ? `
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap">
+      ${n.startPos?`<span class="pos-pill pos-start">${esc(n.startPos)}</span>`:''}
+      ${n.endPos?`<span class="pos-arrow">→</span><span class="pos-pill pos-end">${esc(n.endPos)}</span>`:''}
+      ${n.method?`<span class="pos-arrow">·</span><span class="pos-pill pos-method">${esc(n.method)}</span>`:''}
+    </div>` : '';
+  const stepsHTML = (isMove && n.stepsList?.length) ? `
+    <div style="margin:6px 0 4px">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px">STEPS</div>
+      ${n.stepsList.map((s,i)=>`<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:3px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);background:rgba(200,169,110,0.1);padding:2px 5px;border-radius:2px;flex-shrink:0">${i+1}</span>
+        <span style="font-size:12px;color:var(--text);line-height:1.4">${esc(s.text||'')}</span>
+      </div>`).join('')}
+    </div>` : '';
+  return `<div class="entry-card" style="margin-bottom:8px">
+    <div style="padding:12px 14px">
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:6px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px">${esc(n.name)}</div>
+        </div>
+        ${typeBadge}
+        ${(n.giNoGi&&n.giNoGi!=='both')?`<span class="gi-badge">${n.giNoGi==='gi'?'GI':'NO-GI'}</span>`:''}
+        ${n.bjjPos?`<span class="cat-tag" style="border-color:var(--accent)33;color:var(--accent)">${esc(n.bjjPos)}</span>`:''}
+      </div>
+      ${posFlow}
+      ${n.goal?`<div style="font-size:12px;color:var(--label);margin-bottom:4px">🎯 ${esc(n.goal)}</div>`:''}
+      ${n.concept?`<div style="font-size:12px;color:var(--label);margin-bottom:4px">🔑 ${esc(n.concept)}</div>`:''}
+      ${stepsHTML}
+      ${n.details?`<div style="font-size:12px;color:var(--muted);margin-bottom:4px;white-space:pre-wrap">${esc(n.details)}</div>`:''}
+      ${n.warning?`<div style="font-size:12px;color:#f47272;margin-bottom:4px">⚠ ${esc(n.warning)}</div>`:''}
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="editInstructionalNote(${attr(n.id)})">EDIT</button>
+        <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="convertInstructionalToEntry(${attr(n.id)})">→ JOURNAL ENTRY</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// SEARCH
+function renderInstructionalsSearch() {
+  const q = (document.getElementById('inst-search')?.value||'').toLowerCase().trim();
+  const resultsEl = document.getElementById('inst-search-results');
+  const levelEl = document.getElementById('inst-level-content');
+  if (!q) {
+    if (resultsEl) resultsEl.style.display = 'none';
+    if (levelEl) levelEl.style.display = 'block';
+    return;
+  }
+  if (levelEl) levelEl.style.display = 'none';
+  if (resultsEl) resultsEl.style.display = 'block';
+  const all = state.instructionalNotes || [];
+  const matches = all.filter(n => {
+    const hay = ((n.name||'')+' '+(n.goal||'')+' '+(n.concept||'')+' '+(n.details||'')+' '+(n.warning||'')+' '+(n.bjjPos||'')).toLowerCase();
+    return hay.includes(q);
+  });
+  if (!matches.length) {
+    resultsEl.innerHTML = `<div class="empty-state" style="padding:40px 0">NO MATCHES FOR "${esc(q)}"</div>`;
+    return;
+  }
+  resultsEl.innerHTML = `<div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:8px">${matches.length} MATCH${matches.length===1?'':'ES'}</div>` +
+    matches.map(n => {
+      const bundle = getBundle(n.bundleId);
+      const series = bundle && bundle.series.find(s=>s.id===n.seriesId);
+      const vol = bundle && bundle.volumes[String(n.volumeNum)];
+      const ch = vol && vol.chapters[n.chapterIdx];
+      const loc = [bundle&&bundle.name, series&&series.short, vol&&('Vol '+n.volumeNum), ch&&('Ch '+(parseInt(n.chapterIdx)+1)+': '+ch.t)].filter(Boolean).join(' › ');
+      return `<div class="entry-card" style="margin-bottom:6px">
+        <div style="padding:10px 14px">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:4px">${esc(loc)}</div>
+          <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px">${esc(n.name)}</div>
+          ${n.goal?`<div style="font-size:12px;color:var(--label);margin-bottom:4px">🎯 ${esc(n.goal)}</div>`:''}
+          ${n.concept?`<div style="font-size:12px;color:var(--label);margin-bottom:4px">🔑 ${esc(n.concept)}</div>`:''}
+          ${n.details?`<div style="font-size:12px;color:var(--muted);margin-bottom:4px;white-space:pre-wrap">${esc(n.details)}</div>`:''}
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="editInstructionalNote(${attr(n.id)})">EDIT</button>
+            <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="convertInstructionalToEntry(${attr(n.id)})">→ JOURNAL ENTRY</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+}
+
+function editInstructionalNote(id) {
+  const note = (state.instructionalNotes || []).find(n => n.id === id);
+  if (!note) return;
+  openInstructionalForm(note);
+}
+
+function convertInstructionalToEntry(id) {
+  const note = (state.instructionalNotes || []).find(n => n.id === id);
+  if (!note) return;
+  const isMove = note.noteType === 'move';
+  // For moves: map directly to a structured technique with stepsList + position flow
+  // For principles: flatten the text into a single concept + steps field
+  const tech = isMove ? {
+    name: note.name,
+    family: '', position: note.bjjPos || '',
+    gi: note.giNoGi || 'nogi',
+    cat: '',
+    startPos: note.startPos || '',
+    endPos: note.endPos || '',
+    method: note.method || '',
+    concept: note.concept || '',
+    stepsList: (note.stepsList && note.stepsList.length) ? note.stepsList.map(s => ({text: s.text || '', photo: s.photo || null})) : [],
+    steps: (note.stepsList || []).map(s => s.text).filter(Boolean).join('\n'),
+    drill: false, links: [],
+  } : {
+    name: note.name,
+    family: '', position: note.bjjPos || '',
+    gi: note.giNoGi || 'nogi',
+    cat: '',
+    startPos: '', endPos: '', method: '',
+    concept: note.concept || note.goal || '',
+    steps: [
+      note.details && ('Details: ' + note.details),
+      note.warning && ('⚠ ' + note.warning),
+    ].filter(Boolean).join('\n\n'),
+    stepsList: [],
+    drill: false, links: [],
+  };
+  const entry = {
+    id: Date.now(),
+    type: 'online',
+    date: new Date().toISOString().slice(0,10),
+    techniques: [tech],
+    keyInsights: [],
+    instructor: note.instructor || '',
+    sourceType: 'Instructional',
+    url: '',
+    notes: 'Imported from Instructional note: ' + note.name,
+    attachments: [],
+    rounds: null,
+  };
+  state.entries.unshift(entry);
+  save();
+  showToast('✓ Converted to Journal Entry');
+  switchView('timeline', document.querySelector('.nav-tab[onclick*="\'timeline\'"]'));
+}
+
+// ── GFF BANK IMPORTER ───────────────────────────────────────────────────────
+// Schema: { version, exported, exportedReadable, noteCount, data: { "volNum:chIdx": [notes] } }
+function importGFFBank(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const db = parsed.data || parsed;
+      if (typeof db !== 'object' || Array.isArray(db)) throw new Error('Not a valid GFF Bank export');
+
+      let imported = 0, skipped = 0;
+      if (!state.instructionalNotes) state.instructionalNotes = [];
+      const existingIds = new Set(state.instructionalNotes.map(n => n.id));
+      const gffBundle = getBundle('gff');
+
+      Object.entries(db).forEach(([key, notes]) => {
+        if (!Array.isArray(notes)) return;
+        const [volStr, chStr] = key.split(':');
+        const volNum = parseInt(volStr);
+        const chIdx = parseInt(chStr);
+        const seriesMeta = getSeriesByVol('gff', volNum);
+        const volMetaObj = gffBundle && gffBundle.volumes[String(volNum)];
+        const chMetaObj = volMetaObj && volMetaObj.chapters[chIdx];
+        notes.forEach(n => {
+          const newId = 'gff_' + (n.id || Date.now().toString()) + '_' + volStr + '_' + chStr;
+          if (existingIds.has(newId)) { skipped++; return; }
+          const rawSteps = (n.steps || []).filter(s => s && s.text);
+          const rawSteps2 = (n.steps2 || []).filter(s => s && s.text);
+          const isMove = rawSteps.length > 0 || rawSteps2.length > 0;
+          // Build stepsList for moves — combine main and counter steps with a separator
+          const stepsList = isMove ? [
+            ...rawSteps.map(s => ({text: s.text || '', photo: s.img || null})),
+            ...(rawSteps2.length ? [{text: '— If opponent negates —', photo: null}] : []),
+            ...rawSteps2.map(s => ({text: s.text || '', photo: s.img || null})),
+          ] : [];
+          state.instructionalNotes.push({
+            id: newId,
+            bundleId: 'gff',
+            seriesId: seriesMeta ? seriesMeta.id : '',
+            seriesName: gffBundle ? (gffBundle.name + (seriesMeta?' — '+seriesMeta.label:'')) : 'Go Further Faster',
+            instructor: 'John Danaher',
+            volumeNum: volNum,
+            volumeTitle: volMetaObj ? volMetaObj.title : '',
+            chapterIdx: chIdx,
+            chapterTitle: chMetaObj ? ('Ch ' + (chIdx + 1) + ': ' + chMetaObj.t) : ('Ch ' + (chIdx + 1)),
+            name: n.name || '(untitled)',
+            noteType: isMove ? 'move' : 'principle',
+            goal: isMove ? '' : (n.goal || ''),
+            concept: n.concept || '',
+            details: isMove ? '' : (n.details || ''),
+            warning: n.warning || '',
+            startPos: isMove ? (n.startPos || '') : '',
+            endPos: '', method: '',
+            stepsList,
+            steps: n.steps || [],
+            steps2: n.steps2 || [],
+            bjjPos: n.bjjPos || '',
+            giNoGi: n.giNoGi || 'nogi',
+            updated: n.updated || Date.now(),
+          });
+          existingIds.add(newId);
+          imported++;
+        });
+      });
+      save();
+      renderInstructionals();
+      if (typeof initLibrary === 'function') initLibrary();
+      showToast(`✓ Imported ${imported} GFF note${imported===1?'':'s'}${skipped?` (${skipped} duplicate${skipped===1?'':'s'} skipped)`:''}`);
+    } catch (err) {
+      showToast('Invalid GFF Bank file: ' + err.message);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ── TRAINING DAY DEBRIEF TAB ────────────────────────────────────────────────
+const TDD_TYPES = ['hit','caught','sweep','escape','td'];
+
+function initTDD() {
+  const today = new Date().toISOString().slice(0,10);
+  const dateEl = document.getElementById('tdd-date');
+  if (dateEl && !dateEl.value) dateEl.value = today;
+  renderTDDList();
+}
+
+function tddTogglePartner() {
+  const f = document.getElementById('tdd-partner-form');
+  f.style.display = f.style.display === 'none' ? 'flex' : 'none';
+  if (f.style.display !== 'none') document.getElementById('tdd-pf-name').focus();
+}
+function tddConfirmPartner() {
+  const name = document.getElementById('tdd-pf-name').value.trim();
+  const belt = document.getElementById('tdd-pf-belt').value;
+  tddAddPartnerChip(name, belt);
+  document.getElementById('tdd-pf-name').value = '';
+  document.getElementById('tdd-partner-form').style.display = 'none';
+}
+function tddAddPartnerChip(name, belt) {
+  const container = document.getElementById('tdd-partners');
+  const chip = document.createElement('span');
+  chip.className = 'partner-chip';
+  chip.dataset.name = name; chip.dataset.belt = belt;
+  const color = BELT_COLORS[belt] || '#888';
+  chip.innerHTML = `<span class="belt-dot" style="background:${color}"></span>${esc(name||belt+' belt')}<button class="oc-chip-x" type="button" onclick="this.closest('.partner-chip').remove()">×</button>`;
+  container.appendChild(chip);
+}
+
+function tddSuggest(type, val) {
+  const suggest = document.getElementById('tdd-'+type+'-suggest');
+  if (!suggest) return;
+  if (!val||val.length<1) { suggest.style.display='none'; return; }
+  const pool = [...(OC_SUGGEST_POOL[type]?.()||[]), ...getTechniqueNames()];
+  const unique = [...new Set(pool)];
+  const matches = unique.filter(n=>n.toLowerCase().includes(val.toLowerCase())).slice(0,7);
+  if (!matches.length) { suggest.style.display='none'; return; }
+  suggest.innerHTML = matches.map(n=>`<div class="suggest-item" onmousedown="event.preventDefault()" onclick="tddAddChip('${type}',${attr(n)})">${esc(n)}</div>`).join('');
+  suggest.style.display = 'block';
+}
+function tddHideSuggest(type) {
+  const s = document.getElementById('tdd-'+type+'-suggest');
+  if (s) s.style.display = 'none';
+}
+function tddAddChip(type, val) {
+  const input = document.getElementById('tdd-'+type+'-input');
+  const suggest = document.getElementById('tdd-'+type+'-suggest');
+  const container = document.getElementById('tdd-'+type+'-chips');
+  if (!container) return;
+  if (suggest) suggest.style.display = 'none';
+  const name = val || (input?.value.trim());
+  if (!name) return;
+  if (input) input.value = '';
+  const existing = [...container.querySelectorAll('[data-oc-val]')].map(e=>e.dataset.ocVal);
+  if (existing.includes(name)) return;
+  const chip = document.createElement('span');
+  chip.className = `outcome-chip oc-chip-${type}`;
+  chip.dataset.ocVal = name;
+  chip.innerHTML = `${esc(name)}<button class="oc-chip-x" type="button" onclick="this.closest('.outcome-chip').remove()">×</button>`;
+  container.appendChild(chip);
+}
+function tddSetGas(btn) {
+  document.querySelectorAll('#view-debrief .gas-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tdd-gas-val').value = btn.dataset.val;
+}
+
+function getTDDData() {
+  const partners = [...document.querySelectorAll('#tdd-partners .partner-chip')].map(c=>({name:c.dataset.name||'',belt:c.dataset.belt||''}));
+  const outcome = type => [...document.querySelectorAll('#tdd-'+type+'-chips [data-oc-val]')].map(c=>c.dataset.ocVal);
+  return {
+    date: document.getElementById('tdd-date')?.value || new Date().toISOString().slice(0,10),
+    partners, hit:outcome('hit'), caught:outcome('caught'),
+    sweep:outcome('sweep'), escape:outcome('escape'), td:outcome('td'),
+    gas: document.getElementById('tdd-gas-val')?.value||'',
+    clicked: document.getElementById('tdd-clicked')?.value.trim()||'',
+    fix: document.getElementById('tdd-fix')?.value.trim()||'',
+  };
+}
+
+function clearTDDForm() {
+  document.getElementById('tdd-partners').innerHTML = '';
+  TDD_TYPES.forEach(t => {
+    const c = document.getElementById('tdd-'+t+'-chips'); if(c) c.innerHTML='';
+    const i = document.getElementById('tdd-'+t+'-input'); if(i) i.value='';
+  });
+  document.querySelectorAll('#view-debrief .gas-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tdd-gas-val').value='';
+  document.getElementById('tdd-clicked').value='';
+  document.getElementById('tdd-fix').value='';
+  document.getElementById('tdd-date').value = new Date().toISOString().slice(0,10);
+}
+
+function saveTDD() {
+  const data = getTDDData();
+  const hasContent = data.partners.length||data.hit.length||data.caught.length||data.sweep.length||data.escape.length||data.td.length||data.gas||data.clicked||data.fix;
+  if (!hasContent) { showToast('Nothing to save — fill in at least one field'); return; }
+  if (!state.debriefs) state.debriefs = [];
+  state.debriefs.unshift({ id: Date.now().toString(), ...data });
+  save();
+  clearTDDForm();
+  renderTDDList();
+  showToast('Debrief saved ✓');
+}
+
+function renderTDDList() {
+  const el = document.getElementById('tdd-list');
+  if (!el) return;
+  const debriefs = state.debriefs || [];
+  if (!debriefs.length) { el.innerHTML = '<div class="empty-state" style="padding:40px 0">NO DEBRIEFS YET<br><span style="font-size:11px;font-family:\'DM Sans\',sans-serif;color:var(--muted);text-transform:none;letter-spacing:0;margin-top:6px;display:block">Fill out the form above after each training session</span></div>'; return; }
+  el.innerHTML = debriefs.map(d => {
+    const gasLabel = GAS_LABELS[d.gas]||'';
+    const chips = (arr, color) => arr.map(v=>`<span style="font-family:\'DM Mono\',monospace;font-size:9px;padding:2px 7px;border-radius:3px;background:var(--surface2);color:${color};border:1px solid ${color}33">${esc(v)}</span>`).join('');
+    return `<div class="card" style="margin-bottom:10px;padding:14px 18px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <span style="font-family:\'DM Mono\',monospace;font-size:11px;font-weight:700;color:var(--text)">${d.date}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${gasLabel?`<span style="font-size:11px">${gasLabel}</span>`:''}
+          <button onclick="deleteTDD('${d.id}')" style="font-family:\'DM Mono\',monospace;font-size:9px;padding:3px 8px;background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);cursor:pointer">remove</button>
+        </div>
+      </div>
+      ${d.partners.length?`<div style="margin-bottom:8px;display:flex;gap:5px;flex-wrap:wrap">${d.partners.map(p=>`<span style="font-family:\'DM Mono\',monospace;font-size:9px;padding:2px 7px;border-radius:3px;background:var(--surface2);color:${BELT_COLORS[p.belt]||'#888'};border:1px solid ${BELT_COLORS[p.belt]||'#888'}44">${esc(p.name||p.belt+' belt')}</span>`).join('')}</div>`:''}
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px">
+        ${chips(d.hit,'#f47272')}${chips(d.caught,'var(--muted)')}${chips(d.sweep,'#4da6ff')}${chips(d.escape,'#52c987')}${chips(d.td,'#34d399')}
+      </div>
+      ${d.clicked?`<div style="font-size:12px;color:var(--text);margin-bottom:3px">✓ <span style="color:var(--label)">${esc(d.clicked)}</span></div>`:''}
+      ${d.fix?`<div style="font-size:12px;color:var(--text)">→ <span style="color:var(--label)">${esc(d.fix)}</span></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function deleteTDD(id) {
+  if (!state.debriefs) return;
+  state.debriefs = state.debriefs.filter(d=>d.id!==id);
+  save(); renderTDDList();
+}
+
+// Enter key on tdd outcome inputs
+document.addEventListener('keydown', e => {
+  TDD_TYPES.forEach(type => {
+    const inp = document.getElementById('tdd-'+type+'-input');
+    if (e.target===inp && e.key==='Enter') { e.preventDefault(); tddAddChip(type, inp.value.trim()); }
+  });
+  const pn = document.getElementById('tdd-pf-name');
+  if (e.target===pn && e.key==='Enter') { e.preventDefault(); tddConfirmPartner(); }
 });
 </script>
 </body>
