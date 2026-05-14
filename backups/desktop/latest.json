@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-14T03:54:09.993Z",
-  "exportedReadable": "5/13/2026, 8:54:09 PM",
+  "exported": "2026-05-14T03:57:21.881Z",
+  "exportedReadable": "5/13/2026, 8:57:21 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,32 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1778731011594",
+        "noteType": "principle",
+        "seriesName": "Go Further Faster — Closed Guard",
+        "instructor": "John Danaher",
+        "volumeNum": 26,
+        "volumeTitle": "Closed Guard 2",
+        "chapterTitle": "Ch 3: A Key Insight: Who Is Really On Top? (26:37)",
+        "name": "Who is really on top in closed guard?",
+        "goal": "",
+        "details": "As our hips and legs are on top off ops hips in closed guard, I am really in a top position. \n\nPowerful lower half is in a better position. \n\nMy hips and legs are stronger than the ops upper body.",
+        "concept": "Closed guard is really a top position",
+        "warning": "",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Closed Guard",
+        "giNoGi": "gi",
+        "updated": 1778731011594,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 2
+      },
       {
         "id": "1778730819765",
         "noteType": "principle",
