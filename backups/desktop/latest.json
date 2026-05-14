@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-14T03:37:48.361Z",
-  "exportedReadable": "5/13/2026, 8:37:48 PM",
+  "exported": "2026-05-14T03:54:09.993Z",
+  "exportedReadable": "5/13/2026, 8:54:09 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,32 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1778730819765",
+        "noteType": "principle",
+        "seriesName": "Go Further Faster — Closed Guard",
+        "instructor": "John Danaher",
+        "volumeNum": 26,
+        "volumeTitle": "Closed Guard 2",
+        "chapterTitle": "Ch 2: General Overview Of The Closed Guard (7:36)",
+        "name": "Getting into close guard best postions",
+        "goal": "Create Kuzushi p in 1 of th 4 scenarios and exploit the 6 vulnerabilites.",
+        "details": "1. Ops elbow line crosses mid section > leads to side scissor. ( back exposure )\n2. Bring Ops hands to the the floor > Leads to the Clamp Guard ( Submissions )\n3. Inside wrist grip ( not a C grip but a U grip, stack wrist over forearm). can use this to dominate insde position and lead to submissions.\n\n4. 45 inside (Top lock) - keep op in 45 degrees and elbows in . look for a high cross grip, cross cuff grip. Start to walk up th eops back and secure top lock. \n\n5.if opp stands up, keep cross collar grip and cross cuff grip and break posture. as they are bent you can walk legs DOWN opps back and secure a top lock. \n\n6. Knocking Op to ASS. if op stands up use scoop grip to get them on they ass. keep hips high and you can get them into submissions.",
+        "concept": "4 kuzushi oppertunities and 6 vulnerabilites.",
+        "warning": "try to keep opps posture from standing",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Closed Guard",
+        "giNoGi": "gi",
+        "updated": 1778730819765,
+        "bundleId": "gff",
+        "seriesId": "s3",
+        "chapterIdx": 1
+      },
       {
         "id": "gff_t01_2_9",
         "seriesName": "Go Further Faster — Pin Escapes & Turtle Escapes",
