@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-19T04:00:43.992Z",
-  "exportedReadable": "5/18/2026, 9:00:43 PM",
+  "exported": "2026-05-19T04:14:13.687Z",
+  "exportedReadable": "5/18/2026, 9:14:13 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,48 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779164023420",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 1,
+        "volumeTitle": "Cross Body Pin & Lion Killer",
+        "chapterTitle": "Ch 6: Lion Killer Finish Part 3 (36:30)",
+        "name": "Armbar from Mount - Ralph Gracie Special",
+        "goal": "",
+        "details": "",
+        "concept": "Disrupt the spine to get to the S mount",
+        "warning": "Stay off line. \nUse hands on mat.\nKeep cautious of the legs that is laying on the ground, tuck it so the opponent is not able to get the half guard.",
+        "startPos": "Mount",
+        "endPos": "Mount",
+        "method": "Submission",
+        "stepsList": [
+          {
+            "text": "Get to mount and secure a cross collar grip."
+          },
+          {
+            "text": "Really turn your body.Lower chest to behind the defending elbow."
+          },
+          {
+            "text": "place hand on mat behind the elbow and drive using the same side leg to DRIVE the arm from one side to the other"
+          },
+          {
+            "text": "once on thier other side DROP your elbow and PULL elbow back (disrupt the spine)"
+          },
+          {
+            "text": "slide knee up to S mount then continue to armbar."
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Armbar",
+        "giNoGi": "nogi",
+        "updated": 1779164023420,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 5
+      },
       {
         "id": "1779163197698",
         "noteType": "move",
