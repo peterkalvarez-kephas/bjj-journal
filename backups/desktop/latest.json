@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-14T04:18:28.820Z",
-  "exportedReadable": "5/13/2026, 9:18:28 PM",
+  "exported": "2026-05-19T03:22:42.183Z",
+  "exportedReadable": "5/18/2026, 8:22:42 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,42 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779160931792",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 1,
+        "volumeTitle": "Cross Body Pin & Lion Killer",
+        "chapterTitle": "Ch 4: Mid Attack - Lion Killer Finish (25:42)",
+        "name": "Attacking a tradtional armbar from the MID postion.",
+        "goal": "",
+        "details": "",
+        "concept": "Breaking an armbar RNC defence using a RNC frip on arm.",
+        "warning": "Be aware of the arm length short arms means less space to work with and long arms gives them more confidence to move.",
+        "startPos": "Side Control",
+        "endPos": "Back Control",
+        "method": "Submission",
+        "stepsList": [
+          {
+            "text": "Establish a RNC grip on the arm and have close guard on armpit. you want to SAW/RATCHET side to side (dynamic). Disrupt a straight line of power by going side to side"
+          },
+          {
+            "text": "Emotional side - you need to SHOW your passion when attacking this MID Position."
+          },
+          {
+            "text": "if needed lean towards the leg side, can stuff into armpit for stronger break."
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Armbar",
+        "giNoGi": "gi",
+        "updated": 1779160931792,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 3
+      },
       {
         "id": "1778732276851",
         "noteType": "principle",
