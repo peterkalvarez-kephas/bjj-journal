@@ -865,10 +865,10 @@
         <div class="form-field" style="flex:2"><label>Note Name *</label><input type="text" id="if-name" placeholder="What's this note about?"></div>
         <div class="form-field"><label>Gi / No-Gi</label>
           <div class="gi-toggle" id="if-gi-toggle">
-            <button type="button" class="gi-btn" data-gi="gi" onclick="ifSetGi('gi')">GI</button>
-            <button type="button" class="gi-btn active" data-gi="nogi" onclick="ifSetGi('nogi')">NO-GI</button>
+            <button type="button" class="gi-btn active" data-gi="gi" onclick="ifSetGi('gi')">GI</button>
+            <button type="button" class="gi-btn" data-gi="nogi" onclick="ifSetGi('nogi')">NO-GI</button>
           </div>
-          <input type="hidden" id="if-gi-val" value="nogi">
+          <input type="hidden" id="if-gi-val" value="gi">
         </div>
       </div>
       <div class="form-row">
@@ -900,9 +900,9 @@
     <div class="form-section" id="if-move-fields" style="margin-bottom:14px;display:none">
       <div class="form-section-title">Move Details</div>
       <div class="form-row">
-        <div class="form-field"><label>Starting Position</label><select id="if-startpos"></select></div>
-        <div class="form-field"><label>Outcome Position</label><select id="if-endpos"></select></div>
-        <div class="form-field"><label>Outcome Method</label><select id="if-method"></select></div>
+        <div class="form-field"><label>Starting Position</label><input type="text" id="if-startpos" list="pos-pool-shared" placeholder="Type or pick..." autocomplete="off"></div>
+        <div class="form-field"><label>Outcome Position</label><input type="text" id="if-endpos" list="pos-pool-shared" placeholder="Type or pick..." autocomplete="off"></div>
+        <div class="form-field"><label>Outcome Method</label><input type="text" id="if-method" list="method-pool-shared" placeholder="Sub, Pass, Sweep..." autocomplete="off"></div>
       </div>
       <div class="form-row">
         <div class="form-field"><label>Key Concept / Why It Works</label><input type="text" id="if-move-concept" placeholder="The core principle..."></div>
@@ -1193,11 +1193,15 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- SHARED AUTOCOMPLETE POOLS — populated dynamically by refreshSharedPools() -->
+<datalist id="pos-pool-shared"></datalist>
+<datalist id="method-pool-shared"></datalist>
+
 <script>
 const STORAGE_KEY = 'bjj_journal_v2';
 
 
-const POSITIONS = ['Guard','Half Guard','Mount','Back Control','Side Control','Knee on Belly','Turtle','Standing'];
+const POSITIONS = ['Guard','Half Guard','Mount','Back Control','Side Control','Crossbody Position','Knee on Belly','Turtle','Standing'];
 const METHODS = ['Sweep','Submission','Escape','Takedown'];
 const CATEGORIES = ['Guard','Guard Passing','Pins','Submissions','Escapes','Takedowns','Back Control','Leg Locks','Other'];
 const CAT_COLORS = {
@@ -1272,6 +1276,15 @@ const INSTRUCTIONAL_BUNDLES = [
     {id:'s7',label:'Strangles & Turtle Breakdowns',short:'Strangles',vols:[57,58,59,60,61,62,63,64]}
   ],
     volumes: {"1":{"title":"Pin Escapes & Turtle Escapes 1","chapters":[{"t":"Introduction","ts":"0:00"},{"t":"Escapes Overview","ts":"6:56"},{"t":"Defense & Escapes - General Reflections","ts":"43:37"},{"t":"Your First Goal in Jiu Jitsu: Pin Escapes","ts":"49:50"},{"t":"Pin Escapes","ts":"51:25"},{"t":"Escape is a Responsibility","ts":"56:11"},{"t":"3 Modes of Pin Escape in Jiu Jitsu","ts":"57:27"},{"t":"Minimal Escapes & Positive Escapes","ts":"1:01:46"},{"t":"The 2 Elements of Pinning in Jiu Jitsu","ts":"1:06:20"},{"t":"Single Biggest Insight Required To Escape Pins","ts":"1:13:31"},{"t":"Essential Body Movements Required For Pin Escapes","ts":"1:24:06"},{"t":"Bridging","ts":"1:25:21"},{"t":"Bridging 2","ts":"1:33:00"},{"t":"Walking Bridges","ts":"1:37:07"},{"t":"Shrimping","ts":"1:38:47"},{"t":"Back Heisting","ts":"1:47:20"},{"t":"Sitting","ts":"1:51:09"},{"t":"Shoulder Rolling","ts":"1:54:33"},{"t":"Inverted Spin","ts":"1:57:26"},{"t":"Putting Body Movements Together","ts":"1:59:46"}]},"2":{"title":"Pin Escapes & Turtle Escapes 2","chapters":[{"t":"Bridging Escape From Mounted Position (UPA)","ts":"0:00"},{"t":"Bridging Escape From Mounted Position 2","ts":"15:02"},{"t":"Bridging Escape From Mounted Position 3","ts":"19:01"},{"t":"Bridging Escape From Mounted Position 4","ts":"22:04"},{"t":"Bridging Escape From Mounted Position 5","ts":"25:18"},{"t":"Elbow Escape From Mounted Position","ts":"30:01"},{"t":"Elbow Escape From Mounted Position 2","ts":"40:45"},{"t":"Elbow Escape From Mounted Position 3","ts":"47:34"},{"t":"Elbow Escape From Mounted Position 4","ts":"58:29"},{"t":"Elbow Escape From Mounted Position 5","ts":"1:07:24"},{"t":"Elbow Escape From Mounted Position 6","ts":"1:13:48"},{"t":"Elbow Escape From Mounted Position 7","ts":"1:18:12"}]},"3":{"title":"Pin Escapes & Turtle Escapes 3","chapters":[{"t":"Elbow Escape From Mounted Position - Ankle Trap Method","ts":"0:00"},{"t":"Elbow Escape From Mounted Position - Ankle Trap Method 2","ts":"6:50"},{"t":"Elbow Escape From Mounted Position - Ankle Trap Method 3","ts":"11:14"},{"t":"Putting It All Together","ts":"15:37"},{"t":"Foot Fighting From Bottom Mount","ts":"22:50"},{"t":"The Goal of Foot Fighting: The Long/Short Position","ts":"28:42"},{"t":"Dealing With High Mounts","ts":"35:20"},{"t":"The Problem of Back Exposure When Escaping Mount","ts":"41:21"},{"t":"Elbow Escapes From Side Position Introduction","ts":"46:54"},{"t":"Elbow Escapes From Side Position 2","ts":"56:40"},{"t":"Elbow Escapes From Side Position 3","ts":"1:00:49"},{"t":"Elbow Escapes From Side Position 4","ts":"1:07:10"},{"t":"Elbow Escapes From Side Position 5","ts":"1:14:57"},{"t":"Elbow Escapes From Side Position 6","ts":"1:24:10"},{"t":"Elbow Escapes From Side Position 7","ts":"1:28:37"}]},"4":{"title":"Pin Escapes & Turtle Escapes 4","chapters":[{"t":"Knee Escapes From Side Position","ts":"0:00"},{"t":"Knee Escapes From Side Position 2","ts":"6:07"},{"t":"Knee Escapes From Side Position 3","ts":"9:23"},{"t":"Knee Escapes From Side Position 4","ts":"16:49"},{"t":"Knee Escapes From Side Position 5","ts":"21:23"},{"t":"Knee Escapes From Side Position 6","ts":"27:32"},{"t":"Knee Escapes From Side Position 7","ts":"33:52"},{"t":"Knee Escapes From Side Position 8","ts":"40:51"},{"t":"Knee Escapes From Side Position 9","ts":"44:38"},{"t":"Knee Escapes From Side Position 10","ts":"49:29"}]},"5":{"title":"Pin Escapes & Turtle Escapes 5","chapters":[{"t":"A General Theory of Framing and Space","ts":"0:00"},{"t":"A General Theory of Framing and Space 2","ts":"9:54"},{"t":"A General Theory of Framing and Space 3","ts":"15:02"},{"t":"3 Most Important Frame From Bottom Side Control For Escape","ts":"19:10"},{"t":"Knee Escape: Single Leg Cut Back Finish","ts":"38:06"},{"t":"Knee Escape: Single Leg To The Back","ts":"42:03"},{"t":"Knee Escape: Single Leg To Half Guard","ts":"46:55"},{"t":"Knee Escape: Single Leg To Butterfly Guard","ts":"52:04"},{"t":"Knee Escape: Single Leg To Full Guard","ts":"54:44"}]},"6":{"title":"Pin Escapes & Turtle Escapes 6","chapters":[{"t":"High Leg Escape From Side Pin","ts":"0:00"},{"t":"Details of High Leg Escape","ts":"5:31"},{"t":"Ankle Trap Escape From Side Pin","ts":"11:19"},{"t":"Shoulder Roll Escape From Side Pin","ts":"23:44"},{"t":"Creating Effective Frames Under Pins","ts":"32:41"},{"t":"The Critical Importance of Knee Entry Angle and Position","ts":"38:30"},{"t":"Single Most Important Tool for Escapes From Bottom Position","ts":"47:25"},{"t":"Understanding The Crucial Importance of Insertion Points","ts":"51:12"},{"t":"Spinning Escape From Side Control","ts":"57:24"},{"t":"Prop Escapes From Side Control","ts":"1:04:42"}]},"7":{"title":"Pin Escapes & Turtle Escapes 7","chapters":[{"t":"Escaping From Side Pins Where Opponent Sits Out","ts":"0:00"},{"t":"Escaping From Side Pins Where Opponent Sits Out 2","ts":"9:05"},{"t":"Escaping From Side Pins Where Opponent Uses Reverse Sit Out","ts":"14:43"},{"t":"Escaping From Knee on Belly Position","ts":"28:00"},{"t":"Ankle Trap Escape From Knee on Belly","ts":"36:36"},{"t":"Escaping From North-South Position","ts":"44:36"},{"t":"3 Different Kinds of North South Position","ts":"51:16"},{"t":"Escaping North South: Transition Escape","ts":"56:38"},{"t":"Escaping Double Over North/South","ts":"1:02:24"},{"t":"Escaping Double Under North/South","ts":"1:06:38"},{"t":"Escaping Double Under North/South Part 2","ts":"1:16:31"},{"t":"Escaping Over Under North/South","ts":"1:22:02"}]},"8":{"title":"Pin Escapes & Turtle Escapes 8","chapters":[{"t":"Rear Mount Escapes","ts":"0:00"},{"t":"Rear Mount Escapes Sliding Elbow Escape","ts":"7:13"},{"t":"Rear Mount Escapes Sliding Elbow Escape 2","ts":"21:58"},{"t":"Rear Mount Escapes Sliding Elbow Escape 3","ts":"26:48"},{"t":"Rear Mount Escapes Sliding Elbow Escape 4","ts":"30:34"},{"t":"Escapes From Turtle Position","ts":"36:08"},{"t":"Shoulder Roll Escapes","ts":"46:20"},{"t":"Shoulder Roll Escapes 2","ts":"1:00:01"},{"t":"Countering The Seatbelt: Inside Leg Escape","ts":"1:02:36"},{"t":"Countering The Seatbelt: Inside Leg Escape 2","ts":"1:17:34"},{"t":"Countering The Seatbelt: Inside Leg Escape 3","ts":"1:20:33"}]},"9":{"title":"Guard Retention 1","chapters":[{"t":"Introduction To Guard Retention","ts":"0:00"},{"t":"Guard Retention Overview","ts":"24:00"}]},"10":{"title":"Guard Retention 2","chapters":[{"t":"The Big Picture - General Theory of Guard Retention","ts":"0:00"},{"t":"2 Most Basic Requirements of Guard Retention","ts":"7:37"},{"t":"The Importance of Guard Retention","ts":"11:23"},{"t":"The Unforgivable Sin of Guard Retention","ts":"20:13"},{"t":"The 3 Postures of Guard Retention","ts":"26:01"}]},"11":{"title":"Guard Retention 3","chapters":[{"t":"The First Skill of Guard Retention - Scooting","ts":"0:00"},{"t":"Rolling Inversion","ts":"4:04"},{"t":"Hip Heisting","ts":"8:52"},{"t":"Supine Position - Shrimping","ts":"15:46"},{"t":"Pummelling","ts":"21:55"},{"t":"Pendulum","ts":"26:24"},{"t":"Scissoring","ts":"29:36"},{"t":"Spinning Inversion","ts":"34:59"},{"t":"Rollbacks","ts":"38:06"},{"t":"Back Heist","ts":"40:59"},{"t":"Turtle Position - Shoulder Roll","ts":"45:41"},{"t":"Sitting","ts":"53:33"}]},"12":{"title":"Guard Retention 4","chapters":[{"t":"2nd Skill of Guard Retention - Framing","ts":"0:00"},{"t":"Frames & Distance - Forehand Frame","ts":"6:40"},{"t":"Forearm Frame","ts":"10:22"},{"t":"Back Hand Frames","ts":"14:35"},{"t":"Self Framing","ts":"20:58"},{"t":"3rd Skill - Breaking and Negating Grips","ts":"24:07"},{"t":"Ultimate Theory of Guard Retention - Demarcation Lines","ts":"32:45"}]},"13":{"title":"Guard Retention 5","chapters":[{"t":"Connection","ts":"0:00"},{"t":"5 Things Opponent Needs to Pass Your Guard","ts":"6:26"},{"t":"Single Most Important Tool - Scissor Guard","ts":"20:49"},{"t":"2nd Most Important Tool - Hip Heist","ts":"30:59"},{"t":"3rd Most Important Tool - Back Heist","ts":"36:02"},{"t":"4th Most Important Tool - Power Prop","ts":"38:55"},{"t":"The Theory of Cycles of Offense & Defense","ts":"49:14"},{"t":"The Theory of Cycles of Offense & Defense 2","ts":"1:01:09"},{"t":"The Critical Importance of Head Control in Guard Retention","ts":"1:05:21"}]},"14":{"title":"Guard Retention 6","chapters":[{"t":"The Specific Theory of Guard Retention","ts":"0:00"},{"t":"Double Under Pass","ts":"4:20"},{"t":"Double Under Pass Part 2","ts":"13:57"},{"t":"Double Under Pass Part 3","ts":"18:10"},{"t":"Double Under Pass Part 4","ts":"22:23"},{"t":"Putting It All Together","ts":"25:23"},{"t":"Over Under Guard Pass Retention","ts":"28:17"},{"t":"Over Under Guard Pass Retention 2","ts":"38:47"},{"t":"Over Under Guard Pass Retention 3","ts":"43:28"},{"t":"Over Under Guard Pass Retention 4","ts":"50:13"}]},"15":{"title":"Guard Retention 7","chapters":[{"t":"Toreando Guard Pass Retention","ts":"0:00"},{"t":"Toreando Guard Pass Retention 2","ts":"8:21"},{"t":"Toreando Guard Pass Retention 3","ts":"12:17"},{"t":"Toreando Guard Pass Retention 4","ts":"17:14"},{"t":"Toreando Guard Pass Retention 5","ts":"19:49"},{"t":"Toreando Guard Pass Retention 6","ts":"24:47"},{"t":"Knee Slice Guard Pass Retention","ts":"26:53"},{"t":"Knee Slice Guard Pass Retention 2","ts":"35:14"}]},"16":{"title":"Guard Retention 8","chapters":[{"t":"Leg Drag Retention","ts":"0:00"},{"t":"Leg Drag Retention 2","ts":"7:13"},{"t":"Leg Drag Retention 3","ts":"9:52"},{"t":"Leg Drag Retention 4","ts":"13:41"},{"t":"Leg Drag Retention 5","ts":"15:38"},{"t":"Long Step Guard Pass Retention","ts":"20:28"},{"t":"The Cranial Shift","ts":"32:15"},{"t":"Back Exposure Benign and Destructive","ts":"41:21"},{"t":"Head Protection","ts":"50:51"}]},"17":{"title":"Half Guard 1","chapters":[{"t":"Overview","ts":"0:00"},{"t":"General Introduction to Half Guard Bottom","ts":"7:52"}]},"18":{"title":"Half Guard 2","chapters":[{"t":"The Paradox of Half Guard","ts":"0:00"},{"t":"Half Guard Bottom - The Alignment Issue","ts":"6:01"},{"t":"Kuzushi From Half Guard Bottom","ts":"10:40"},{"t":"Half Elbow Escape Series","ts":"21:11"},{"t":"Grip Dominance in Half Guard","ts":"36:42"}]},"19":{"title":"Half Guard 3","chapters":[{"t":"Single Elbow Escape Series","ts":"0:00"},{"t":"Single Elbow Escape Part 2 - Shoulder Crunch Sumi Gaeshi","ts":"11:43"},{"t":"Single Elbow Escape Part 3 - Scoop Half Butterfly","ts":"18:10"},{"t":"Scoop Half Butterfly Series","ts":"23:14"},{"t":"Scoop Half Butterfly Series Part 2","ts":"30:17"},{"t":"Scoop Half Butterfly Series Part 3","ts":"38:12"},{"t":"The Double Elbow Escape Series","ts":"42:40"},{"t":"Reverse Crossface - Reverse Elbow Escape","ts":"54:13"},{"t":"Elbow Escape vs Reverse Underhook","ts":"1:01:56"},{"t":"Summarizing Half Guard From Inferior Grips","ts":"1:07:39"}]},"20":{"title":"Half Guard 4","chapters":[{"t":"Getting to Underhooks","ts":"0:00"},{"t":"Winning From Underhooks - The Tight Waist Series","ts":"7:15"},{"t":"The Tight Waist Trilemma","ts":"15:07"},{"t":"Roll Through Sweeps","ts":"21:57"},{"t":"Roll Through Sweeps 2","ts":"30:32"},{"t":"Roll Through Sweeps 3","ts":"33:33"},{"t":"The Movements Behind The Moves","ts":"39:53"},{"t":"The Lower Leg Shift","ts":"47:26"}]},"21":{"title":"Half Guard 5","chapters":[{"t":"The 90 Degree Rule","ts":"0:00"},{"t":"The Knee Lift","ts":"4:07"},{"t":"The Hip Shift","ts":"8:48"},{"t":"The Law of The Elbow","ts":"13:39"},{"t":"Directionality of Force For Roll Through Sweeps","ts":"20:54"},{"t":"The Single Most Important Section On This Video","ts":"28:04"},{"t":"Taking Your Opponents Back: Duck Under","ts":"41:30"},{"t":"Taking The Back From Tight Waist","ts":"46:25"},{"t":"The Limp Arm","ts":"54:45"}]},"22":{"title":"Half Guard 6","chapters":[{"t":"Tight Waist vs Whizzer Situation","ts":"0:00"},{"t":"Tight Waist vs Whizzer Situation 2","ts":"7:44"},{"t":"Tight Waist vs Whizzer Situation 3","ts":"10:42"},{"t":"Tight Waist vs Whizzer Situation 4","ts":"14:42"},{"t":"Going From Half Guard to Tight Waist","ts":"17:44"},{"t":"Foot Fighting From Half Guard","ts":"24:21"},{"t":"Practical Applications of Foot Fighting","ts":"32:38"},{"t":"Takedowns From Tight Waist: Outside Hook - Circular Finish","ts":"35:36"},{"t":"Linear Finish Double Leg","ts":"43:35"},{"t":"Linear Finish Double Leg Part 2","ts":"48:51"},{"t":"Reverse Double Leg","ts":"54:16"},{"t":"Stepping Around a Whizzer to a Far Hook","ts":"1:01:22"},{"t":"Summary of Tight Waist Series","ts":"1:07:48"}]},"23":{"title":"Half Guard 7","chapters":[{"t":"Lapel Single Legs From Half Guard","ts":"0:00"},{"t":"Lapel Single Legs From Half Guard 2","ts":"6:27"},{"t":"Lapel Single Legs From Half Guard 3","ts":"17:20"},{"t":"General Consideration on Posture for Half Guard Sweeps","ts":"21:53"},{"t":"General Consideration on Posture for Half Guard Sweeps 2","ts":"31:28"},{"t":"Summary of the Lapel Single Leg Series","ts":"40:00"}]},"24":{"title":"Half Guard 8","chapters":[{"t":"Knee Lever Series","ts":"0:00"},{"t":"Knee Lever Series 2","ts":"12:21"},{"t":"The Back Roll Sweep","ts":"18:10"},{"t":"Problem of Reverse Half Guards","ts":"38:14"},{"t":"Problem of Reverse Half Guards 2","ts":"53:56"}]},"25":{"title":"Closed Guard 1","chapters":[{"t":"Closed Guard Overview","ts":"0:00"},{"t":"What Is The Central Message Of This Video?","ts":"10:57"},{"t":"The First Three Abilities We Need From Closed Guard","ts":"20:02"},{"t":"The Six Vulnerabilities Inside A Closed Guard","ts":"32:54"},{"t":"The Six Vulnerabilities - Part 1","ts":"36:27"},{"t":"The Six Vulnerabilities - Part 2","ts":"39:40"},{"t":"The Six Vulnerabilities - Part 3","ts":"42:24"},{"t":"The Six Vulnerabilities - Part 4","ts":"46:08"},{"t":"The Six Vulnerabilities - Part 5","ts":"52:02"},{"t":"The Six Vulnerabilities - Part 6","ts":"59:44"}]},"26":{"title":"Closed Guard 2","chapters":[{"t":"Understanding A Closed Guard","ts":"0:00"},{"t":"General Overview Of The Closed Guard","ts":"7:36"},{"t":"A Key Insight: Who Is Really On Top?","ts":"26:37"},{"t":"Holding And Controlling A Closed Guard","ts":"31:16"},{"t":"The Cross Collar Grip","ts":"54:08"},{"t":"Establishing Angle From Closed Guard","ts":"1:02:24"},{"t":"The Theory Of A Strong First Move","ts":"1:11:58"}]},"27":{"title":"Closed Guard 3","chapters":[{"t":"The Side Scissor: Elbow Across The Centerline","ts":"0:00"},{"t":"The Subtle Push Pull Dynamic of the Side Scissor","ts":"26:02"},{"t":"Locking Down The Side Scissor","ts":"30:26"},{"t":"Unlocking The Great Secret of the Side Scissor","ts":"35:10"},{"t":"The Wrist Sweep From Side Scissor","ts":"41:54"},{"t":"The Elbow Sweep From Side Scissor","ts":"51:06"},{"t":"Rolling Armbar (Juji Gatame)","ts":"56:17"},{"t":"Side Scissor into Rear Triangle","ts":"1:02:59"},{"t":"Flower Sweep","ts":"1:08:41"},{"t":"Pendulum Sweep","ts":"1:14:13"},{"t":"Knee Lever Sweep","ts":"1:22:04"},{"t":"Hook Sweep (Sumi Gaeshi)","ts":"1:27:00"},{"t":"Hook Sweep (Sumi Gaeshi) Part 2","ts":"1:31:06"},{"t":"Shoulder Posting Troubleshooting","ts":"1:35:39"},{"t":"Shoulder Posting 2","ts":"1:44:22"},{"t":"Hip Sweep","ts":"1:47:20"},{"t":"Overview of the Side Scissor Series","ts":"1:53:51"}]},"28":{"title":"Closed Guard 4","chapters":[{"t":"The Top Lock","ts":"0:00"},{"t":"The Number One Grip","ts":"8:52"},{"t":"Attacking With the Arm Lock (Juji Gatame) From Top Lock","ts":"20:27"},{"t":"The 45 Inside Position","ts":"30:40"},{"t":"Arm Bar (Juji Gatame) From Closed Guard","ts":"44:01"}]},"29":{"title":"Closed Guard 5","chapters":[{"t":"Flower Sweep","ts":"0:00"},{"t":"The Hip Sweep","ts":"11:06"},{"t":"Hip Sweep Setup - Misdirection","ts":"23:21"},{"t":"Hip Sweep Setup - Cross Elbow Post","ts":"28:01"},{"t":"Hip Sweep Setup - Grip Break Method","ts":"31:04"},{"t":"The Golden Rule of The Hip Sweep","ts":"34:37"},{"t":"Breaking Posture - Flower Sweep to Hip Sweep","ts":"39:56"},{"t":"Breaking Posture - Collar Tie Method","ts":"46:23"},{"t":"Breaking Posture - Scoop Sweep to Hip Sweep","ts":"49:48"},{"t":"Scoop Sweep to Hip Sweep - Opponent Posts One Leg","ts":"55:45"},{"t":"Cross Cuff Hip Sweep","ts":"59:21"},{"t":"The Hip Sweep: Putting It All Together","ts":"1:08:18"}]},"30":{"title":"Closed Guard 6","chapters":[{"t":"Scissor Sweep","ts":"0:00"},{"t":"Scissor Sweep Double Sleeve Grips","ts":"14:41"},{"t":"2 On 1 Grip Scissor Sweep","ts":"19:56"},{"t":"Scissor Sweep On a Posted Leg","ts":"23:00"},{"t":"The Pendulum Sweep","ts":"26:37"},{"t":"Pendulum Sweep With Cuff Grip","ts":"43:31"},{"t":"The Pendulum Sweep as a Learning Device","ts":"48:31"},{"t":"The Strongest Pendulum Sweep: Trapping The Arm","ts":"52:17"},{"t":"The Versatility of The Arm Trap","ts":"59:09"},{"t":"The Versatility of The Arm Trap Part 2","ts":"1:02:27"},{"t":"The Versatility of The Arm Trap Part 3","ts":"1:06:03"}]},"31":{"title":"Closed Guard 7","chapters":[{"t":"The Clamp - Transition From Closed Guard","ts":"0:00"},{"t":"Attacking From The Clamp","ts":"6:56"},{"t":"Trap Triangle/Inside Wrist Grip","ts":"30:13"},{"t":"Overhead Sweep","ts":"51:05"}]},"32":{"title":"Closed Guard 8","chapters":[{"t":"The Scooping Sweep","ts":"0:00"},{"t":"The Handstand Sweep","ts":"12:40"},{"t":"The Leg Trap Sweep","ts":"18:27"},{"t":"Omoplata Sweeps on a Standing Opponent","ts":"22:23"},{"t":"The Double Ankle Sweep","ts":"39:49"}]},"33":{"title":"Open Guard 1","chapters":[{"t":"Introduction to Open Guard","ts":"0:00"},{"t":"Theory - What is the value of the open guard?","ts":"3:32"},{"t":"A Contradiction in Jiu-Jitsu","ts":"10:08"},{"t":"Finding Advantage Within a Neutral Position","ts":"14:18"},{"t":"The Four Main Scenarios From Open Guard","ts":"19:42"},{"t":"How to Grip the Gi for Maximum Results","ts":"28:50"},{"t":"The Single Biggest Determinant of Success: Kuzushi","ts":"44:11"},{"t":"Kuzushi Part 2","ts":"52:38"},{"t":"6 Principles of Sweeps - Feet Off the Floor","ts":"1:02:54"},{"t":"Double Direction","ts":"1:06:53"},{"t":"Arm Trap","ts":"1:10:31"},{"t":"Action Reaction","ts":"1:14:46"},{"t":"Wrestling Reversal","ts":"1:21:20"},{"t":"Double Trouble","ts":"1:27:49"}]},"34":{"title":"Open Guard 2","chapters":[{"t":"Balancing Guard Retention with Guard Offense","ts":"0:00"},{"t":"Two Crucial Skill Sets - Double Seated Position","ts":"35:09"},{"t":"First Contact and Entry Into Open Guard","ts":"47:37"}]},"35":{"title":"Open Guard 3","chapters":[{"t":"Hook Sweep/Sumi Gaeshi","ts":"0:00"},{"t":"Directionality of Force","ts":"10:06"},{"t":"Principle of Ken Ken","ts":"17:52"},{"t":"Changing Direction Sumi Gaeshi","ts":"27:17"},{"t":"Hook Sweep/Sumi Gaeshi Practical Application","ts":"31:00"},{"t":"The Role of Your Two Legs in Hook Sweeps","ts":"41:18"},{"t":"Hook Sweep/Sumi Gaeshi Angles of Attack","ts":"46:58"},{"t":"Look Where You Want Them to Land","ts":"57:06"},{"t":"Multiple Grips for Hook Sweep/Sumi Gaeshi","ts":"1:00:57"},{"t":"Hook Sweep/Sumi Gaeshi Grip and Go","ts":"1:23:50"},{"t":"Dealing with a Posted Hand","ts":"1:28:22"},{"t":"Double Direction Sasae","ts":"1:35:36"}]},"36":{"title":"Open Guard 4","chapters":[{"t":"Sumi Gaeshi and Chest Contact","ts":"0:00"},{"t":"Hook Sweep From a Supine Position","ts":"10:05"},{"t":"Hook Sweep From a Supine Position Part 2","ts":"14:33"},{"t":"Leg Frames From Butterfly Guard","ts":"18:19"},{"t":"Arm Trap Sumi Gaeshi/Hook Sweep Series","ts":"27:47"},{"t":"Hook Sweep Sumi Gaeshi with Arm Trap","ts":"38:41"},{"t":"Hook Sweep Sumi Gaeshi Combined with Sasae","ts":"45:06"},{"t":"Supine Arm Traps","ts":"52:20"},{"t":"Yoko Sumi Gaeshi","ts":"57:03"},{"t":"Side to Side Arm Trap Sumi Gaeshi","ts":"1:01:37"},{"t":"Arm Drag/Arm Trap Hook Sweep","ts":"1:06:29"},{"t":"Sumi Gaeshi on a Standing Opponent","ts":"1:12:27"},{"t":"Spider Sumi Gaeshi","ts":"1:19:03"},{"t":"Hiza Guruma","ts":"1:23:37"},{"t":"Hiza Guruma From Underhooks","ts":"1:33:53"},{"t":"Spider Guard on a Kneeling Opponent","ts":"1:39:00"}]},"37":{"title":"Open Guard 5","chapters":[{"t":"Attacking an Opponent on One Knee","ts":"0:00"},{"t":"Hiza Guruma When Opponent is on One Knee","ts":"7:32"},{"t":"Ankle Pick (Kibisu Gaeshi)","ts":"9:58"},{"t":"Shoe Lace to Shoe Lace","ts":"14:55"},{"t":"Kneeling Opponent Transition to Ashi Garami","ts":"19:23"},{"t":"Getting Feet Off the Mat with Tomoe Nage","ts":"25:33"},{"t":"Tomoe Nage Sweep De La Riva Variation","ts":"26:26"},{"t":"Tomoe Nage De La Riva Variation Part 2","ts":"38:46"},{"t":"Tomoe Nage De La Riva Variation Part 3","ts":"44:17"},{"t":"Sumi Tomoe Nage","ts":"50:43"},{"t":"Sumi Tomoe Nage Part 2","ts":"56:36"},{"t":"Lapel and Spider Tomoe Nage","ts":"1:02:09"},{"t":"Double Footed Tomoe Nage","ts":"1:09:34"},{"t":"Lasso Tomoe Nage","ts":"1:16:12"},{"t":"Yoko Tomoe Nage as a Sweep","ts":"1:20:36"}]},"38":{"title":"Open Guard 6","chapters":[{"t":"Cross Collar Cuff and Bicep - The Single Greatest Open Guard","ts":"0:00"},{"t":"Triangle from Cross Collar Cuff and Bicep","ts":"10:10"},{"t":"Armbar Juji Gatame","ts":"13:41"},{"t":"Omoplata","ts":"22:44"},{"t":"Tripod Sweep","ts":"28:04"},{"t":"Ankle Pick/Kibisu Gaeshi","ts":"34:02"},{"t":"Uke Waza/Lapel Drag","ts":"40:36"},{"t":"Tomoe Nage","ts":"45:28"},{"t":"De La Riva Guard","ts":"51:18"},{"t":"De La Riva Guard Part 2","ts":"1:02:22"},{"t":"De La Riva Guard Part 3","ts":"1:05:13"},{"t":"De La Riva Guard Part 4","ts":"1:08:13"},{"t":"Transition to Inside Control: Ashi Garami","ts":"1:13:10"},{"t":"Ashi Garami Part 2","ts":"1:19:39"},{"t":"Ashi Garami Part 3","ts":"1:22:21"},{"t":"Ashi Garami Part 4","ts":"1:26:25"}]},"39":{"title":"Open Guard 7","chapters":[{"t":"Ashi Garami","ts":"0:00"},{"t":"Ashi Garami Standard Sweep","ts":"11:50"},{"t":"Double Leg Ashi Garami","ts":"17:31"},{"t":"Relationship Between Ashi Garami & X-Guard","ts":"23:41"},{"t":"X Guard Scoop Sweep","ts":"29:36"},{"t":"X Guard Scoop Sweep Part 2","ts":"35:07"},{"t":"X Guard Near Cuff Sweep","ts":"37:58"},{"t":"X Guard Far Cuff Sweep","ts":"42:08"},{"t":"Double Leg X Guard Sweep","ts":"44:57"},{"t":"X Guard Tomoe Nage","ts":"49:06"},{"t":"X Guard Back to Ashi Garami","ts":"54:52"}]},"40":{"title":"Open Guard 8","chapters":[{"t":"Double Kouchi Gari Part 1","ts":"0:00"},{"t":"Double Kouchi Gari Part 2","ts":"11:09"},{"t":"Double Kouchi Gari Part 3","ts":"13:53"},{"t":"Double Kouchi Gari Part 4","ts":"16:39"},{"t":"Double Kouchi Gari Part 5","ts":"19:28"},{"t":"Double Kouchi Gari Part 6","ts":"22:07"},{"t":"Negating the Split Squat (Headquarters)","ts":"27:54"},{"t":"Negating the Split Squat Part 2","ts":"40:51"},{"t":"Negating the Split Squat Part 3","ts":"49:37"},{"t":"Negating the Split Squat Part 4","ts":"55:27"},{"t":"Putting It All Together","ts":"59:53"}]},"41":{"title":"Passing the Guard 1","chapters":[{"t":"Introduction to Passing the Guard","ts":"0:00"},{"t":"Philosophy of Opening a Closed Guard","ts":"3:40"},{"t":"Top Position: Opening a Closed Guard","ts":"12:11"},{"t":"Opening Closed Guard 2","ts":"30:31"},{"t":"Opening Closed Guard 3","ts":"37:41"},{"t":"Opening Closed Guard 4","ts":"44:26"},{"t":"Opening Closed Guard 5","ts":"53:02"},{"t":"Opening Closed Guard 6","ts":"56:05"},{"t":"Opening Closed Guard 7","ts":"1:00:39"},{"t":"Opening Closed Guard 8","ts":"1:05:40"},{"t":"Opening Closed Guard 9","ts":"1:07:20"},{"t":"Opening Closed Guard 10","ts":"1:11:48"},{"t":"Opening Closed Guard 11","ts":"1:19:03"}]},"42":{"title":"Passing the Guard 2","chapters":[{"t":"Overview of Standard Method Of Opening Closed Guard","ts":"0:00"},{"t":"Opening Closed Guard: Knee Post Method","ts":"8:29"},{"t":"Knee Post Method 2","ts":"16:12"},{"t":"Knee Post Method 3","ts":"21:40"},{"t":"Knee Post Method 4","ts":"23:53"},{"t":"Knee Post Method 5","ts":"27:33"},{"t":"Knee Post Method 6","ts":"29:30"},{"t":"Opening Closed Guard / Lifting Method","ts":"34:07"},{"t":"Overview of 3 Methods","ts":"41:16"},{"t":"Problem of Procrastination","ts":"47:10"},{"t":"The 5 Steps Of Guard Passing - Step 1","ts":"52:50"},{"t":"Step 2","ts":"1:00:13"},{"t":"Step 3","ts":"1:06:25"},{"t":"Step 4","ts":"1:10:52"},{"t":"Step 5","ts":"1:17:44"},{"t":"NAC Open Guard Passing Method","ts":"1:27:10"},{"t":"Split Squat as Ultimate Staging Platform","ts":"1:31:35"},{"t":"Single Biggest Insight: Side to Side Pressure","ts":"1:36:29"},{"t":"Mechanical and Tactical Advantage","ts":"1:43:50"}]},"43":{"title":"Passing the Guard 3","chapters":[{"t":"Technical Proficiency With High Percentage Methods","ts":"0:00"},{"t":"Double Under Pass","ts":"1:34"},{"t":"Over Under Pass","ts":"26:12"},{"t":"Knee Cut Pass","ts":"46:17"}]},"44":{"title":"Passing the Guard 4","chapters":[{"t":"Toreando Pass","ts":"0:00"}]},"45":{"title":"Passing the Guard 5","chapters":[{"t":"Leg Drag","ts":"0:00"},{"t":"Long Step Guard Pass","ts":"35:06"},{"t":"The Smash Pass","ts":"1:09:15"}]},"46":{"title":"Passing the Guard 6","chapters":[{"t":"Breaking Connections and Shutting Down a Dangerous Guard","ts":"0:00"},{"t":"Cross Collar Cuff And Bicep Guard","ts":"7:26"},{"t":"De La Riva Guard","ts":"28:36"},{"t":"Reverse De La Riva","ts":"42:37"},{"t":"Lasso Guard","ts":"47:13"},{"t":"Spider And Lasso Guard","ts":"52:56"},{"t":"Double Spider Guard","ts":"1:00:18"},{"t":"Emergency Measures","ts":"1:07:27"},{"t":"Ashi Garami","ts":"1:14:13"},{"t":"Maintaining Top Position","ts":"1:21:37"},{"t":"The Ancient Law of Push When Pulled","ts":"1:23:40"},{"t":"Recovering From A Fall","ts":"1:31:26"}]},"47":{"title":"Passing the Guard 7","chapters":[{"t":"The Split Squat Position (Headquarters)","ts":"0:00"},{"t":"Hip Control and Head Control From Split Squat","ts":"12:47"},{"t":"Negating Both Feet From Split Squat","ts":"16:30"},{"t":"The Knee Drop","ts":"21:45"},{"t":"Double Knee Position","ts":"26:13"},{"t":"Outside Advantage Position","ts":"29:56"},{"t":"Putting Skills & Theory Into Combative Context","ts":"39:07"},{"t":"Flattening an Opponent","ts":"51:47"},{"t":"Negating An Opponent's Guard","ts":"1:00:45"},{"t":"Creating Advantage While Passing","ts":"1:07:46"}]},"48":{"title":"Passing the Guard 8","chapters":[{"t":"Guard Passing From The Shoulder Line","ts":"0:00"},{"t":"Beating Frames - Distance","ts":"8:35"},{"t":"Angle Change","ts":"13:48"},{"t":"Direction","ts":"16:04"},{"t":"Directly Attacking The Frames","ts":"20:39"},{"t":"Side To Side Pressure","ts":"24:11"},{"t":"Beating Inversion","ts":"29:35"},{"t":"Turning In To Turtle","ts":"33:40"},{"t":"Turning Out To Turtle","ts":"38:24"},{"t":"Propping","ts":"42:33"}]},"49":{"title":"Half Guard Passing and Dynamic Pins 1","chapters":[{"t":"Half Guard Passing Introduction","ts":"0:00"},{"t":"Overview: The 4.6.3 System","ts":"4:49"},{"t":"1st Skill: Forcing Half Guard","ts":"26:54"},{"t":"Pinning the Knee to the Mat","ts":"33:29"},{"t":"Inside Knee Position","ts":"37:58"},{"t":"Using Standard Guard Passes to Attain Half Guard","ts":"43:05"},{"t":"Double Knee Position","ts":"48:53"},{"t":"Clearing the Knee Shield","ts":"59:12"},{"t":"Clearing a Scorpion (Lockdown)","ts":"1:18:39"},{"t":"Clearing a Deep Half Guard","ts":"1:30:35"},{"t":"Negating Your Opponents Attacks","ts":"1:41:02"},{"t":"The Fundamental Gripping Stance","ts":"1:45:16"},{"t":"The Fundamental Starting Position (FSP)","ts":"1:54:33"}]},"50":{"title":"Half Guard Passing and Dynamic Pins 2","chapters":[{"t":"The Skill of Crossfacing & Underhooking","ts":"0:00"},{"t":"Shoelace Method","ts":"22:10"},{"t":"The Ball of Foot Method","ts":"29:16"},{"t":"The Hand Post & Elbow Post Method","ts":"36:25"},{"t":"Square Tripod Hand Post Method","ts":"43:42"},{"t":"The Shaking Method","ts":"47:57"},{"t":"Zig Zag Knee Direction","ts":"51:35"},{"t":"Pass from 3/4 Side Sit-Out","ts":"55:05"},{"t":"Pass from 3/4 Side","ts":"1:07:38"},{"t":"Reverse 3/4 Side","ts":"1:12:55"},{"t":"3/4 Mount","ts":"1:20:11"},{"t":"Moving Between the 4 Dominant Passing Positions","ts":"1:40:29"},{"t":"Half Guard Passing Direction & The Law of Perpendicularity","ts":"1:46:24"}]},"51":{"title":"Half Guard Passing and Dynamic Pins 3","chapters":[{"t":"The Single Most Important Reason for Emphasis on Half Guard Passing","ts":"0:00"},{"t":"Different Upper Body Configurations for Half Guard Passing","ts":"11:06"},{"t":"A Crucial Skill: Setting a Crossface","ts":"18:19"},{"t":"Setting a Crossface 2","ts":"25:30"},{"t":"Dealing with an Opponent's Underhook","ts":"38:33"}]},"52":{"title":"Half Guard Passing and Dynamic Pins 4","chapters":[{"t":"Configuring Your Free Leg","ts":"0:00"},{"t":"Configuring Your Free Leg 2","ts":"5:23"},{"t":"Configuring Your Free Leg 3","ts":"8:01"},{"t":"Passing Half Guard 1: Half Kata Gatame","ts":"12:43"},{"t":"Passing Half Guard 2: Lapel Cross Face","ts":"21:04"},{"t":"Passing Half Guard 3: Top Head and Arm","ts":"29:06"},{"t":"Passing Half Guard 4: Head Block Half Guard Pass","ts":"37:49"},{"t":"Passing Half Guard 5: Double Underhook Half Guard Passing","ts":"42:30"},{"t":"Near Side & Far Side Knee Wedges","ts":"47:36"},{"t":"Getting the Inside Knee To the Floor","ts":"52:08"},{"t":"Overview of the 4.6.3 Passing System","ts":"57:07"}]},"53":{"title":"Half Guard Passing and Dynamic Pins 5","chapters":[{"t":"Passing Half Butterfly Guard","ts":"0:00"},{"t":"The Golden Rule of Half Butterfly Guard Passing","ts":"4:30"},{"t":"Upper Body Gripping","ts":"10:11"},{"t":"Lower Body Leg Positioning 1","ts":"22:51"},{"t":"Lower Body Leg Positioning 2","ts":"43:49"},{"t":"Passing Half Butterfly Guard: Putting It All Together","ts":"1:00:19"}]},"54":{"title":"Half Guard Passing and Dynamic Pins 6","chapters":[{"t":"Introduction to Dynamic Pinning","ts":"0:00"},{"t":"Definition of a Pin","ts":"9:02"},{"t":"Location of Wedges","ts":"12:34"},{"t":"Base of Support","ts":"17:50"},{"t":"No Pin is Perfect But There is Perfect Pinning","ts":"20:38"},{"t":"The Main Directive of Dynamic Pinning","ts":"25:22"},{"t":"The 3 Golden Rules of Dynamic Pinning","ts":"33:55"},{"t":"Understanding The Scoring Criteria for Pins","ts":"40:47"},{"t":"The Battle for Inside Position","ts":"57:23"},{"t":"A Theory of Wedges, Inside Position, & Base","ts":"1:05:30"},{"t":"Static Pinning","ts":"1:21:01"},{"t":"Pushing","ts":"1:31:15"},{"t":"Shrimping","ts":"1:40:50"},{"t":"Bridging","ts":"1:46:10"},{"t":"Knee Escapes","ts":"1:51:34"}]},"55":{"title":"Half Guard Passing and Dynamic Pins 7","chapters":[{"t":"The 1st Skill","ts":"0:00"},{"t":"North South Pin (Variations)","ts":"19:30"},{"t":"Mounted Position (Variations)","ts":"29:43"},{"t":"Rear Mount (Variations)","ts":"47:46"},{"t":"Transitioning Between Pins","ts":"56:42"},{"t":"Kneeling Step Over","ts":"1:14:44"},{"t":"A Sit","ts":"1:26:46"},{"t":"Side to Side","ts":"1:35:16"},{"t":"Side to Knee on Belly","ts":"1:46:23"},{"t":"Knee on Belly to Knee on Belly","ts":"1:53:40"},{"t":"Mount to Back (Reactive)","ts":"2:00:31"},{"t":"Mount to Back (Proactive)","ts":"2:11:16"},{"t":"Mount to Back (Leg Entry)","ts":"2:23:09"}]},"56":{"title":"Half Guard Passing and Dynamic Pins 8","chapters":[{"t":"Transitioning Between Pins (cont.)","ts":"0:00"},{"t":"Rear Mount to Mount","ts":"7:39"},{"t":"Side to Rear Mount","ts":"12:10"},{"t":"Side to Rear Mount (Reactive)","ts":"20:21"},{"t":"Extracting a Foot","ts":"28:51"},{"t":"Maintaining the Mounted Position: Practical Applications","ts":"38:45"},{"t":"Maintaining the Side Position: Practical Applications","ts":"50:43"},{"t":"Retaining the Rear Mount","ts":"1:01:04"},{"t":"The Minimum Requirement of Back Control: Diagonal Control","ts":"1:13:27"},{"t":"Lower Body Game","ts":"1:18:52"},{"t":"The Three Most Important Moves to Maintain Lower Body Control","ts":"1:24:45"}]},"57":{"title":"Strangles & Turtle Breakdowns 1","chapters":[{"t":"Overview","ts":"0:00"},{"t":"Introduction to Strangles","ts":"5:48"},{"t":"The 3x3 Approach to Gi Strangles","ts":"9:33"},{"t":"Understanding The Gi and Strangles","ts":"15:35"},{"t":"Sliding Collar Strangle - Demarcation Line","ts":"23:44"},{"t":"Wrist Flick","ts":"28:02"},{"t":"How Much is Too Much?","ts":"32:01"},{"t":"Hands In Unison","ts":"35:36"},{"t":"Comparing Gi & No Gi Strangulation","ts":"39:23"},{"t":"3 Alternatives For Control Hand","ts":"46:06"},{"t":"Single Greatest Advantage of Lapel Strangles","ts":"55:07"},{"t":"Strengthening the Strangle Hand - 3 Finger Grip","ts":"1:04:36"},{"t":"Role of the Thumb on the Strangle Hand","ts":"1:16:44"},{"t":"Short & Long Leg Strangles","ts":"1:23:37"},{"t":"The Hidden Hand","ts":"1:29:32"},{"t":"The Strangle Shift and Cross Back Position","ts":"1:35:10"}]},"58":{"title":"Strangles & Turtle Breakdowns 2","chapters":[{"t":"Sliding Collar Strangle System Overview","ts":"0:00"},{"t":"Step 1: Establishing Your Position","ts":"1:07"},{"t":"Step 2: Establishing The Strangle Hand","ts":"5:16"},{"t":"Step 3: Establishing Control Hand","ts":"9:05"},{"t":"Step 4: Maximizing Mechanical Power","ts":"11:46"},{"t":"Full Mastery of the Sliding Collar Strangle","ts":"20:03"},{"t":"System Modification","ts":"34:51"},{"t":"System Modification 2","ts":"44:06"},{"t":"System Modification 3","ts":"49:29"},{"t":"Strangling Without Hooks - Clock Strangle","ts":"54:10"},{"t":"Clock Strangle - Foot Work","ts":"1:08:04"},{"t":"Clock Strangle - Throwing Weight Onto Your Hands","ts":"1:13:15"},{"t":"Clock Strangle - Walking The Circle","ts":"1:20:15"},{"t":"Clock Strangle - Unified Hands are Opposing Hands","ts":"1:23:55"},{"t":"Clock Strangle - Power of Sprawling Finish","ts":"1:27:02"},{"t":"Clock Strangle - Critical Role of Head Position","ts":"1:29:44"},{"t":"Clock Strangle - Nullifying Defense","ts":"1:31:54"},{"t":"Clock Strangle - Nullifying Defense 2","ts":"1:34:38"},{"t":"Clock Strangle - Alternative Grips","ts":"1:36:50"}]},"59":{"title":"Strangles & Turtle Breakdowns 3","chapters":[{"t":"Cross Collar Strangle - Juji Jime","ts":"0:00"},{"t":"Cross Collar Strangles - Preliminaries","ts":"2:25"},{"t":"Strangle Hand & Finishing Hand","ts":"5:28"},{"t":"Setting The Lapels","ts":"8:46"},{"t":"Setting Strangle Hand","ts":"12:44"},{"t":"Biting Method","ts":"17:40"},{"t":"Setting Finishing Hand","ts":"21:46"},{"t":"Head Position","ts":"26:15"},{"t":"Directionality of Force","ts":"32:28"},{"t":"Juji Jime - A Dilemma Based Attack","ts":"39:56"},{"t":"Juji Jime - Bottom Position Kuzushi Based Method","ts":"45:55"},{"t":"Fighting Through The Hands - High Elbow / Low Elbow","ts":"53:58"},{"t":"Juji Jime From Mounted Position","ts":"1:03:58"},{"t":"Mounted Juji Jime - Setting The Finishing Hand","ts":"1:13:51"},{"t":"Troubleshooting Mounted Juji Jime","ts":"1:26:47"},{"t":"Troubleshooting Mounted Juji Jime 2","ts":"1:33:25"},{"t":"Kata Juji Jime","ts":"1:41:48"}]},"60":{"title":"Strangles & Turtle Breakdowns 4","chapters":[{"t":"Kata Juji Jime Open Guard Position","ts":"0:00"},{"t":"Kata Juji Jime Open Guard Position 2","ts":"4:38"},{"t":"Kata Juji Jime from Front Side Top Turtle Position","ts":"8:34"},{"t":"Using Your Legs in Kata Juji Jime","ts":"12:23"},{"t":"Spinning Juji Jime","ts":"23:17"},{"t":"Spinning Juji Jime 2","ts":"32:09"},{"t":"Sprawling Juji Jime","ts":"45:17"},{"t":"Troubleshooting Sprawling Juji Jime","ts":"50:16"},{"t":"Cross Collar Strangle From Open Guard","ts":"55:52"},{"t":"Low Lapel Juji Jime","ts":"1:03:10"}]},"61":{"title":"Strangles & Turtle Breakdowns 5","chapters":[{"t":"The Ezekiel Strangle: Sode Guruma","ts":"0:00"},{"t":"The Relationship Between the Back Ezekiel and the Sliding Collar","ts":"3:03"},{"t":"Combat Applications of the Back Ezekiel","ts":"17:32"},{"t":"The Front Ezekiel Strangle","ts":"24:28"},{"t":"The Single Biggest Problem with Front Ezekiel and Solution","ts":"35:35"},{"t":"Rear Strangle System Order of Operations","ts":"47:47"},{"t":"Bonus: Low Lapel Strangle","ts":"58:02"}]},"62":{"title":"Strangles & Turtle Breakdowns 6","chapters":[{"t":"Overview of Turtle Breakdowns","ts":"0:00"},{"t":"The Main Variations Of Turtle Position","ts":"3:16"},{"t":"The Fundamental Dilemma of Turtle Breakdowns","ts":"9:59"},{"t":"The 2 Central Problems - Escapes and Counters","ts":"14:44"},{"t":"Second Problem: The Elbow Knee Connection","ts":"22:27"},{"t":"Four Stances From Which To Attack Turtle Position","ts":"25:39"},{"t":"The Three Main Targets - Target #1: The Hips","ts":"43:24"},{"t":"Target #2: The Head","ts":"58:17"},{"t":"Target #3: The Wrists","ts":"1:05:50"},{"t":"Which Hook Should I Put In First?","ts":"1:18:23"}]},"63":{"title":"Strangles & Turtle Breakdowns 7","chapters":[{"t":"Start By Breaking Your Opponent's Stance","ts":"0:00"},{"t":"Breaking Your Opponent Down To A Hip","ts":"6:16"},{"t":"The Theory Of The Clock","ts":"14:56"},{"t":"The Easiest Way To Use Clock Theory","ts":"22:24"},{"t":"Scoring From The Hip Breakdown","ts":"32:22"},{"t":"Scoring From The Seated Breakdown","ts":"48:04"},{"t":"Scoring From The Shoulder Breakdown","ts":"53:58"}]},"64":{"title":"Strangles & Turtle Breakdowns 8","chapters":[{"t":"The Two On One Method","ts":"0:00"},{"t":"Reverse Tight Waist Two On One Method","ts":"18:28"},{"t":"Seat Belt Roll Method","ts":"23:14"},{"t":"Back Crucifix Method","ts":"32:10"},{"t":"Kimura Method","ts":"43:19"}]}}
+  },
+  {
+    id: 'aloo',
+    name: 'The Armlock Obsession',
+    instructor: 'Dave Camarillo',
+    series: [
+      {id:'main',label:'The Armlock Obsession',short:'Armlock Obsession',vols:[1,2,3,4,5,6,7,8]}
+    ],
+    volumes: {"1":{"title":"Cross Body Pin & Lion Killer","chapters":[{"t":"Intro","ts":"0:00"},{"t":"Geographic Locations to Cross Body Pin","ts":"1:49"},{"t":"Faces of Attack","ts":"18:11"},{"t":"Mid Attack - Lion Killer Finish","ts":"25:42"},{"t":"Lion Killer Finish Part 2","ts":"34:07"},{"t":"Lion Killer Finish Part 3","ts":"36:30"}]},"2":{"title":"Lion Killer & Bladed Fulcrum","chapters":[{"t":"Head Side - Lion Killer Finish","ts":"0:00"},{"t":"The Bladed Fulcrum","ts":"16:23"},{"t":"Leg Side - The Bladed Fulcrum","ts":"21:52"},{"t":"Lion Killer Finish","ts":"32:36"},{"t":"70/30 Algorithm","ts":"40:45"}]},"3":{"title":"Side Control Kimura System","chapters":[{"t":"Side Control - Underhook Entry To Kimura Control","ts":"0:00"},{"t":"Underhook Entry To Kimura Control Part 2","ts":"13:47"},{"t":"Ninja Entry To Kimura Control","ts":"16:48"},{"t":"Overhook Entry To Kimura","ts":"24:50"},{"t":"Gorilla Kimura","ts":"29:43"},{"t":"Gorilla Kimura Explanation","ts":"46:31"},{"t":"Gorilla Kimura Counter To The Back","ts":"56:33"},{"t":"Camarillo Switch","ts":"59:51"}]},"4":{"title":"Back Attacks","chapters":[{"t":"Back - King Shirt Back Attack","ts":"0:00"},{"t":"Inside Wrist Back Attack","ts":"21:14"},{"t":"Far Ankle and Power Half Back Attack","ts":"29:05"},{"t":"Cross Body Back Attack","ts":"42:28"},{"t":"Hidden Collar","ts":"53:13"}]},"5":{"title":"Knee on Stomach & Mount","chapters":[{"t":"Knee On Stomach - Arm Hunting System","ts":"0:00"},{"t":"Knee On Stomach Arm Hunting System Part 2","ts":"8:39"},{"t":"Mount - The Mounted Double Attack System","ts":"13:27"},{"t":"Triangle Mount to Cross Body","ts":"22:31"},{"t":"Combining Mount With Back and Side Control","ts":"41:34"}]},"6":{"title":"Passing into Cross Body Armlock","chapters":[{"t":"Passing into Cross Body Arm Lock - Underhook Pass","ts":"0:00"},{"t":"Half Guard No Pass","ts":"18:14"},{"t":"Stack Pass","ts":"25:07"},{"t":"Ghost Pass","ts":"44:41"}]},"7":{"title":"Flying Kimura, Chaos & Flow","chapters":[{"t":"Flying Kimura","ts":"0:00"},{"t":"Chaos Passing","ts":"5:22"},{"t":"The Art Of Transition In Depth Example","ts":"14:00"},{"t":"Judo Impact Control Threats","ts":"29:04"},{"t":"Grapple Flow","ts":"49:22"}]},"8":{"title":"Standing to Ground Threats","chapters":[{"t":"Standing to Ground Threats Single Leg","ts":"0:00"},{"t":"Standing to Ground Threats Single Leg Advance Version","ts":"4:20"},{"t":"Standing To Ground Threats Body Lock And Hip Throw","ts":"6:20"},{"t":"Standing To Ground Threats Body Lock And Hip Throw Advance","ts":"9:25"},{"t":"Standing To Ground Threats Back Body Lock Fundamentals","ts":"13:57"},{"t":"Standing to Ground Threats Single Leg Back Body Lock Advance","ts":"17:59"},{"t":"Standing To Ground Threats Front Headlock Fundamentals","ts":"20:21"},{"t":"Standing To Ground Threats Front Headlock Advance","ts":"24:44"},{"t":"Destroyer Threats Single Leg","ts":"30:21"},{"t":"Destroyer Threats Body Lock","ts":"38:46"},{"t":"Destroyer Threats Hip Throw","ts":"42:44"},{"t":"Destroyer Threats Back Body Lock","ts":"45:31"},{"t":"Destroyer Threats Front Headlock","ts":"53:23"},{"t":"Offline Gripping","ts":"56:30"},{"t":"Outro","ts":"1:07:10"}]}}
   }
 ];
 function getBundle(id) { return INSTRUCTIONAL_BUNDLES.find(b=>b.id===id); }
@@ -1378,6 +1391,7 @@ function switchView(name, btn) {
   document.getElementById('view-'+name).classList.add('active');
   btn.classList.add('active');
   document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq' || name === 'library' || name === 'instructionals' || name === 'debrief') ? 'none' : '';
+  if (name === 'log') refreshSharedPools();
   if (name === 'timeline') renderTimeline();
   if (name === 'drill') renderDrillList();
   if (name === 'flash') initFlashcards();
@@ -1429,6 +1443,81 @@ function positionOpts(family, sel) {
   return '<option value="">Select position...</option>' +
     subs.map(p=>`<option${p===sel?' selected':''}>${p}</option>`).join('');
 }
+
+// Series → family fallback for instructional notes (when position alone
+// doesn't map cleanly to a MOVE_TREE family). Keyed by bundleId + seriesId.
+const INSTRUCTIONAL_SERIES_FAMILY = {
+  // Go Further Faster (Danaher)
+  'gff:s0': 'Escapes',              // Pin Escapes & Turtle Escapes
+  'gff:s1': 'Open Guard Family',    // Guard Retention
+  'gff:s2': 'Foundational Guards',  // Half Guard
+  'gff:s3': 'Foundational Guards',  // Closed Guard
+  'gff:s4': 'Open Guard Family',    // Open Guard
+  'gff:s5': 'Top Game',              // Passing the Guard
+  'gff:s6': 'Top Game',              // Half Guard Passing & Dynamic Pins
+  'gff:s7': 'Submissions',           // Strangles & Turtle Breakdowns
+  // The Armlock Obsession (Camarillo) — single series, primarily Top Game / Subs
+  'aloo:main': 'Submissions',
+};
+function instructionalFamilyFor(note) {
+  if (!note) return '';
+  // First try position → family via MOVE_TREE
+  if (note.bjjPos) {
+    for (const [fam, positions] of Object.entries(MOVE_TREE)) {
+      if (positions.includes(note.bjjPos)) return fam;
+    }
+  }
+  // Fallback to series mapping
+  const key = (note.bundleId||'') + ':' + (note.seriesId||'');
+  return INSTRUCTIONAL_SERIES_FAMILY[key] || '';
+}
+
+// ─── UNIFIED POSITION & METHOD POOLS ───────────────────────────────────────
+// Aggregate every position ever seen in the app: seed lists + MOVE_TREE +
+// customMoves + anything previously typed in any entry/note/insight.
+// Used by autocomplete <input list> fields to give a free-form pool that
+// grows naturally with the user's vocabulary.
+function allPositionsPool() {
+  const pool = new Set();
+  POSITIONS.forEach(p => pool.add(p));
+  Object.values(MOVE_TREE).forEach(arr => arr.forEach(p => pool.add(p)));
+  (state.customMoves || []).forEach(m => {
+    const name = (typeof m === 'string') ? m : (m.name || m.position || '');
+    if (name) pool.add(name);
+  });
+  (state.entries || []).forEach(e => {
+    (e.techniques || []).forEach(t => {
+      if (t.position) pool.add(t.position);
+      if (t.startPos) pool.add(t.startPos);
+      if (t.endPos) pool.add(t.endPos);
+    });
+    (e.keyInsights || []).forEach(i => { if (i.position) pool.add(i.position); });
+  });
+  Object.keys(state.positionNotes || {}).forEach(p => pool.add(p));
+  (state.instructionalNotes || []).forEach(n => {
+    if (n.bjjPos) pool.add(n.bjjPos);
+    if (n.startPos) pool.add(n.startPos);
+    if (n.endPos) pool.add(n.endPos);
+  });
+  return [...pool].filter(Boolean).sort();
+}
+function allMethodsPool() {
+  const pool = new Set(['Sweep','Submission','Escape','Takedown','Pass','Pin','Strangle','Transition','Sub Defense','Position Established']);
+  METHODS.forEach(m => pool.add(m));
+  (state.entries || []).forEach(e => {
+    (e.techniques || []).forEach(t => { if (t.method) pool.add(t.method); });
+  });
+  (state.instructionalNotes || []).forEach(n => { if (n.method) pool.add(n.method); });
+  return [...pool].filter(Boolean).sort();
+}
+function posDatalistOptions()    { return allPositionsPool().map(p => `<option value="${esc(p)}">`).join(''); }
+function methodDatalistOptions() { return allMethodsPool().map(m   => `<option value="${esc(m)}">`).join(''); }
+function refreshSharedPools() {
+  const p = document.getElementById('pos-pool-shared');
+  const m = document.getElementById('method-pool-shared');
+  if (p) p.innerHTML = posDatalistOptions();
+  if (m) m.innerHTML = methodDatalistOptions();
+}
 // Get all known positions: hardcoded MOVE_TREE + user-added custom positions
 function getAllKnownPositions(family) {
   const builtins = family ? (MOVE_TREE[family]||[]) : Object.values(MOVE_TREE).flat();
@@ -1455,9 +1544,8 @@ const OC_SUGGEST_POOL = {
 };
 
 function updatePositionOpts(techId) {
-  const fam = document.getElementById('tfam-'+techId)?.value || '';
-  const datalist = document.getElementById('poslist-'+techId);
-  if (datalist) datalist.innerHTML = positionDatalistHTML(fam);
+  // No-op now that position uses the unified shared pool (pos-pool-shared).
+  // Kept as a stub since the onchange handler still references it.
 }
 function setGi(techId, val) {
   document.querySelectorAll(`#gi-toggle-${techId} .gi-btn`).forEach(btn => {
@@ -1468,6 +1556,7 @@ function setGi(techId, val) {
 }
 
 function addTechniqueField(data) {
+  if (typeof refreshSharedPools === 'function') refreshSharedPools();
   techCount++;
   const id = techCount;
   const div = document.createElement('div');
@@ -1485,11 +1574,11 @@ function addTechniqueField(data) {
       <div class="form-field">
         <label>Gi / No-Gi</label>
         <div class="gi-toggle" id="gi-toggle-${id}">
-          <button type="button" class="gi-btn${(data?.gi||'both')==='gi'?' active':''}" data-gi="gi" onclick="setGi(${id},'gi')">GI</button>
-          <button type="button" class="gi-btn${(data?.gi||'both')==='nogi'?' active':''}" data-gi="nogi" onclick="setGi(${id},'nogi')">NO-GI</button>
-          <button type="button" class="gi-btn${(!data?.gi||data?.gi==='both')?' active':''}" data-gi="both" onclick="setGi(${id},'both')">BOTH</button>
+          <button type="button" class="gi-btn${(data?.gi||'gi')==='gi'?' active':''}" data-gi="gi" onclick="setGi(${id},'gi')">GI</button>
+          <button type="button" class="gi-btn${(data?.gi||'gi')==='nogi'?' active':''}" data-gi="nogi" onclick="setGi(${id},'nogi')">NO-GI</button>
+          <button type="button" class="gi-btn${(data?.gi==='both')?' active':''}" data-gi="both" onclick="setGi(${id},'both')">BOTH</button>
         </div>
-        <input type="hidden" id="tgi-${id}" value="${data?.gi||'both'}">
+        <input type="hidden" id="tgi-${id}" value="${data?.gi||'gi'}">
       </div>
     </div>
     <div class="form-row">
@@ -1512,14 +1601,13 @@ function addTechniqueField(data) {
           </div>
           <div class="form-field" style="flex:2">
             <label>Specific Position / Type <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">— type any name, saved automatically</span></label>
-            <input type="text" id="tpos-${id}" list="poslist-${id}" placeholder="Type or pick from list..." value="${esc(data?.position||'')}" autocomplete="off">
-            <datalist id="poslist-${id}">${positionDatalistHTML(data?.family||getOldFamily(data?.cat||''))}</datalist>
+            <input type="text" id="tpos-${id}" list="pos-pool-shared" placeholder="Type or pick from list..." value="${esc(data?.position||'')}" autocomplete="off">
           </div>
         </div>
         <div class="form-row">
-          <div class="form-field"><label>Starting Position</label><select id="tstart-${id}">${posOpts(data?.startPos||'')}</select></div>
-          <div class="form-field"><label>Outcome Position</label><select id="tend-${id}">${posOpts(data?.endPos||'')}</select></div>
-          <div class="form-field"><label>Outcome Method</label><select id="tmethod-${id}">${methodOpts(data?.method||'')}</select></div>
+          <div class="form-field"><label>Starting Position</label><input type="text" id="tstart-${id}" list="pos-pool-shared" placeholder="Type or pick..." value="${esc(data?.startPos||'')}" autocomplete="off"></div>
+          <div class="form-field"><label>Outcome Position</label><input type="text" id="tend-${id}" list="pos-pool-shared" placeholder="Type or pick..." value="${esc(data?.endPos||'')}" autocomplete="off"></div>
+          <div class="form-field"><label>Outcome Method</label><input type="text" id="tmethod-${id}" list="method-pool-shared" placeholder="Sub, Pass, Sweep..." value="${esc(data?.method||'')}" autocomplete="off"></div>
         </div>
         <div class="form-row">
           <div class="form-field" style="flex:1">
@@ -2146,12 +2234,50 @@ function fcPrev() { if (fcIndex>0){fcIndex--;fcFlipped=false;renderFlashcard();}
 // ─── MIND MAP ───────────────────────────────────
 function getAllTechs() {
   const all=[];
+  // Class techniques from journal entries
   state.entries.forEach(entry=>entry.techniques.forEach(t=>{
     if (!t.name) return;
     if (mapFilter!=='all'&&t.method!==mapFilter) return;
     if (mapFamilyFilter!=='all'&&(FAMILY_MAP_GROUP[getFamily(t)]||'other')!==mapFamilyFilter) return;
     all.push({tech:t,entry});
   }));
+  // Instructional MOVES (skip principles — they're text-only, not techniques)
+  // ONLY include moves with an explicit bjjPos tag — that's the user's signal
+  // of "I want this in my knowledge graph." Untagged notes stay in
+  // INSTRUCTIONALS but don't clutter the map.
+  (state.instructionalNotes||[]).forEach(n => {
+    if (n.noteType !== 'move' || !n.name) return;
+    if (!n.bjjPos) return; // require explicit position tag to surface on map
+    // Build a normalized tech-shaped object so existing layout/render code just works
+    const fakeTech = {
+      name: n.name,
+      family: instructionalFamilyFor(n),
+      position: n.bjjPos || '',
+      gi: n.giNoGi || 'nogi',
+      cat: '',
+      startPos: n.startPos || '',
+      endPos: n.endPos || '',
+      method: n.method || '',
+      concept: n.concept || '',
+      steps: (n.stepsList || []).map(s => s.text).filter(Boolean).join('\n'),
+      stepsList: n.stepsList || [],
+      drill: false,
+      links: [],
+      _fromInstructional: true,
+      _instNote: n,
+    };
+    if (mapFilter!=='all' && fakeTech.method !== mapFilter) return;
+    if (mapFamilyFilter!=='all' && (FAMILY_MAP_GROUP[getFamily(fakeTech)]||'other') !== mapFamilyFilter) return;
+    const fakeEntry = {
+      id: 'inst_'+n.id,
+      type: 'instructional',
+      date: '',
+      instructor: n.instructor || '',
+      sourceType: 'Instructional',
+      _instNote: n,
+    };
+    all.push({tech: fakeTech, entry: fakeEntry, fromInstructional: true, instNote: n});
+  });
   return all;
 }
 
@@ -2325,10 +2451,24 @@ function drawMap() {
   const visTechNodes = mapNodes.filter(n=>n.type==='tech'&&n.visible);
   visTechNodes.forEach(n=>{
     const hov=mapHover===n;
+    const isInstructional = n.item && n.item.fromInstructional;
     ctx.beginPath(); ctx.arc(n.x,n.y,n.r+(hov?3:0),0,Math.PI*2);
-    ctx.fillStyle=hov?n.color+'20':'#161616';
-    ctx.strokeStyle=n.color+(hov?'bb':'55'); ctx.lineWidth=hov?1.5:1;
-    ctx.fill(); ctx.stroke();
+    if (isInstructional) {
+      // Hollow ring — instructional move (from video reference)
+      ctx.fillStyle = hov ? n.color+'14' : 'rgba(0,0,0,0)';
+      ctx.fill();
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = n.color + (hov ? 'dd' : '88');
+      ctx.lineWidth = hov ? 2 : 1.5;
+      ctx.stroke();
+      ctx.setLineDash([]);
+    } else {
+      // Solid filled — class technique
+      ctx.fillStyle = hov ? n.color+'20' : '#161616';
+      ctx.strokeStyle = n.color + (hov ? 'bb' : '55');
+      ctx.lineWidth = hov ? 1.5 : 1;
+      ctx.fill(); ctx.stroke();
+    }
     ctx.fillStyle=hov?n.color:'#d4c9b8';
     ctx.font=(hov?'600':'500')+' 10px "DM Sans",sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -2796,9 +2936,30 @@ function toggleAllClusters() {
 
 function showDetail(item) {
   const {tech,entry}=item;
+  const isInst = item.fromInstructional;
+  const n = isInst ? item.instNote : null;
+  const bundle = isInst ? getBundle(n.bundleId) : null;
+  const series = (isInst && bundle) ? bundle.series.find(s=>s.id===n.seriesId) : null;
+  const vol = (isInst && bundle) ? bundle.volumes[String(n.volumeNum)] : null;
+  const ch = (vol && n.chapterIdx != null) ? vol.chapters[n.chapterIdx] : null;
+
+  const title = isInst ? `📺 ${esc(tech.name)}` : esc(tech.name);
+  const subtitle = isInst
+    ? `${esc(getFamily(tech)||'—')} · ${(tech.gi&&tech.gi!=='both')?(tech.gi==='gi'?'GI':'NO-GI'):'GI / NO-GI'} · INSTRUCTIONAL`
+    : `${esc(tech.cat||getFamily(tech)||'—')} · ${esc(entry.date)}`;
+
+  const sourceHTML = isInst
+    ? `<div class="detail-section-label">Source</div>
+       <div class="detail-value">${esc(bundle?bundle.name:'Instructional')}${series?' · '+esc(series.label):''}
+         ${n.volumeNum?`<br><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">Vol ${esc(n.volumeNum)}${vol?' · '+esc(vol.title):''}${ch?' · Ch '+(n.chapterIdx+1)+': '+esc(ch.t):''}${ch?' · '+esc(ch.ts):''}</span>`:''}
+       </div>
+       <button class="btn-ghost" style="margin-top:12px;width:100%;font-size:10px;letter-spacing:1px;padding:7px 12px" onclick="jumpToInstructionalChapter(${attr(n.id)})">→ JUMP TO CHAPTER</button>`
+    : `<div class="detail-section-label">Source</div>
+       <div class="detail-value">${entry.type==='class'?`Class · ${esc(entry.instructor||'Unknown')}`:esc(entry.sourceType||'Online')}</div>`;
+
   document.getElementById('detail-content').innerHTML=`
-    <div class="detail-title">${esc(tech.name)}</div>
-    <div class="detail-cat">${esc(tech.cat||'—')} · ${esc(entry.date)}</div>
+    <div class="detail-title">${title}</div>
+    <div class="detail-cat">${subtitle}</div>
     ${tech.startPos||tech.endPos||tech.method?`
       <div class="detail-section-label">Position Flow</div>
       <div class="detail-flow">
@@ -2808,11 +2969,24 @@ function showDetail(item) {
       </div>`:''}
     ${tech.concept?`<div class="detail-section-label">Key Concept</div><div class="detail-value">${esc(tech.concept)}</div>`:''}
     ${(tech.stepsList?.filter(s=>s.text||s.photo).length||tech.steps)?`<div class="detail-section-label">Steps</div>${renderStepsList(tech)}`:''}
-    <div class="detail-section-label">Source</div>
-    <div class="detail-value">${entry.type==='class'?`Class · ${esc(entry.instructor||'Unknown')}`:esc(entry.sourceType||'Online')}</div>
-    ${tech.drill?`<div style="margin-top:12px"><span class="drill-badge">NEEDS DRILLING</span></div>`:''}
+    ${sourceHTML}
+    ${(!isInst && tech.drill)?`<div style="margin-top:12px"><span class="drill-badge">NEEDS DRILLING</span></div>`:''}
   `;
   document.getElementById('detail-panel').classList.add('open');
+}
+
+function jumpToInstructionalChapter(noteId) {
+  const n = (state.instructionalNotes||[]).find(x => x.id === noteId);
+  if (!n) return;
+  // Expand the tree path so the chapter is visible
+  if (typeof _instExpanded !== 'undefined' && n.bundleId) {
+    _instExpanded.add('b:'+n.bundleId);
+    if (n.seriesId) _instExpanded.add('s:'+n.bundleId+':'+n.seriesId);
+    if (n.volumeNum != null) _instExpanded.add('v:'+n.bundleId+':'+n.volumeNum);
+    if (n.chapterIdx != null) _instExpanded.add('c:'+n.bundleId+':'+n.volumeNum+':'+n.chapterIdx);
+  }
+  closeDetail();
+  switchView('instructionals', document.querySelector('.nav-tab[onclick*="\'instructionals\'"]'));
 }
 function closeDetail() { document.getElementById('detail-panel').classList.remove('open'); }
 
@@ -3583,7 +3757,7 @@ async function handleUploadGH(event) {
 // Load from localStorage immediately (fast start)
 
 // GitHub credentials are NOT pre-loaded in this public build.
-// Users connect their own GitHub via Settings (⚙) on first run.
+// First-time users connect their own GitHub via the Settings (⚙) modal.
 load();
 const savedTheme = localStorage.getItem('bjj_theme') || '';
 document.body.dataset.theme = savedTheme;
@@ -3591,6 +3765,7 @@ document.querySelectorAll('.theme-dot').forEach(d => d.classList.toggle('active'
 const today=new Date().toISOString().slice(0,10);
 document.getElementById('f-date').value=today;
 document.getElementById('f-date-online').value=today;
+refreshSharedPools();
 addTechniqueField();
 updateDrillBadge();
 window.addEventListener('resize',()=>{
@@ -3599,7 +3774,7 @@ window.addEventListener('resize',()=>{
 
 // ─── INSTRUCTIONALS ─────────────────────────────────────────────────────────
 let _instEditingId = null;
-let _instGi = 'nogi';
+let _instGi = 'gi';
 let _instNoteType = 'principle';   // 'principle' | 'move'
 
 function openInstructionalForm(note) {
@@ -3617,7 +3792,7 @@ function openInstructionalForm(note) {
     const el = document.getElementById('if-' + k);
     if (el) el.value = note ? (note[map[k]] || '') : '';
   });
-  _instGi = note?.giNoGi || 'nogi';
+  _instGi = note?.giNoGi || 'gi';
   ifSetGi(_instGi);
   // Determine note type — default 'principle', or use note's stored type
   _instNoteType = note?.noteType || 'principle';
@@ -3632,12 +3807,13 @@ function openInstructionalForm(note) {
   const moveWarning = document.getElementById('if-move-warning');
   if (moveConcept) moveConcept.value = (note && _instNoteType === 'move') ? (note.concept || '') : '';
   if (moveWarning) moveWarning.value = (note && _instNoteType === 'move') ? (note.warning || '') : '';
+  refreshSharedPools();
   const sp = document.getElementById('if-startpos');
   const ep = document.getElementById('if-endpos');
   const mt = document.getElementById('if-method');
-  if (sp) sp.innerHTML = posOpts((note && _instNoteType === 'move') ? (note.startPos || '') : '');
-  if (ep) ep.innerHTML = posOpts((note && _instNoteType === 'move') ? (note.endPos || '') : '');
-  if (mt) mt.innerHTML = methodOpts((note && _instNoteType === 'move') ? (note.method || '') : '');
+  if (sp) sp.value = (note && _instNoteType === 'move') ? (note.startPos || '') : '';
+  if (ep) ep.value = (note && _instNoteType === 'move') ? (note.endPos || '') : '';
+  if (mt) mt.value = (note && _instNoteType === 'move') ? (note.method || '') : '';
   // Reset + fill steps
   const stepsC = document.getElementById('if-steps-container');
   if (stepsC) {
@@ -3685,15 +3861,9 @@ function setInstNoteType(t) {
   document.getElementById('if-type-move-btn').classList.toggle('active', _instNoteType === 'move');
   document.getElementById('if-principle-fields').style.display = _instNoteType === 'principle' ? '' : 'none';
   document.getElementById('if-move-fields').style.display     = _instNoteType === 'move' ? '' : 'none';
-  // First time switching to move — populate position dropdowns if empty
+  // Ensure shared autocomplete pools are populated; add a step row if move is empty
   if (_instNoteType === 'move') {
-    const sp = document.getElementById('if-startpos');
-    if (sp && !sp.options.length) sp.innerHTML = posOpts('');
-    const ep = document.getElementById('if-endpos');
-    if (ep && !ep.options.length) ep.innerHTML = posOpts('');
-    const mt = document.getElementById('if-method');
-    if (mt && !mt.options.length) mt.innerHTML = methodOpts('');
-    // Ensure at least one step row exists
+    refreshSharedPools();
     const c = document.getElementById('if-steps-container');
     if (c && !c.children.length) ifAddStep();
   }
