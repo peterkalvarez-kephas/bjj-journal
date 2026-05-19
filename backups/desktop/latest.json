@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-19T03:22:42.183Z",
-  "exportedReadable": "5/18/2026, 8:22:42 PM",
+  "exported": "2026-05-19T04:00:43.992Z",
+  "exportedReadable": "5/18/2026, 9:00:43 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,54 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779163197698",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 1,
+        "volumeTitle": "Cross Body Pin & Lion Killer",
+        "chapterTitle": "Ch 6: Lion Killer Finish Part 3 (36:30)",
+        "name": "Armbar from Mount",
+        "goal": "",
+        "details": "",
+        "concept": "Stay off line with the oppeonent when in mount, have one leg as a grape vine and the other ready to get to Knee on Belly (running leg)",
+        "warning": "Stay off line as far as possible so the opponent has to drive father careful with staying IN line.\ncarf",
+        "startPos": "Mount",
+        "endPos": "Crossbody Position",
+        "method": "Submission",
+        "stepsList": [
+          {
+            "text": "Get to mount. Have 1 grapevine and one running leg. Stay off line"
+          },
+          {
+            "text": "Initiate response by adding a cross face to the side you are leaning towards. Right on the jaw line. DISRUPT THE SPINE"
+          },
+          {
+            "text": "As the opp grabs the cross face hand, place free hand on the mat and SHOOT the same side knee HIGH up so that the elbow is on your thigh."
+          },
+          {
+            "text": "Cuz you are posted bring running leg across into S mount."
+          },
+          {
+            "text": "Situate position. Stay heavy on op, have kick stand by opp head"
+          },
+          {
+            "text": "you will drive the inside arm first then switvh witht he outside to secure a deep hold, FOLCRUM your arm into hip placement and then lean into the legs"
+          },
+          {
+            "text": "can bring the kick stand leg over op head to finish armbar"
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Armbar",
+        "giNoGi": "gi",
+        "updated": 1779163213870,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 5
+      },
       {
         "id": "1779160931792",
         "noteType": "move",
