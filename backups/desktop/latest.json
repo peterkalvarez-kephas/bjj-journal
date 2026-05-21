@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-21T04:08:33.408Z",
-  "exportedReadable": "5/20/2026, 9:08:33 PM",
+  "exported": "2026-05-21T05:23:20.744Z",
+  "exportedReadable": "5/20/2026, 10:23:20 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,34 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779340970667",
+        "noteType": "principle",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 2,
+        "volumeTitle": "Lion Killer & Bladed Fulcrum",
+        "chapterTitle": "Ch 2: The Bladed Fulcrum (16:23)",
+        "name": "Knee on Belly Armbar",
+        "goal": "Armbar from Knee on belly",
+        "details": "Armbar from knee on belly - one knee under armpit and the other over head. ( not as strong as cross body armbar)\nDave uses a judo grip. Use knee on belly concepts grap the far side lapel ( push to pin/exert downward pressure.\nshoot shin into armpit\nOther arm grips at floating elbow and pulls up to sit into a arm-bar position. \nJudo grip on the lapel the is used to pull opp into you. trap opp to you.\nif op slips elbow you can recover knee on belly.",
+        "concept": "",
+        "warning": "",
+        "systemId": "",
+        "mode": "",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Knee on Belly",
+        "giNoGi": "gi",
+        "updated": 1779340970667,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 1
+      },
       {
         "id": "1779336481229",
         "noteType": "principle",
