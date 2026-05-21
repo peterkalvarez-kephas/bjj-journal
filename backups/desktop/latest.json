@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-19T06:19:40.472Z",
-  "exportedReadable": "5/18/2026, 11:19:40 PM",
+  "exported": "2026-05-21T04:08:33.408Z",
+  "exportedReadable": "5/20/2026, 9:08:33 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -407,6 +407,34 @@
     ],
     "instructionalNotes": [
       {
+        "id": "1779336481229",
+        "noteType": "principle",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 2,
+        "volumeTitle": "Lion Killer & Bladed Fulcrum",
+        "chapterTitle": "Ch 1: Head Side - Lion Killer Finish (0:00)",
+        "name": "Head side - The RNC grip on the Armbar from side pin",
+        "goal": "Using a fulcrum system to Pry open an opponents RNC armbar defense on head side",
+        "details": "Phase one- RNC defense to break \nHave good control \nYou will sway in this position\nLock in on rnc grip on the arm. Elbow over hip and blade tucked into hip. \nlean to Head side \ndrive hips forward\ncounter act opps movement with legs ( split them open) and counter hitch hiker by pulling elbow and straighten/rolling out. \n\nDisrupt the spine with heel in the spine with heel to neck \n\nPhase two - RNC to gable grip defense to break \nsame set-up lean to head side\nplace top leg over the wrists and pin to body ( semi triangle) - this is called a leg assist\nreally pin the wrist together and eliminate the space between wrist and chest. \nthrust hips to break grip and lock in grip then rolling up. Here you will start of in RNC grip then you transfer to the two on one grip. keep legs pin to keep opponent down \n\n\nTROUBLESHOOTING\nbeat phase1 then you off to phase 2 and throws top leg over and splits your legs.\n1. as the head comes out leg on ground strighten out and the lg on the body kick back into opps body. MAINTAIN control here. You dont want opp to get past your KNEELINE so that the back is to the ground. \n2. Bring opps elbow to body (this opens op a little more then bring the leg on the body thru the grips and lock in a triangle. \n3, top keg kinda pins opps chest to keep down.\n4.",
+        "concept": "",
+        "warning": "Dont change grips if it doesn't makes sense ( double on the wrist, RNC)\nStay cool in all postions, even if you do get a grip break or a counter- response\n\ncarful with sitting up when trying to finish you trade pressure for a new position.",
+        "systemId": "",
+        "mode": "",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Armbar",
+        "giNoGi": "gi",
+        "updated": 1779336481229,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 0
+      },
+      {
         "id": "1779164023420",
         "noteType": "move",
         "seriesName": "The Armlock Obsession — The Armlock Obsession",
@@ -446,7 +474,9 @@
         "updated": 1779164023420,
         "bundleId": "aloo",
         "seriesId": "main",
-        "chapterIdx": 5
+        "chapterIdx": 5,
+        "systemId": "pin-control",
+        "mode": "off"
       },
       {
         "id": "1779163197698",
@@ -494,7 +524,9 @@
         "updated": 1779163213870,
         "bundleId": "aloo",
         "seriesId": "main",
-        "chapterIdx": 5
+        "chapterIdx": 5,
+        "systemId": "pin-control",
+        "mode": "off"
       },
       {
         "id": "1779160931792",
@@ -530,7 +562,9 @@
         "updated": 1779160931792,
         "bundleId": "aloo",
         "seriesId": "main",
-        "chapterIdx": 3
+        "chapterIdx": 3,
+        "systemId": "pin-control",
+        "mode": "off"
       },
       {
         "id": "1778732276851",
@@ -665,7 +699,9 @@
             "text": "Recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t02_2_10",
@@ -722,7 +758,9 @@
             "text": "Shimmy bottom leg out to recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t03_2_11",
@@ -779,7 +817,9 @@
             "text": "Access the knee and shimmy out as in Variation 5.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t04_3_0",
@@ -836,7 +876,9 @@
             "text": "Elbow escape into full guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t05_3_1",
@@ -893,7 +935,9 @@
             "text": "Recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t06_3_8",
@@ -958,7 +1002,9 @@
             "text": "Get knee inside, then get the rest of your limbs in.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t07_3_9",
@@ -1015,7 +1061,9 @@
             "text": "Get remaining limbs inside and recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t08_3_10",
@@ -1064,7 +1112,9 @@
             "text": "Introduce knee and recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t09_3_11",
@@ -1129,7 +1179,9 @@
             "text": "Tip opponent and shoot knee in to recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t10_3_14",
@@ -1186,7 +1238,9 @@
             "text": "Recover guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "mount",
+        "mode": "def"
       },
       {
         "id": "gff_t11_4_0",
@@ -1243,7 +1297,9 @@
             "text": "Get to one knee and recover.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "pin-control",
+        "mode": "def"
       },
       {
         "id": "gff_t12_4_2",
@@ -1316,7 +1372,9 @@
             "text": "Heavy pressure from locked hands opens the hip — use knee entry then single leg takedown.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "pin-control",
+        "mode": "def"
       },
       {
         "id": "gff_t13_7_0",
@@ -1381,7 +1439,9 @@
             "text": "Regain guard.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "pin-control",
+        "mode": "def"
       },
       {
         "id": "gff_t14_7_2",
@@ -1438,7 +1498,9 @@
             "text": "If knee hard to insert: use reverse shrimp to create space.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "pin-control",
+        "mode": "def"
       },
       {
         "id": "gff_t15_7_3",
@@ -1503,7 +1565,9 @@
             "text": "If foot slap heard: bridge back in the direction you came from.",
             "photo": null
           }
-        ]
+        ],
+        "systemId": "pin-control",
+        "mode": "def"
       },
       {
         "id": "gff_1778131270103_26_0",
