@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-21T05:52:57.372Z",
-  "exportedReadable": "5/20/2026, 10:52:57 PM",
+  "exported": "2026-05-26T04:59:55.491Z",
+  "exportedReadable": "5/25/2026, 9:59:55 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,34 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779771562700",
+        "noteType": "principle",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 2,
+        "volumeTitle": "Lion Killer & Bladed Fulcrum",
+        "chapterTitle": "Ch 5: 70/30 Algorithm (40:45)",
+        "name": "Troubleshooting crossbody postion.",
+        "goal": "Understanding the Crossbody armbar postion.",
+        "details": "The cross body arm bar position changes a bout depending on your grip. \nTraditio kimura grip from a side pin postion lets you enter the crossboty with opening to attack head side and from gross body. \n\nEntering with reverse kimura lets opens Leg and cross body situations\n\nIf an opponent tryin to stack you from the cross body position, don't just stay sitting up , Put back into ground and extend back. control from there, cross legs and dig into position. \n\nLeg over head escape is the main issue with cross body. - be ahead of curve keep an eye on the leg that can get thrown over. \n\n1. if he opp gets leg over, split legs. You can go to a triangle or attack the other arm. \n\n\n2. Elbow drop escape from cross body- you can shift your weight around to spin  around to thee side and attack other arm or keep spinning to end up in a mount position and start again. Or let the elbow drop happen, throw legg over and let op get to knees then go for a back take.\n\ncross body system works from closed guard too\n\n3. if op traps you r foot in crossbody postion, leg assist and commiti to armbar.",
+        "concept": "",
+        "warning": "",
+        "systemId": "",
+        "mode": "",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Crossbody Armbar Position",
+        "giNoGi": "gi",
+        "updated": 1779771562700,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 4
+      },
       {
         "id": "1779342356639",
         "noteType": "principle",
