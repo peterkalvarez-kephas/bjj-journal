@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-28T04:21:12.468Z",
-  "exportedReadable": "5/27/2026, 9:21:12 PM",
+  "exported": "2026-05-28T04:39:50.673Z",
+  "exportedReadable": "5/27/2026, 9:39:50 PM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,51 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779943158818",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 1: Side Control - Underhook Entry To Kimura Control (0:00)",
+        "name": "Side Control with under hook",
+        "goal": "",
+        "concept": "",
+        "details": "Key grip when Dave establish his side control, he does not stop at gable grip he goes for forearm deep grip. \n\nStay in tune with ops movement keep one knee at hip and the other leg ( head side straighten out)\n\nIf needed use your knee ( hip switch to clear the arm to keep it on the outside (elbow away from body) or smash it/ pin it to.",
+        "warning": "",
+        "systemId": "pin-control",
+        "mode": "off",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [
+          {
+            "text": "WIth underhook grip pull it in /slide close to your body and put pressure on ribs / sternum. get opps back of ground by SPRAWL",
+            "concept": "important to sprawl so you maintain pressure here. do not pull. \" DOnt let the tiger out the cage\". can move weight back and forth when op is defending."
+          },
+          {
+            "text": "free arm look to post behind opps head and  push hand to ward your knee point fingers AWAY from you.",
+            "concept": "at this point the leg on head side should be posted out and close to your opps head."
+          },
+          {
+            "text": "Bend elbow to push opps head a little farther from you and step over",
+            "concept": "this  little bend will clear the head."
+          },
+          {
+            "text": "as you clear the head keep your weight driving forward.chest plate cover the shoulder.",
+            "concept": "do not sit up, this is where we keep op control. drive forward."
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "",
+        "giNoGi": "gi",
+        "updated": 1779943158818,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 0
+      },
       {
         "id": "1779942039693",
         "noteType": "move",
