@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-28T15:12:25.994Z",
-  "exportedReadable": "5/28/2026, 8:12:25 AM",
+  "exported": "2026-05-28T15:29:32.188Z",
+  "exportedReadable": "5/28/2026, 8:29:32 AM",
   "entryCount": 6,
   "data": {
     "entries": [
@@ -447,7 +447,7 @@
         "instructor": "Dave Camarillo",
         "volumeNum": 3,
         "volumeTitle": "Side Control Kimura System",
-        "chapterTitle": "Ch 3: Ninja Entry To Kimura Control (16:48)",
+        "chapterTitle": "Ninja Entry To Kimura Control",
         "name": "Responding to the unerhook escape: no underhook in.",
         "goal": "",
         "concept": "YOu need to be aware of the underhook escape and beat it",
@@ -469,9 +469,9 @@
         "bjjPos": "Kimura Control",
         "giNoGi": "gi",
         "updated": 1779980123023,
-        "bundleId": "gff",
-        "seriesId": "s0",
-        "chapterIdx": 0
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 2
       },
       {
         "id": "1779979260963",
@@ -480,7 +480,7 @@
         "instructor": "Dave Camarillo",
         "volumeNum": 3,
         "volumeTitle": "Side Control Kimura System",
-        "chapterTitle": "Ch 2: Underhook Entry To Kimura Control Part 2 (13:47)",
+        "chapterTitle": "Ninja Entry To Kimura Control",
         "name": "One frame and one arm foing for underhook",
         "goal": "",
         "concept": "Opp wants to shoot the underhook and get to a single leg takedown. DONT let it happen.",
@@ -522,9 +522,9 @@
         "bjjPos": "Kimura Control",
         "giNoGi": "gi",
         "updated": 1779981015905,
-        "bundleId": "gff",
-        "seriesId": "s0",
-        "chapterIdx": 0
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 2
       },
       {
         "id": "1779943158818",
