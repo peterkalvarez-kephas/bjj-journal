@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-28T04:43:21.982Z",
-  "exportedReadable": "5/27/2026, 9:43:21 PM",
+  "exported": "2026-05-28T14:41:31.016Z",
+  "exportedReadable": "5/28/2026, 7:41:31 AM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -406,6 +406,34 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1779979260963",
+        "noteType": "principle",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 2: Underhook Entry To Kimura Control Part 2 (13:47)",
+        "name": "Kimura Control PArt 2: dont freak out about the bottom arm.",
+        "goal": "",
+        "concept": "Dont worry to much about the bottom arm in thsi postion.",
+        "details": "At times the bottom arm cab become a problem if you dont address it. Lets say you have the under hook already and the opponent gets the bottom arm out and is able to move it around. \n\nA just grab behind the ELbow Pull it towars you and then step over head \n\nor \nget to Staple the other arm down witha knee and get to the Kimura control.\n\nHere dave pulls the opp up to the side, (does not sprawl) cuz the arm is pinned by the knee.",
+        "warning": "",
+        "systemId": "pin-control",
+        "mode": "off",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kimura Postion",
+        "giNoGi": "gi",
+        "updated": 1779979260963,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 1
+      },
       {
         "id": "1779943158818",
         "noteType": "move",
