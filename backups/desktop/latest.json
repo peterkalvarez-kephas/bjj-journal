@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-28T14:41:31.016Z",
-  "exportedReadable": "5/28/2026, 7:41:31 AM",
+  "exported": "2026-05-28T15:10:06.663Z",
+  "exportedReadable": "5/28/2026, 8:10:06 AM",
   "entryCount": 5,
   "data": {
     "entries": [
@@ -407,32 +407,90 @@
     ],
     "instructionalNotes": [
       {
+        "id": "1779979988888",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 3: Ninja Entry To Kimura Control (16:48)",
+        "name": "Responding to the unerhook escape: no underhook in.",
+        "goal": "",
+        "concept": "YOu need to be aware of the underhook escape and beat it",
+        "details": "Dave makes an interesting point because he is a small guy he refer to this \"BUNGIE\" Concept. Where he applies pressure or allows space depending on the situation. He allows space to move when he feels unstable and applies pressure when stable.",
+        "warning": "",
+        "systemId": "pin-control",
+        "mode": "off",
+        "startPos": "Side",
+        "endPos": "",
+        "method": "",
+        "stepsList": [
+          {
+            "text": "You are in a side control with No underhooks. Opponent goes for a bump and tries to shoot an",
+            "concept": ""
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kimura Control",
+        "giNoGi": "gi",
+        "updated": 1779980123023,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 0
+      },
+      {
         "id": "1779979260963",
-        "noteType": "principle",
+        "noteType": "move",
         "seriesName": "The Armlock Obsession — The Armlock Obsession",
         "instructor": "Dave Camarillo",
         "volumeNum": 3,
         "volumeTitle": "Side Control Kimura System",
         "chapterTitle": "Ch 2: Underhook Entry To Kimura Control Part 2 (13:47)",
-        "name": "Kimura Control PArt 2: dont freak out about the bottom arm.",
+        "name": "One frame and one arm foing for underhook",
         "goal": "",
-        "concept": "Dont worry to much about the bottom arm in thsi postion.",
+        "concept": "Opp wants to shoot the underhook and get to a single leg takedown. DONT let it happen.",
         "details": "At times the bottom arm cab become a problem if you dont address it. Lets say you have the under hook already and the opponent gets the bottom arm out and is able to move it around. \n\nA just grab behind the ELbow Pull it towars you and then step over head \n\nor \nget to Staple the other arm down witha knee and get to the Kimura control.\n\nHere dave pulls the opp up to the side, (does not sprawl) cuz the arm is pinned by the knee.",
-        "warning": "",
-        "systemId": "pin-control",
+        "warning": "Avoid the single leg take down from here.. track his movements.",
+        "systemId": "",
         "mode": "off",
-        "startPos": "",
-        "endPos": "",
-        "method": "",
-        "stepsList": [],
+        "startPos": "Side Control",
+        "endPos": "Kimura Control",
+        "method": "Transition",
+        "stepsList": [
+          {
+            "text": "Opp has arm in place for under hook escape. Turn and FACE the elbow/arm. this kills that underhook",
+            "concept": "You get into that offset side control position."
+          },
+          {
+            "text": "the hand under the under hook arm rest under the elbow ( make a fist the the thumb press on the outside)",
+            "concept": ""
+          },
+          {
+            "text": "Let the op go for the under hook, Your far leg straightens out and post to mange distance. leg side head still post out for balance",
+            "concept": ""
+          },
+          {
+            "text": "Top arm press of the ground here while the bladed hand shoots into the space create by the escape attempt",
+            "concept": "Drop elbow in the rib chest area and CHOKE that arm. Head has to go DOWN"
+          },
+          {
+            "text": "Keep an eye on the legs! grab the bottom leg and pull over your head to secure the position ( op can not escape)",
+            "concept": ""
+          },
+          {
+            "text": "transition to the kimura control position.",
+            "concept": "OPEN YOUR BASE UP AND PUT YOUR WEIGHT FORWARD. DONT OVER KNEES MAKES YOU EASY TO MOVE LIKE A TOWER. .\n\nCan usr ops gi to secure the arm."
+          }
+        ],
         "steps": [],
         "steps2": [],
         "bjjPos": "Kimura Postion",
         "giNoGi": "gi",
-        "updated": 1779979260963,
-        "bundleId": "aloo",
-        "seriesId": "main",
-        "chapterIdx": 1
+        "updated": 1779980976649,
+        "bundleId": "gff",
+        "seriesId": "s0",
+        "chapterIdx": 0
       },
       {
         "id": "1779943158818",
