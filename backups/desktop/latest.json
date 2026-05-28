@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-05-28T15:29:32.188Z",
-  "exportedReadable": "5/28/2026, 8:29:32 AM",
+  "exported": "2026-05-28T15:31:25.475Z",
+  "exportedReadable": "5/28/2026, 8:31:25 AM",
   "entryCount": 6,
   "data": {
     "entries": [
@@ -509,7 +509,7 @@
             "concept": "Drop elbow in the rib chest area and CHOKE that arm. Head has to go DOWN"
           },
           {
-            "text": "Keep an eye on the legs! grab the bottom leg and pull over your head to secure the position ( op can not escape)",
+            "text": "Keep an eye on the legs! grab the bottom leg and pull over your head to secure the position ( op can not escape). Can also pull the other leg for a different control.",
             "concept": ""
           },
           {
@@ -521,7 +521,7 @@
         "steps2": [],
         "bjjPos": "Kimura Control",
         "giNoGi": "gi",
-        "updated": 1779981015905,
+        "updated": 1779982253847,
         "bundleId": "aloo",
         "seriesId": "main",
         "chapterIdx": 2
