@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T06:09:30.673Z",
-  "exportedReadable": "6/3/2026, 11:09:30 PM",
+  "exported": "2026-06-04T06:11:31.682Z",
+  "exportedReadable": "6/3/2026, 11:11:31 PM",
   "device": "desktop",
   "entryCount": 6,
   "instructionalNoteCount": 42,
@@ -2179,7 +2179,18 @@
     "principles": [],
     "customDrills": [],
     "srData": {},
-    "watchedChapters": {},
+    "watchedChapters": {
+      "aloo:3:4": true,
+      "aloo:3:3": true,
+      "aloo:3:5": true,
+      "aloo:3:6": true,
+      "aloo:3:1": true,
+      "aloo:2:3": true,
+      "aloo:1:1": true,
+      "aloo:1:4": true,
+      "aloo:1:2": true,
+      "aloo:1:0": true
+    },
     "customBundles": [
       {
         "id": "gordon-ryan-half-guard",
