@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T04:19:03.569Z",
-  "exportedReadable": "6/3/2026, 9:19:03 PM",
+  "exported": "2026-06-04T04:22:19.104Z",
+  "exportedReadable": "6/3/2026, 9:22:19 PM",
   "entryCount": 7,
   "data": {
     "entries": [
@@ -490,6 +490,34 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1780546908887",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 5: Gorilla Kimura (29:43)",
+        "name": "copy",
+        "goal": "",
+        "concept": "",
+        "details": "",
+        "warning": "",
+        "systemId": "pin-control",
+        "mode": "off",
+        "startPos": "Kimura Control",
+        "endPos": "Crossbody Armbar Position",
+        "method": "Transition",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kimura Control",
+        "giNoGi": "gi",
+        "updated": 1780546908887,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 4
+      },
       {
         "id": "1780546642124",
         "noteType": "principle",
