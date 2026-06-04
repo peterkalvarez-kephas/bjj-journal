@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T03:47:48.257Z",
-  "exportedReadable": "6/3/2026, 8:47:48 PM",
+  "exported": "2026-06-04T03:53:41.761Z",
+  "exportedReadable": "6/3/2026, 8:53:41 PM",
   "entryCount": 6,
   "data": {
     "entries": [
@@ -448,27 +448,39 @@
         "volumeNum": 3,
         "volumeTitle": "Side Control Kimura System",
         "chapterTitle": "Ch 4: Overhook Entry To Kimura (24:50)",
-        "name": "Overhook",
+        "name": "Overhook Entry",
         "goal": "",
-        "concept": "",
+        "concept": "Platform and forward drive created makes this work.",
         "details": "",
         "warning": "",
-        "systemId": "",
+        "systemId": "pin-control",
         "mode": "off",
-        "startPos": "",
-        "endPos": "",
-        "method": "",
+        "startPos": "Side Control",
+        "endPos": "Kimura Control",
+        "method": "Transition",
         "stepsList": [
           {
-            "text": "c",
+            "text": "Established side control, legs split out. One under hook on far arm, control the near arm",
+            "concept": ""
+          },
+          {
+            "text": "Drive near arm hand across to under hook side connect hands then transition to gable grip",
+            "concept": "KEEP SHOULDER LOW UNDER OPPS WRIST"
+          },
+          {
+            "text": "Use gable grip to pull arm into you and drive the same side leg thru to establish your armbar platform",
+            "concept": "Slow and deliberate to minimize energy l"
+          },
+          {
+            "text": "As you pull arm into you, the wrist will fall into your hands. LOCK your kimura control position .",
             "concept": ""
           }
         ],
         "steps": [],
         "steps2": [],
-        "bjjPos": "",
+        "bjjPos": "Kimura Postion",
         "giNoGi": "gi",
-        "updated": 1780544838120,
+        "updated": 1780545191551,
         "bundleId": "aloo",
         "seriesId": "main",
         "chapterIdx": 3
