@@ -1,10 +1,60 @@
 {
   "version": 1,
-  "exported": "2026-06-04T04:15:25.232Z",
-  "exportedReadable": "6/3/2026, 9:15:25 PM",
-  "entryCount": 6,
+  "exported": "2026-06-04T04:19:03.569Z",
+  "exportedReadable": "6/3/2026, 9:19:03 PM",
+  "entryCount": 7,
   "data": {
     "entries": [
+      {
+        "id": 1780546711201,
+        "type": "online",
+        "date": "2026-06-04",
+        "techniques": [
+          {
+            "name": "The MICRO postion of the kiura control to the the cross body armbar postion",
+            "family": "",
+            "position": "Kimura Control",
+            "gi": "gi",
+            "cat": "",
+            "startPos": "Kimura Control",
+            "endPos": "Crossbody Armbar Position",
+            "method": "Transition",
+            "concept": "The Kiumra lock out postion is use to create space and allow for better control durng a transiton.",
+            "stepsList": [
+              {
+                "text": "From Kimura control, hand on the wrist will \"throttle\" the opps wrist",
+                "photo": null
+              },
+              {
+                "text": "the hand on top of your wrist is going to point up as you EXTEND your arm out. this is lock out pressure",
+                "photo": null
+              },
+              {
+                "text": "as you apply lock out pressure LEAN towards the head, the leg behind the op will kick stand out and the leg on the head straightens out pressure down",
+                "photo": null
+              },
+              {
+                "text": "establish cross body arm bar position. lock out still hips engaged",
+                "photo": null
+              },
+              {
+                "text": "lock out the armbar using th methods gone",
+                "photo": null
+              }
+            ],
+            "steps": "From Kimura control, hand on the wrist will \"throttle\" the opps wrist\nthe hand on top of your wrist is going to point up as you EXTEND your arm out. this is lock out pressure\nas you apply lock out pressure LEAN towards the head, the leg behind the op will kick stand out and the leg on the head straightens out pressure down\nestablish cross body arm bar position. lock out still hips engaged\nlock out the armbar using th methods gone",
+            "drill": false,
+            "links": []
+          }
+        ],
+        "keyInsights": [],
+        "instructor": "Dave Camarillo",
+        "sourceType": "Instructional",
+        "url": "",
+        "notes": "Imported from Instructional note: The MICRO postion of the kiura control to the the cross body armbar postion",
+        "attachments": [],
+        "rounds": null
+      },
       {
         "id": 1779981115987,
         "type": "online",
@@ -440,6 +490,34 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1780546642124",
+        "noteType": "principle",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 5: Gorilla Kimura (29:43)",
+        "name": "missing a note at min 43",
+        "goal": "",
+        "concept": "",
+        "details": "",
+        "warning": "",
+        "systemId": "",
+        "mode": "off",
+        "startPos": "",
+        "endPos": "",
+        "method": "",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "",
+        "giNoGi": "gi",
+        "updated": 1780546680478,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 4
+      },
       {
         "id": "1780545862245",
         "noteType": "move",
