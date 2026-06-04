@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T03:24:20.483Z",
-  "exportedReadable": "6/3/2026, 8:24:20 PM",
+  "exported": "2026-06-04T03:47:48.257Z",
+  "exportedReadable": "6/3/2026, 8:47:48 PM",
   "entryCount": 6,
   "data": {
     "entries": [
@@ -442,13 +442,13 @@
     "instructionalNotes": [
       {
         "id": "1780543358128",
-        "noteType": "principle",
+        "noteType": "move",
         "seriesName": "The Armlock Obsession — The Armlock Obsession",
         "instructor": "Dave Camarillo",
         "volumeNum": 3,
         "volumeTitle": "Side Control Kimura System",
         "chapterTitle": "Ch 4: Overhook Entry To Kimura (24:50)",
-        "name": "f",
+        "name": "Overhook",
         "goal": "",
         "concept": "",
         "details": "",
@@ -458,12 +458,17 @@
         "startPos": "",
         "endPos": "",
         "method": "",
-        "stepsList": [],
+        "stepsList": [
+          {
+            "text": "c",
+            "concept": ""
+          }
+        ],
         "steps": [],
         "steps2": [],
         "bjjPos": "",
         "giNoGi": "gi",
-        "updated": 1780543358128,
+        "updated": 1780544838120,
         "bundleId": "aloo",
         "seriesId": "main",
         "chapterIdx": 3
