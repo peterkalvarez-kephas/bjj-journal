@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T06:11:31.682Z",
-  "exportedReadable": "6/3/2026, 11:11:31 PM",
+  "exported": "2026-06-04T06:12:31.776Z",
+  "exportedReadable": "6/3/2026, 11:12:31 PM",
   "device": "desktop",
   "entryCount": 6,
   "instructionalNoteCount": 42,
@@ -2603,6 +2603,8 @@
         }
       }
     ],
-    "volUrls": {}
+    "volUrls": {
+      "aloo:3": "https://www.bilibili.com/video/BV1ni4y137kQ/?spm_id_from=333.337.search-card.all.click"
+    }
   }
 }
