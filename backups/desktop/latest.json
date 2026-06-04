@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T04:14:22.902Z",
-  "exportedReadable": "6/3/2026, 9:14:22 PM",
+  "exported": "2026-06-04T04:15:25.232Z",
+  "exportedReadable": "6/3/2026, 9:15:25 PM",
   "entryCount": 6,
   "data": {
     "entries": [
@@ -484,7 +484,7 @@
         "steps2": [],
         "bjjPos": "Kimura Control",
         "giNoGi": "gi",
-        "updated": 1780546431679,
+        "updated": 1780546482898,
         "bundleId": "aloo",
         "seriesId": "main",
         "chapterIdx": 4
