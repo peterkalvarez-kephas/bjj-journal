@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exported": "2026-06-04T03:53:41.761Z",
-  "exportedReadable": "6/3/2026, 8:53:41 PM",
+  "exported": "2026-06-04T04:04:52.867Z",
+  "exportedReadable": "6/3/2026, 9:04:52 PM",
   "entryCount": 6,
   "data": {
     "entries": [
@@ -440,6 +440,55 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1780545862245",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 5: Gorilla Kimura (29:43)",
+        "name": "The MICRO postion of the kiura control to the the cross body armbar postion",
+        "goal": "",
+        "concept": "The Kiumra lock out postion is use to create space and allow for better control durng a transiton.",
+        "details": "Use thumbless grips",
+        "warning": "",
+        "systemId": "pin-control",
+        "mode": "off",
+        "startPos": "Kimura Control",
+        "endPos": "Crossbody Armbar Position",
+        "method": "Transition",
+        "stepsList": [
+          {
+            "text": "From Kimura control, hand on the wrist will \"throttle\" the opps wrist",
+            "concept": "this further breaks the chain of control on opps wrist."
+          },
+          {
+            "text": "the hand on top of your wrist is going to point up as you EXTEND your arm out. this is lock out pressure",
+            "concept": "this creates alot of pressure on the opps arm that its hard for them to do"
+          },
+          {
+            "text": "as you apply lock out pressure LEAN towards the head, the leg behind the op will kick stand out and the leg on the head straightens out pressure down",
+            "concept": "the lean creates space to get the kick stand leg out"
+          },
+          {
+            "text": "establish cross body arm bar position. lock out still hips engaged",
+            "concept": "Elbow is way above the belt line."
+          },
+          {
+            "text": "lock out the armbar using th methods gone",
+            "concept": ""
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kimura Control",
+        "giNoGi": "gi",
+        "updated": 1780545862245,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 4
+      },
       {
         "id": "1780543358128",
         "noteType": "move",
