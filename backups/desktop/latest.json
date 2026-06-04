@@ -1,8 +1,10 @@
 {
   "version": 1,
-  "exported": "2026-06-04T04:24:27.107Z",
-  "exportedReadable": "6/3/2026, 9:24:27 PM",
+  "exported": "2026-06-04T04:35:20.321Z",
+  "exportedReadable": "6/3/2026, 9:35:20 PM",
+  "device": "desktop",
   "entryCount": 7,
+  "instructionalNoteCount": 46,
   "data": {
     "entries": [
       {
@@ -491,13 +493,41 @@
     ],
     "instructionalNotes": [
       {
+        "id": "1780547685203",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 3,
+        "volumeTitle": "Side Control Kimura System",
+        "chapterTitle": "Ch 6: Gorilla Kimura Explanation (46:31)",
+        "name": "copy",
+        "goal": "",
+        "concept": "",
+        "details": "",
+        "warning": "",
+        "systemId": "pin-control",
+        "mode": "off",
+        "startPos": "Kimura Control",
+        "endPos": "Crossbody Armbar Position",
+        "method": "Transition",
+        "stepsList": [],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kimura Control",
+        "giNoGi": "gi",
+        "updated": 1780547685203,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 5
+      },
+      {
         "id": "1780546908887",
         "noteType": "move",
         "seriesName": "The Armlock Obsession — The Armlock Obsession",
         "instructor": "Dave Camarillo",
         "volumeNum": 3,
         "volumeTitle": "Side Control Kimura System",
-        "chapterTitle": "Gorilla Kimura Explanation",
+        "chapterTitle": "Gorilla Kimura Counter To The Back",
         "name": "copy",
         "goal": "",
         "concept": "",
@@ -516,7 +546,7 @@
         "updated": 1780546908887,
         "bundleId": "aloo",
         "seriesId": "main",
-        "chapterIdx": 5
+        "chapterIdx": 6
       },
       {
         "id": "1780546642124",
