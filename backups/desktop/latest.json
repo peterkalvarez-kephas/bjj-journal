@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "exported": "2026-06-08T01:13:56.871Z",
-  "exportedReadable": "6/7/2026, 6:13:56 PM",
+  "exported": "2026-06-08T01:18:14.487Z",
+  "exportedReadable": "6/7/2026, 6:18:14 PM",
   "device": "desktop",
   "entryCount": 6,
-  "instructionalNoteCount": 42,
+  "instructionalNoteCount": 43,
   "data": {
     "entries": [
       {
@@ -444,6 +444,65 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1780880970272",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 4,
+        "volumeTitle": "Back Attacks",
+        "chapterTitle": "Ch 1: Back - King Shirt Back Attack (0:00)",
+        "name": "Back - King Shirt Back Attack",
+        "goal": "",
+        "concept": "",
+        "details": "Radiar is above your oops elbow line. Here your op has access to your legs but you go t access to the neck. \nStay outside radius of attacl, get hip too hip\nKeep the High ground, this makes opp carry your weight. \nNo knees on the ground",
+        "warning": "1. Careful with the elbow roll over from turtle",
+        "systemId": "",
+        "mode": "off",
+        "startPos": "Turtle Top",
+        "endPos": "",
+        "method": "Submission",
+        "stepsList": [
+          {
+            "text": "from the top turtle transition to hip to hip. stay on the HIGH ground",
+            "concept": "TON SINK YOUR FAR ARM TO DEEP, CAN GET ROLLED",
+            "photo": null
+          },
+          {
+            "text": "From hip to hip you want to monitor your ops far leg, can grab ankle and pull up if they try to escape.",
+            "concept": "keep the high ground here. even if you lose the postion here an op stands up you can go for a single",
+            "photo": null
+          },
+          {
+            "text": "Establish your collar grip. not to deep then curl up to \"check the time\". Pull away and stamp chest to your ops lower back.",
+            "concept": "the chest stamp puts a lot if weight on oops back and make them look away.",
+            "photo": null
+          },
+          {
+            "text": "make your way around your ops back and then post hand on ground to support your weight and drive your knee against the knee",
+            "concept": "",
+            "photo": null
+          },
+          {
+            "text": "As you pull your opp on you, the bottom leg extends and creates a reverse hook.",
+            "concept": "",
+            "photo": null
+          },
+          {
+            "text": "keep other leg pinned agains ops hip. this hook will go in first. when you commit let go of the arm post and fall to the side of the hook.",
+            "concept": "hear you should have an under over grip on one side and the belt line hook.",
+            "photo": null
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kings Shirt",
+        "giNoGi": "gi",
+        "updated": 1780881464215,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 0
+      },
       {
         "id": "1780550206019",
         "noteType": "principle",
@@ -2175,12 +2234,438 @@
         "noteType": "principle"
       }
     ],
+    "sequences": [],
     "principles": [],
     "customDrills": [],
     "srData": {},
-    "watchedChapters": {},
-    "customBundles": [],
-    "volUrls": {},
-    "sequences": []
+    "watchedChapters": {
+      "aloo:3:4": true,
+      "aloo:3:3": true,
+      "aloo:3:5": true,
+      "aloo:3:6": true,
+      "aloo:3:1": true,
+      "aloo:2:3": true,
+      "aloo:1:1": true,
+      "aloo:1:4": true,
+      "aloo:1:2": true,
+      "aloo:1:0": true
+    },
+    "customBundles": [
+      {
+        "id": "gordon-ryan-half-guard",
+        "name": "Systematically Attacking From Half Guard",
+        "instructor": "Gordon Ryan",
+        "defaultGi": "nogi",
+        "series": [
+          {
+            "id": "s1",
+            "label": "Technique",
+            "vols": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          {
+            "id": "s2",
+            "label": "Rolling",
+            "vols": [
+              7,
+              8
+            ]
+          }
+        ],
+        "volumes": {
+          "1": {
+            "title": "Butterfly Half — Foundations & Entries",
+            "seriesId": "s1",
+            "chapters": [
+              {
+                "t": "Overview of the Half Guard Series",
+                "ts": "4:52"
+              },
+              {
+                "t": "Advantages and Disadvantages to Butterfly Half Guard",
+                "ts": "7:23"
+              },
+              {
+                "t": "Advantages and Disadvantages to (Low/High) Knee Shield",
+                "ts": "11:36"
+              },
+              {
+                "t": "The General Battle for Inside Position",
+                "ts": "16:19"
+              },
+              {
+                "t": "Denying Head Control",
+                "ts": "23:06"
+              },
+              {
+                "t": "Framing Effectively",
+                "ts": "27:24"
+              },
+              {
+                "t": "The Centerline Shift Dilemma",
+                "ts": "31:37"
+              },
+              {
+                "t": "Moving From a Cross Shoulder Post to an Underhook",
+                "ts": "37:59"
+              },
+              {
+                "t": "Basic Switch to Sumi Gaeshi",
+                "ts": "42:57"
+              },
+              {
+                "t": "Entering the Near Leg Irimi Ashi",
+                "ts": "50:18"
+              },
+              {
+                "t": "Importance of Switching Legs",
+                "ts": "57:23"
+              },
+              {
+                "t": "Underhook to Far Leg Irimi Ashi",
+                "ts": "1:04:49"
+              },
+              {
+                "t": "Underhook to Cross Ashi",
+                "ts": "1:08:47"
+              },
+              {
+                "t": "Introduction to a Scoop Grip",
+                "ts": "1:15:31"
+              },
+              {
+                "t": "Using a Scoop Grip to Enter X Guard",
+                "ts": "1:20:07"
+              },
+              {
+                "t": "Using a Scoop to Enter Near Leg Cross Ashi",
+                "ts": "1:23:22"
+              },
+              {
+                "t": "Using a Scoop to Spin to Far Leg Cross Ashi",
+                "ts": "1:27:45"
+              }
+            ]
+          },
+          "2": {
+            "title": "Pinch Headlock, Arm Drag & Kimuras",
+            "seriesId": "s1",
+            "chapters": [
+              {
+                "t": "Pinch Headlock to Shoulder Crunch",
+                "ts": "6:14"
+              },
+              {
+                "t": "Pinch Headlock Entering the Legs",
+                "ts": "11:04"
+              },
+              {
+                "t": "An Overhook Sumi Gaeshi",
+                "ts": "13:36"
+              },
+              {
+                "t": "Failed Overhook Sumi Gaeshi Enter the Legs",
+                "ts": "16:32"
+              },
+              {
+                "t": "A Special Gift",
+                "ts": "23:33"
+              },
+              {
+                "t": "Stalling From a Butterfly Half Guard",
+                "ts": "25:08"
+              },
+              {
+                "t": "Butterfly Half to Arm Drag",
+                "ts": "32:07"
+              },
+              {
+                "t": "Failed Arm Drag To Knee Lever",
+                "ts": "35:59"
+              },
+              {
+                "t": "Failed Knee Lever Switch to Sumi Gaeshi",
+                "ts": "43:51"
+              },
+              {
+                "t": "Failed Knee Lever Re-drag",
+                "ts": "51:56"
+              },
+              {
+                "t": "Failed Arm Drag Enter the Legs",
+                "ts": "55:59"
+              },
+              {
+                "t": "Entering Kimuras From Butterfly Half Guard",
+                "ts": "59:39"
+              },
+              {
+                "t": "Putting it Behind the Back",
+                "ts": "1:03:20"
+              },
+              {
+                "t": "Counter to a Hip Switch",
+                "ts": "1:11:17"
+              },
+              {
+                "t": "Separating the Hands",
+                "ts": "1:16:02"
+              },
+              {
+                "t": "Failed Kimura Enter the Legs",
+                "ts": "1:21:40"
+              },
+              {
+                "t": "Closing Out the Kimura Series (Butterfly Half)",
+                "ts": "1:27:33"
+              }
+            ]
+          },
+          "3": {
+            "title": "Lower Leg Shift",
+            "seriesId": "s1",
+            "chapters": [
+              {
+                "t": "Introduction to the Lower Leg Shift",
+                "ts": "6:36"
+              },
+              {
+                "t": "Transitioning From Half Guard to a Lower Leg Shift",
+                "ts": "16:08"
+              },
+              {
+                "t": "Basic Sweep From Lower Leg Shift",
+                "ts": "19:06"
+              },
+              {
+                "t": "Failed Sweep Back Take",
+                "ts": "23:42"
+              },
+              {
+                "t": "Coming Up From a Lower Leg Shift",
+                "ts": "27:19"
+              },
+              {
+                "t": "Options From Underhook Versus Whizzer",
+                "ts": "31:31"
+              },
+              {
+                "t": "Countering the Whizzer with the Roll",
+                "ts": "34:40"
+              },
+              {
+                "t": "Partner Counters The Roll, Take the Back",
+                "ts": "40:04"
+              },
+              {
+                "t": "Opponent Wins the Battle for Knee Position Enter Hiza Gatame",
+                "ts": "43:53"
+              },
+              {
+                "t": "Countering a Backstep From a Lower Leg Shift",
+                "ts": "46:02"
+              },
+              {
+                "t": "Reiterating Pinch Headlocks and Moving Back to a Butterfly Half",
+                "ts": "55:31"
+              },
+              {
+                "t": "Opponent Gets an Underhook Switch Back to Butterfly Half",
+                "ts": "1:00:15"
+              },
+              {
+                "t": "Opponent Gets Underhook Move to Triangle",
+                "ts": "1:02:16"
+              },
+              {
+                "t": "Opponent Crushes Knees Together Re-guard With High Knee Shield",
+                "ts": "1:10:53"
+              }
+            ]
+          },
+          "4": {
+            "title": "Knee Shield — Kimuras & Far Arm Attacks",
+            "seriesId": "s1",
+            "chapters": [
+              {
+                "t": "Key Differences: Locking a Kimura (Butterfly Half) vs Knee Shield",
+                "ts": "6:57"
+              },
+              {
+                "t": "Far Arm Drag",
+                "ts": "16:20"
+              },
+              {
+                "t": "Opponent Counters Far Arm Drag with Darce, Enter Knee Lever",
+                "ts": "22:37"
+              },
+              {
+                "t": "Partner Postures Out of Arm Drag, Entering Far Leg Outside Ashi",
+                "ts": "27:19"
+              },
+              {
+                "t": "Extreme Staller — Pumping the Legs to Create Opportunity",
+                "ts": "33:24"
+              }
+            ]
+          },
+          "5": {
+            "title": "Entries From Knee Down Positions",
+            "seriesId": "s1",
+            "chapters": [
+              {
+                "t": "Opponent Puts Far Knee Down Enter the Legs",
+                "ts": "8:21"
+              },
+              {
+                "t": "Opponent Puts Near Knee Down, Force the Far Knee Down",
+                "ts": "14:39"
+              },
+              {
+                "t": "Opponent Puts Near Knee Down, Enter the Near Leg",
+                "ts": "16:47"
+              },
+              {
+                "t": "Near Knee Down Enter Ashi on the Far Leg",
+                "ts": "21:07"
+              },
+              {
+                "t": "Opponent Puts Near Knee Down, Exit Through the Back",
+                "ts": "25:10"
+              },
+              {
+                "t": "Failed Back Attack, Chase the Legs",
+                "ts": "28:55"
+              },
+              {
+                "t": "Countering a Backstep",
+                "ts": "32:25"
+              },
+              {
+                "t": "Sweeping an Opponent Who Steps Over the Head",
+                "ts": "37:47"
+              },
+              {
+                "t": "Entering Deep Half Guard From Outside Foot Position",
+                "ts": "41:51"
+              }
+            ]
+          },
+          "6": {
+            "title": "The Scorpion",
+            "seriesId": "s1",
+            "chapters": [
+              {
+                "t": "Heisting From a Scorpion",
+                "ts": "4:55"
+              },
+              {
+                "t": "Using a Scorpion to Pass the Leg Across",
+                "ts": "8:56"
+              },
+              {
+                "t": "Using a Scoop Grip to Sweep Backwards",
+                "ts": "13:46"
+              },
+              {
+                "t": "Countering Opponent's Underhook",
+                "ts": "18:10"
+              },
+              {
+                "t": "Using an Overwrap to Sweep Forward",
+                "ts": "24:39"
+              },
+              {
+                "t": "The Scorpion / Lower Leg Shift Dilemma",
+                "ts": "29:38"
+              },
+              {
+                "t": "Locking a Scorpion When Opponent Puts Near Knee Down",
+                "ts": "35:10"
+              },
+              {
+                "t": "Returning Opponent's Far Leg to the Floor",
+                "ts": "37:28"
+              },
+              {
+                "t": "Countering a Knee Slip with Hiza Gatame",
+                "ts": "41:14"
+              },
+              {
+                "t": "Countering a Far Hip Knee Slip With an Inside Elbow",
+                "ts": "46:23"
+              },
+              {
+                "t": "The Waiter Sweep Dilemma",
+                "ts": "49:54"
+              },
+              {
+                "t": "Taking the Back When Opponent Steps Over the Head",
+                "ts": "59:17"
+              },
+              {
+                "t": "Back Take / Sweep Dilemma",
+                "ts": "1:08:56"
+              },
+              {
+                "t": "Pommeling a Leg Back Inside From Outside Foot Position",
+                "ts": "1:12:48"
+              },
+              {
+                "t": "Outro",
+                "ts": "1:16:00"
+              }
+            ]
+          },
+          "7": {
+            "title": "Half Guard Rolling",
+            "seriesId": "s2",
+            "chapters": [
+              {
+                "t": "Half Guard Rolling - Drew",
+                "ts": "5:03"
+              },
+              {
+                "t": "Half Guard Rolling - Alex",
+                "ts": "10:02"
+              },
+              {
+                "t": "Half Guard Rolling - Sean",
+                "ts": "15:03"
+              }
+            ]
+          },
+          "8": {
+            "title": "Rolling Commentary",
+            "seriesId": "s2",
+            "chapters": [
+              {
+                "t": "Rolling Commentary - Drew",
+                "ts": "29:54"
+              },
+              {
+                "t": "Rolling Commentary - Alex",
+                "ts": "59:34"
+              },
+              {
+                "t": "Rolling Commentary - Sean",
+                "ts": "1:23:55"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "volUrls": {
+      "aloo:3": "https://www.bilibili.com/video/BV1ni4y137kQ/?spm_id_from=333.337.search-card.all.click",
+      "aloo:4": "https://www.bilibili.com/video/BV1ni4y137kQ/?spm_id_from=333.337.search-card.all.click"
+    },
+    "_lastModified": "2026-06-08T01:17:44.215Z"
   }
 }
