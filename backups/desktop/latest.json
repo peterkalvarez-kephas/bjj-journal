@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "exported": "2026-06-08T00:20:06.654Z",
-  "exportedReadable": "6/7/2026, 5:20:06 PM",
+  "exported": "2026-06-08T01:09:37.837Z",
+  "exportedReadable": "6/7/2026, 6:09:37 PM",
   "device": "desktop",
   "entryCount": 6,
-  "instructionalNoteCount": 42,
+  "instructionalNoteCount": 43,
   "data": {
     "entries": [
       {
@@ -444,6 +444,65 @@
       }
     ],
     "instructionalNotes": [
+      {
+        "id": "1780880970272",
+        "noteType": "move",
+        "seriesName": "The Armlock Obsession — The Armlock Obsession",
+        "instructor": "Dave Camarillo",
+        "volumeNum": 4,
+        "volumeTitle": "Back Attacks",
+        "chapterTitle": "Ch 1: Back - King Shirt Back Attack (0:00)",
+        "name": "Back - King Shirt Back Attack",
+        "goal": "",
+        "concept": "",
+        "details": "Radiar is above your oops elbow line. Here your op has access to your legs but you go t access to the neck. \nStay outside radius of attacl, get hip too hip\nKeep the High ground, this makes opp carry your weight. \nNo knees on the ground",
+        "warning": "1. Careful with the elbow roll over from turtle",
+        "systemId": "turtle",
+        "mode": "off",
+        "startPos": "Turtle Top",
+        "endPos": "",
+        "method": "Submission",
+        "stepsList": [
+          {
+            "text": "from the top turtle transition to hip to hip. stay on the HIGH ground",
+            "concept": "TON SINK YOUR FAR ARM TO DEEP, CAN GET ROLLED",
+            "photo": null
+          },
+          {
+            "text": "From hip to hip you want to monitor your ops far leg, can grab ankle and pull up if they try to escape.",
+            "concept": "keep the high ground here. even if you lose the postion here an op stands up you can go for a single",
+            "photo": null
+          },
+          {
+            "text": "Establish your collar grip. not to deep then curl up to \"check the time\". Pull away and stamp chest to your ops lower back.",
+            "concept": "the chest stamp puts a lot if weight on oops back and make them look away.",
+            "photo": null
+          },
+          {
+            "text": "make your way around your ops back and then post hand on ground to support your weight and drive your knee against the knee",
+            "concept": "",
+            "photo": null
+          },
+          {
+            "text": "As you pull your opp on you, the bottom leg extends and creates a reverse hook.",
+            "concept": "",
+            "photo": null
+          },
+          {
+            "text": "keep other leg pinned agains ops hip. this hook will go in first. when you commit let go of the arm post and fall to the side of the hook.",
+            "concept": "hear you should have an under over grip on one side and the belt line hook.",
+            "photo": null
+          }
+        ],
+        "steps": [],
+        "steps2": [],
+        "bjjPos": "Kings Shirt",
+        "giNoGi": "gi",
+        "updated": 1780880970272,
+        "bundleId": "aloo",
+        "seriesId": "main",
+        "chapterIdx": 0
+      },
       {
         "id": "1780550206019",
         "noteType": "principle",
