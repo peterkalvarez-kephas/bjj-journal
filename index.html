@@ -5410,21 +5410,51 @@ function toggleVoicePanel() {
   chev.textContent = open ? '▸' : '▾';
 }
 
-// Live in-app dictation via Web Speech API (Chrome/Edge/Safari; not Firefox).
+// Live in-app dictation via Web Speech API (desktop Chrome/Edge + Android Chrome).
+// iOS half-supports this API (permission prompt, then silence — especially as an
+// installed PWA), so on iPhone we route to Apple's keyboard dictation instead.
+let _recogWatchdog = null;
+let _recogGotSpeech = false;
+
+function _stopDictation() {
+  clearTimeout(_recogWatchdog); _recogWatchdog = null;
+  _recogActive = false;
+  try { _recog && _recog.abort(); } catch(_) {}
+  _recog = null;
+  const btn = document.getElementById('voice-record-btn');
+  if (btn) { btn.textContent = '🎤 RECORD'; btn.style.background = 'none'; }
+  const st = document.getElementById('voice-status');
+  if (st) st.textContent = '';
+}
+
 function toggleDictation(btn) {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    showToast('Live recording not supported here — tap the box & use your phone keyboard mic, or paste a transcript');
+
+  if (isIOS || !SR) {
+    // Point to the platform's own dictation — it's better than the web API here
+    const ta = document.getElementById('voice-transcript');
+    ta.focus();
+    showToast(isIOS
+      ? 'On iPhone: tap the 🎤 key on your keyboard, then just talk'
+      : 'Tap the box & use your keyboard mic, or paste a transcript');
     return;
   }
-  if (_recogActive) { _recog && _recog.stop(); return; }
+
+  // Second tap = stop. Reset UI immediately — never wait on the recognizer.
+  if (_recogActive) { _stopDictation(); return; }
+
   _recog = new SR();
   _recog.continuous = true;
   _recog.interimResults = true;
   _recog.lang = 'en-US';
+  _recogGotSpeech = false;
   const ta = document.getElementById('voice-transcript');
   let baseline = ta.value ? ta.value.trim() + ' ' : '';
   _recog.onresult = (e) => {
+    _recogGotSpeech = true;
+    clearTimeout(_recogWatchdog);
     let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const t = e.results[i][0].transcript;
@@ -5436,18 +5466,22 @@ function toggleDictation(btn) {
   };
   _recog.onerror = (e) => {
     if (e.error !== 'aborted') showToast('Dictation: ' + e.error);
+    _stopDictation();
   };
-  _recog.onend = () => {
-    _recogActive = false;
-    btn.textContent = '🎤 RECORD';
-    btn.style.background = 'none';
-    document.getElementById('voice-status').textContent = '';
-  };
-  _recog.start();
+  _recog.onend = () => { if (_recogActive) _stopDictation(); };
+  try { _recog.start(); } catch(e) { _stopDictation(); showToast('Mic unavailable — use your keyboard mic instead'); return; }
   _recogActive = true;
   btn.textContent = '⏹ STOP';
   btn.style.background = 'rgba(167,139,250,0.18)';
   document.getElementById('voice-status').textContent = '● listening...';
+  // Watchdog: if the recognizer produces nothing in 8s, it's wedged — bail out
+  // with a useful hint instead of trapping the user in recording state.
+  _recogWatchdog = setTimeout(() => {
+    if (!_recogGotSpeech) {
+      _stopDictation();
+      showToast('Mic isn\'t picking up here — tap the box and use your keyboard\'s 🎤 key instead');
+    }
+  }, 8000);
 }
 
 async function structureVoiceNote() {
