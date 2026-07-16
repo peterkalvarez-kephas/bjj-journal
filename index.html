@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="apple-touch-icon" href="icon-180.png">
 <title>BJJ Journal</title>
+<meta name="description" content="BJJ training journal — log classes by voice, take structured instructional notes, and retain techniques with spaced-repetition flashcards.">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0f0d0b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -65,8 +67,12 @@
   body {
     background: var(--bg); color: var(--text);
     font-family: 'DM Sans', sans-serif; font-size: 14px;
-    display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+    display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden;
+    touch-action: manipulation;                 /* no 300ms tap delay / double-tap zoom */
+    -webkit-tap-highlight-color: transparent;   /* no grey flash on tap */
+    -webkit-text-size-adjust: 100%;
   }
+  #main-scroll { overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; }
   header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 24px; height: 52px; border-bottom: 1px solid var(--border);
@@ -620,6 +626,71 @@
     }
     .lib-sidebar-backdrop.open, .seq-sidebar-backdrop.open { display: block; }
   }
+
+  /* ═══ NATIVE-APP FEEL ON PHONES ═══════════════════════════════════════════ */
+  @media (max-width: 640px) {
+    /* 1. Kill iOS zoom-on-focus: any input under 16px makes Safari lurch-zoom.
+       This is the single biggest "janky webpage" tell. */
+    input, textarea, select { font-size: 16px !important; }
+
+    /* 2. Header: respect the notch, tighten spacing, never overflow */
+    header {
+      padding: 0 10px;
+      padding-top: env(safe-area-inset-top);
+      height: calc(52px + env(safe-area-inset-top));
+      gap: 6px;
+    }
+    .logo { font-size: 16px; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+    .header-actions { gap: 3px; flex-shrink: 0; }
+    .header-actions .btn-ghost { padding: 8px; min-height: 40px; min-width: 40px; }
+    .btn-txt-label { display: none; }   /* icon-only buttons on phone */
+    .theme-switcher { display: none; }  /* niche control — hide on phone, lives on desktop */
+
+    /* 3. Bottom tab bar — the app-store feel */
+    nav {
+      position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+      border-bottom: none; border-top: 1px solid var(--border);
+      padding: 0;
+      padding-bottom: env(safe-area-inset-bottom);
+      z-index: 250;
+      background: var(--surface);
+    }
+    .nav-tab { flex: 1; text-align: center; padding: 14px 2px; font-size: 10px; letter-spacing: 0.5px; border-bottom: none; border-top: 2px solid transparent; }
+    .nav-tab.active { border-bottom-color: transparent; border-top-color: var(--accent); }
+    .nav-overflow-wrap { margin-left: 0; flex: 0 0 52px; }
+    .nav-overflow-btn { padding: 0; width: 100%; justify-content: center; border-bottom: none; border-top: 2px solid transparent; }
+    .nav-overflow-btn.has-active { border-bottom-color: transparent; border-top-color: var(--accent); }
+    .nav-overflow-menu { top: auto; bottom: calc(100% + 4px); right: 6px; }
+    #nav-overflow-label { display: none; }
+
+    /* 4. Content: clear the bottom bar + breathe less on the sides */
+    #main-scroll { padding: 14px 12px calc(80px + env(safe-area-inset-bottom)); }
+    #view-game, #view-instructionals, #view-debrief { padding: 14px 12px calc(90px + env(safe-area-inset-bottom)) !important; }
+
+    /* 5. Full-screen overlay views: sit between header and bottom bar */
+    #view-map, #view-seq, #view-library {
+      top: calc(52px + env(safe-area-inset-top));
+      bottom: calc(46px + env(safe-area-inset-bottom));
+    }
+
+    /* 6. Forms: one field per row — no more squished 3-across */
+    .form-row { flex-direction: column; gap: 10px; }
+    .form-row .form-field { width: 100%; }
+
+    /* 7. Touch targets: thumbs, not cursors */
+    .btn-primary, .btn-ghost, .type-btn, .add-technique-btn, .add-step-btn,
+    .tc-expand-btn, .gas-btn, .debrief-add-btn { min-height: 44px; }
+    .step-photo-btn { width: 42px; height: 42px; }
+    .step-remove { min-width: 40px; min-height: 40px; }
+
+    /* 8. Modals: native bottom-sheet look */
+    .modal-sheet {
+      width: 100% !important; max-width: 100% !important;
+      max-height: 90dvh; overflow-y: auto;
+      border-radius: 16px 16px 0 0 !important;
+      padding-bottom: calc(18px + env(safe-area-inset-bottom)) !important;
+    }
+  }
   .outcome-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
   .outcome-col-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
   .outcome-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 10px; border: 1px solid; margin: 2px 2px 2px 0; }
@@ -692,7 +763,7 @@
       <button class="theme-dot" data-t="midnight" style="background:#4da6ff" onclick="setTheme('midnight')"></button>
       <button class="theme-dot" data-t="dojo" style="background:#52c987" onclick="setTheme('dojo')"></button>
     </div>
-    <button class="btn-ghost" onclick="openQuickCapture()" title="Quick capture a technique (⚡)" style="font-size:12px;padding:5px 10px;letter-spacing:0.5px">⚡ QUICK</button>
+    <button class="btn-ghost" onclick="openQuickCapture()" title="Quick capture a technique (⚡)" style="font-size:12px;padding:5px 10px;letter-spacing:0.5px">⚡<span class="btn-txt-label"> QUICK</span></button>
     <button class="btn-ghost" onclick="openGlobalSearch()" title="Global search (Ctrl+K)" style="font-size:15px;padding:5px 10px;">🔍</button>
     <button class="btn-ghost" id="sync-btn" onclick="manualSync()" title="Sync with cloud (phone ↔ desktop)" style="font-size:15px;padding:5px 10px;">⟳</button>
     <button class="btn-ghost" onclick="openSettings()" title="GitHub settings" style="font-size:15px;padding:5px 10px;">⚙</button>
@@ -1781,6 +1852,9 @@ const FAMILY_MAP_GROUP = {
 function esc(s) { const d=document.createElement('div'); d.textContent=s??''; return d.innerHTML; }
 // Escape JSON-encoded values for safe inclusion inside an HTML attribute (replaces " with &quot;)
 function attr(v) { return JSON.stringify(v).replace(/"/g,'&quot;'); }
+// Sanitize a user-supplied URL for use in href: http(s) only, attribute-escaped.
+// Blocks javascript:/data: URLs — matters once bundles/URLs sync across devices.
+function safeHref(u) { return /^https?:\/\//i.test(u||'') ? esc(u) : ''; }
 
 let state = { entries: [], drilled: [], principles: [] };
 let editingId = null;
@@ -4343,7 +4417,7 @@ function renderLibPanel(posName) {
       <div class="lib-note-text">${esc(n.text)}</div>
       <div class="lib-note-meta">
         <span style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color}">${meta.icon} ${meta.label}</span>
-        ${n.source&&n.source.url?`<a class="lib-note-video" href="${esc(n.source.url)}" target="_blank">▶ ${esc(n.source.instructor||'video')}</a>`:''}
+        ${n.source&&safeHref(n.source.url)?`<a class="lib-note-video" href="${safeHref(n.source.url)}" target="_blank" rel="noopener">▶ ${esc(n.source.instructor||'video')}</a>`:''}
         ${n.source&&n.source.instructor&&!n.source.url?`<span class="lib-note-source">↳ ${esc(n.source.instructor)}</span>`:''}
         ${n.sourceLabel&&!n.source?`<span class="lib-note-source">↳ ${esc(n.sourceLabel)}${n.sourceDate?' · '+esc(n.sourceDate):''}</span>`:''}
         ${n.fromEntry?`<span class="lib-note-badge">FROM ENTRY</span>`:`<button class="lib-note-del" onclick="deletePositionNote('${posNameSafe}','${idSafe}')">remove</button>`}
@@ -5923,7 +5997,19 @@ async function _fetchSyncFile() {
     if (r.status === 404) return { state: null, sha: null };
     if (!r.ok) return null;
     const j = await r.json();
-    const decoded = decodeURIComponent(escape(atob((j.content || '').replace(/\n/g, ''))));
+    let decoded;
+    if (j.content) {
+      decoded = decodeURIComponent(escape(atob(j.content.replace(/\n/g, ''))));
+    } else if (j.size > 0) {
+      // Files >1MB: contents API omits content — re-fetch raw (sha still valid from j)
+      const rawRes = await fetch(`${base}/contents/${SYNC_PATH}?_=${Date.now()}`, {
+        headers: { ...ghHeaders(), 'Accept': 'application/vnd.github.raw' }
+      });
+      if (!rawRes.ok) return null;
+      decoded = await rawRes.text();
+    } else {
+      return { state: null, sha: j.sha };
+    }
     const payload = JSON.parse(decoded);
     return { state: payload.data || payload, sha: j.sha };
   } catch (_) { return null; }
@@ -5938,9 +6024,11 @@ async function pullSyncFromGitHub(opts = {}) {
   const localTs  = state._lastModified || '';
   if (remoteTs > localTs) {
     _adoptRemoteState(remote.state);
+    _markSynced();
     showToast('✓ Pulled newer data from cloud');
     return true;
   }
+  _markSynced();
   if (!opts.silent) showToast('✓ Already up to date');
   return false;
 }
@@ -5974,10 +6062,28 @@ async function pushSyncToGitHub() {
       res = await fetch(`${base}/contents/${SYNC_PATH}`, { method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body2) });
     }
     if (res.status === 401) showToast('Sync failed — GitHub token expired. Update in ⚙ Settings');
+    if (res.ok) _markSynced();
     return res.ok;
   } catch (_) { return false; }
   finally { _syncInProgress = false; }
 }
+
+// Sync indicator — green dot on the ⟳ button when recently synced
+function _markSynced() {
+  localStorage.setItem('bjj_last_sync', new Date().toISOString());
+  _updateSyncIndicator();
+}
+function _updateSyncIndicator() {
+  const btn = document.getElementById('sync-btn');
+  if (!btn) return;
+  const last = localStorage.getItem('bjj_last_sync');
+  if (!last) { btn.title = 'Sync with cloud (never synced on this device)'; return; }
+  const mins = Math.floor((Date.now() - new Date(last).getTime()) / 60000);
+  const ago = mins < 1 ? 'just now' : mins < 60 ? mins + 'm ago' : Math.floor(mins/60) + 'h ago';
+  btn.title = 'Last synced ' + ago;
+  btn.style.color = mins < 15 ? '#34d399' : '';
+}
+setInterval(_updateSyncIndicator, 60000);
 
 // Manual sync button — pull newer, then push ours up.
 async function manualSync() {
@@ -6269,6 +6375,7 @@ checkNewDevice();
 // Lets phone ↔ desktop stay in step. Runs after the local-server check so the
 // freshest of (localStorage, local server, cloud) wins. Silent on no-op.
 (async function _syncWithGitHubOnOpen() {
+  _updateSyncIndicator();
   if (!ghConfigured()) return;
   try { await pullSyncFromGitHub({ silent: true }); } catch(_) {}
 })();
@@ -7159,7 +7266,7 @@ function instChRowHTML(bundle, volNum, chIdx) {
       ${_instChevron(exp)}
       <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);font-weight:700;min-width:20px">${String(chIdx+1).padStart(2,'0')}</span>
       <span style="flex:1;font-size:12px;color:var(--text)">${esc(ch.t)}</span>
-      ${(()=>{const url=(state.volUrls||{})[bundle.id+':'+volNum]||(state.bundleUrls||{})[bundle.id];if(!url)return`<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${esc(ch.ts)}</span>`;const sec=tsToSec(ch.ts);const tUrl=url+(url.includes('?')?'&':'?')+'t='+sec;return`<a href="${tUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);text-decoration:none" title="Open video at ${esc(ch.ts)}">▶ ${esc(ch.ts)}</a>`;})()}
+      ${(()=>{const url=(state.volUrls||{})[bundle.id+':'+volNum]||(state.bundleUrls||{})[bundle.id];if(!url)return`<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${esc(ch.ts)}</span>`;const sec=tsToSec(ch.ts);const tUrl=safeHref(url+(url.includes('?')?'&':'?')+'t='+sec);if(!tUrl)return`<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${esc(ch.ts)}</span>`;return`<a href="${tUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);text-decoration:none" title="Open video at ${esc(ch.ts)}">▶ ${esc(ch.ts)}</a>`;})()}
       ${cnt?`<span style="font-family:'DM Mono',monospace;font-size:10px;color:#34d399;font-weight:700;margin-left:6px">${cnt} ✓</span>`
            :watched?`<span style="font-family:'DM Mono',monospace;font-size:9px;color:#34d399;margin-left:6px">👁</span>`
            :`<span style="width:7px;height:7px;border-radius:50%;background:var(--border);display:inline-block;margin-left:6px;flex-shrink:0"></span>`}
