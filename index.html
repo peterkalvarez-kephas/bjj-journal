@@ -1590,7 +1590,8 @@
     <!-- ── AI SETTINGS ──────────────────────────────────────────────────── -->
     <hr class="modal-divider" style="margin-top:20px">
     <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#a78bfa;margin-bottom:4px">✨ AI Assistant</div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5">Connect an AI to polish raw notes, fill missing fields, and clean up gym scribbles. Your notes stay private — only the specific note you click Refine on is ever sent.</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5">Connect an AI to polish raw notes, fill missing fields, and clean up gym scribbles. Your notes stay private — only the specific note you click Refine on is ever sent.</div>
+    <div id="ai-usage-line" style="font-family:'DM Mono',monospace;font-size:10px;color:#a78bfa;background:rgba(167,139,250,0.07);border:1px solid #a78bfa33;border-radius:var(--radius);padding:8px 12px;margin-bottom:14px"></div>
     <div class="modal-field">
       <label>Provider</label>
       <select id="ai-provider" onchange="toggleAiKeyField()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;width:100%">
@@ -2281,7 +2282,7 @@ function tcToggle(id, section) {
   if (!el || !btn) return;
   const open = el.style.display !== 'none';
   el.style.display = open ? 'none' : 'block';
-  const labels = { steps: ['+ ADD STEPS', '− STEPS'], details: ['+ DETAILS', '− DETAILS'], principle: ['+ RULE', '− RULE'] };
+  const labels = { steps: ['+ ADD STEPS', '− STEPS'], details: ['+ MORE', '− MORE'], principle: ['+ RULE', '− RULE'] };
   btn.textContent = open ? labels[section][0] : labels[section][1];
   // If opening steps section and empty, add first step
   if (!open && section === 'steps') {
@@ -2312,7 +2313,7 @@ function addTechniqueField(data) {
   const div = document.createElement('div');
   div.className = 'technique-card'; div.id = 'tech-'+id;
   const hasSteps = !!(data?.stepsList?.length || (data?.steps && data.steps.trim()) || data?.links?.length);
-  const hasDetails = !!(data?.position||data?.startPos||data?.endPos||data?.method||(data?.gi&&data?.gi!=='gi'));
+  const hasDetails = !!(data?.method||data?.concept);
   const hasPrinciple = !!(data?.principle);
   div.innerHTML = `
     <div class="technique-card-header">
@@ -2337,11 +2338,31 @@ function addTechniqueField(data) {
       <input type="hidden" id="tsys-${id}" value="${esc(data?.systemId||'')}">
       <input type="hidden" id="tmode-${id}" value="${esc(data?.mode||'off')}">
     </div>
-    <div style="margin-bottom:10px">
-      <input type="text" id="tconcept-${id}" placeholder="Concept — why it works..."
-        value="${esc(data?.concept||'')}"
-        style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.15s"
-        onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:8px">
+      <div class="gi-toggle" id="gi-toggle-${id}" style="flex-shrink:0">
+        <button type="button" class="gi-btn${(data?.gi||'gi')==='gi'?' active':''}" data-gi="gi" onclick="setGi(${id},'gi')">GI</button>
+        <button type="button" class="gi-btn${(data?.gi||'gi')==='nogi'?' active':''}" data-gi="nogi" onclick="setGi(${id},'nogi')">NO-GI</button>
+        <button type="button" class="gi-btn${(data?.gi==='both')?' active':''}" data-gi="both" onclick="setGi(${id},'both')">BOTH</button>
+      </div>
+      <input type="hidden" id="tgi-${id}" value="${data?.gi||'gi'}">
+      <div style="position:relative;flex:1;min-width:130px">
+        <input type="text" id="tpos-${id}" placeholder="Position (e.g. Half Guard)..." value="${esc(data?.position||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 9px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
+          oninput="ifSuggest('tpos-${id}','tcsg-pos-${id}','pos')" onfocus="ifSuggest('tpos-${id}','tcsg-pos-${id}','pos')" onblur="setTimeout(()=>ifHideSuggest('tcsg-pos-${id}'),200)">
+        <div class="suggest-list" id="tcsg-pos-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:10px">
+      <div style="position:relative;flex:1;min-width:110px">
+        <input type="text" id="tstart-${id}" placeholder="Starts from..." value="${esc(data?.startPos||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 9px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
+          oninput="ifSuggest('tstart-${id}','tcsg-start-${id}','pos')" onfocus="ifSuggest('tstart-${id}','tcsg-start-${id}','pos')" onblur="setTimeout(()=>ifHideSuggest('tcsg-start-${id}'),200)">
+        <div class="suggest-list" id="tcsg-start-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
+      </div>
+      <span style="color:var(--muted);font-size:12px;flex-shrink:0">→</span>
+      <div style="position:relative;flex:1;min-width:110px">
+        <input type="text" id="tend-${id}" placeholder="Ends in..." value="${esc(data?.endPos||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 9px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
+          oninput="ifSuggest('tend-${id}','tcsg-end-${id}','pos')" onfocus="ifSuggest('tend-${id}','tcsg-end-${id}','pos')" onblur="setTimeout(()=>ifHideSuggest('tcsg-end-${id}'),200)">
+        <div class="suggest-list" id="tcsg-end-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
+      </div>
     </div>
     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
       <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px;flex-shrink:0">CONFIDENCE</span>
@@ -2356,7 +2377,7 @@ function addTechniqueField(data) {
         ${hasSteps ? '− STEPS' : '+ ADD STEPS'}
       </button>
       <button type="button" class="tc-expand-btn" id="details-btn-${id}" onclick="tcToggle(${id},'details')">
-        ${hasDetails ? '− DETAILS' : '+ DETAILS'}
+        ${hasDetails ? '− MORE' : '+ MORE'}
       </button>
       <button type="button" class="tc-expand-btn" id="principle-btn-${id}" onclick="tcToggle(${id},'principle')" style="border-color:#4da6ff55;color:#4da6ff88">
         ${hasPrinciple ? '− RULE' : '+ RULE'}
@@ -2375,34 +2396,16 @@ function addTechniqueField(data) {
       <div class="links-container" id="tlinks-${id}"></div>
     </div>
     <div id="details-section-${id}" style="display:${hasDetails?'block':'none'};margin-top:6px">
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
-        <div class="gi-toggle" id="gi-toggle-${id}" style="flex-shrink:0">
-          <button type="button" class="gi-btn${(data?.gi||'gi')==='gi'?' active':''}" data-gi="gi" onclick="setGi(${id},'gi')">GI</button>
-          <button type="button" class="gi-btn${(data?.gi||'gi')==='nogi'?' active':''}" data-gi="nogi" onclick="setGi(${id},'nogi')">NO-GI</button>
-          <button type="button" class="gi-btn${(data?.gi==='both')?' active':''}" data-gi="both" onclick="setGi(${id},'both')">BOTH</button>
-        </div>
-        <input type="hidden" id="tgi-${id}" value="${data?.gi||'gi'}">
-        <div style="position:relative;flex:1;min-width:100px">
-          <input type="text" id="tpos-${id}" placeholder="Position..." value="${esc(data?.position||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
-            oninput="ifSuggest('tpos-${id}','tcsg-pos-${id}','pos')" onfocus="ifSuggest('tpos-${id}','tcsg-pos-${id}','pos')" onblur="setTimeout(()=>ifHideSuggest('tcsg-pos-${id}'),200)">
-          <div class="suggest-list" id="tcsg-pos-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
-        </div>
+      <div style="margin-bottom:6px">
+        <input type="text" id="tconcept-${id}" placeholder="Concept — why it works... (optional)"
+          value="${esc(data?.concept||'')}"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.15s"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
       </div>
-      <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
-        <div style="position:relative;flex:1;min-width:80px">
-          <input type="text" id="tstart-${id}" placeholder="Start pos..." value="${esc(data?.startPos||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
-            oninput="ifSuggest('tstart-${id}','tcsg-start-${id}','pos')" onfocus="ifSuggest('tstart-${id}','tcsg-start-${id}','pos')" onblur="setTimeout(()=>ifHideSuggest('tcsg-start-${id}'),200)">
-          <div class="suggest-list" id="tcsg-start-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
-        </div>
-        <span style="color:var(--muted);font-size:12px;flex-shrink:0">→</span>
-        <div style="position:relative;flex:1;min-width:80px">
-          <input type="text" id="tend-${id}" placeholder="End pos..." value="${esc(data?.endPos||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
-            oninput="ifSuggest('tend-${id}','tcsg-end-${id}','pos')" onfocus="ifSuggest('tend-${id}','tcsg-end-${id}','pos')" onblur="setTimeout(()=>ifHideSuggest('tcsg-end-${id}'),200)">
-          <div class="suggest-list" id="tcsg-end-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
-        </div>
-        <span style="color:var(--muted);font-size:12px;flex-shrink:0">·</span>
-        <div style="position:relative;flex:1;min-width:80px">
-          <input type="text" id="tmethod-${id}" placeholder="Method..." value="${esc(data?.method||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.5px;flex-shrink:0">METHOD</span>
+        <div style="position:relative;flex:1;min-width:100px">
+          <input type="text" id="tmethod-${id}" placeholder="Sweep / Submission / Pass / Escape..." value="${esc(data?.method||'')}" autocomplete="off" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:12px;outline:none"
             oninput="ifSuggest('tmethod-${id}','tcsg-method-${id}','method')" onfocus="ifSuggest('tmethod-${id}','tcsg-method-${id}','method')" onblur="setTimeout(()=>ifHideSuggest('tcsg-method-${id}'),200)">
           <div class="suggest-list" id="tcsg-method-${id}" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:999;max-height:140px;overflow-y:auto"></div>
         </div>
@@ -5345,6 +5348,41 @@ function aiConfigured() {
   return !!(s.aiKey);
 }
 
+// ── AI usage tracking — monthly tally of calls / tokens / estimated cost ──────
+const AI_USAGE_KEY = 'bjj_ai_usage_v1';
+function _aiPricePerM(model) {
+  // [input, output] $ per million tokens — estimates, update if pricing changes
+  const m = (model || '').toLowerCase();
+  if (m.includes('opus'))        return [5, 25];
+  if (m.includes('sonnet'))      return [3, 15];
+  if (m.includes('haiku'))       return [1, 5];
+  if (m.includes('gpt-4o-mini')) return [0.15, 0.60];
+  if (m.includes('gpt'))         return [2.5, 10];
+  return [0, 0]; // ollama / local = free
+}
+function _trackAiUsage(inTok, outTok, model) {
+  try {
+    const month = new Date().toISOString().slice(0, 7); // resets each calendar month
+    let u = {};
+    try { u = JSON.parse(localStorage.getItem(AI_USAGE_KEY) || '{}'); } catch(_) {}
+    if (u.month !== month) u = { month, calls: 0, inTok: 0, outTok: 0, cost: 0 };
+    const [pi, po] = _aiPricePerM(model);
+    u.calls++;
+    u.inTok  += (inTok  || 0);
+    u.outTok += (outTok || 0);
+    u.cost   += ((inTok || 0) * pi + (outTok || 0) * po) / 1e6;
+    localStorage.setItem(AI_USAGE_KEY, JSON.stringify(u));
+  } catch(_) {}
+}
+function aiUsageSummary() {
+  try {
+    const u = JSON.parse(localStorage.getItem(AI_USAGE_KEY) || '{}');
+    if (!u.calls) return 'No AI calls yet this month';
+    const cost = u.cost < 0.005 ? 'under 1¢' : '$' + u.cost.toFixed(2);
+    return `${u.calls} call${u.calls > 1 ? 's' : ''} this month · ~${cost} est. · ${Math.round((u.inTok + u.outTok) / 1000)}K tokens`;
+  } catch(_) { return ''; }
+}
+
 // Core AI call — routes to Claude, OpenAI, or Ollama
 async function aiComplete(userPrompt, systemPrompt = '') {
   const s = aiSettings();
@@ -5360,6 +5398,7 @@ async function aiComplete(userPrompt, systemPrompt = '') {
     });
     if (!res.ok) { const t=await res.text(); throw new Error(`Claude ${res.status}: ${t.slice(0,120)}`); }
     const j = await res.json();
+    _trackAiUsage(j.usage?.input_tokens, j.usage?.output_tokens, model);
     return j.content[0].text;
   }
 
@@ -5372,6 +5411,7 @@ async function aiComplete(userPrompt, systemPrompt = '') {
     });
     if (!res.ok) { const t=await res.text(); throw new Error(`OpenAI ${res.status}: ${t.slice(0,120)}`); }
     const j = await res.json();
+    _trackAiUsage(j.usage?.prompt_tokens, j.usage?.completion_tokens, model);
     return j.choices[0].message.content;
   }
 
@@ -5490,8 +5530,8 @@ async function structureVoiceNote() {
   if (!aiConfigured()) { showToast('⚠ Set up AI first — Settings → ✨ AI Assistant'); openSettings(); return; }
   if (_recogActive) { _recog && _recog.stop(); }
 
-  const system = `You are a BJJ coach turning a student's rough spoken recap of a class into clean, structured training notes. Use proper BJJ terminology. Only use information actually in the transcript — never invent technique details or steps that weren't mentioned.`;
-  const prompt = `The student dictated this after class (raw speech-to-text — may ramble, repeat, or be out of order):\n\n"""${raw}"""\n\nExtract each distinct technique or concept they described. Return ONLY valid JSON — no markdown:\n{\n  "summary": "one or two sentence recap of the whole session",\n  "techniques": [\n    {\n      "name": "concise technique name",\n      "position": "starting position or family, e.g. Half Guard (empty string if unclear)",\n      "mode": "off" or "def",\n      "concept": "the key principle / why it works (1-2 sentences, empty string if none given)",\n      "steps": ["step 1", "step 2"]\n    }\n  ]\n}`;
+  const system = `You are a BJJ coach turning a student's rough spoken recap of a class into clean, structured training notes. Use proper BJJ terminology. Never invent technique details or steps that weren't mentioned — but when the student clearly describes a known technique without naming it, DO identify it by its standard BJJ name (e.g. "that sweep where you grab the ankle and drive forward" → "Ankle Pick Sweep").`;
+  const prompt = `The student dictated this after class (raw speech-to-text — may ramble, repeat, or be out of order):\n\n"""${raw}"""\n\nExtract each distinct technique or concept they described. Return ONLY valid JSON — no markdown:\n{\n  "summary": "one or two sentence recap of the whole session",\n  "techniques": [\n    {\n      "name": "the standard BJJ name for what was described — supply it even if the student didn't say it",\n      "position": "starting position or family, e.g. Half Guard (empty string if unclear)",\n      "mode": "off" or "def",\n      "concept": "the key principle / why it works (1-2 sentences, empty string if none given)",\n      "steps": ["step 1", "step 2"]\n    }\n  ]\n}`;
 
   const status = document.getElementById('voice-status');
   status.textContent = '✨ structuring...';
@@ -5815,6 +5855,8 @@ function openSettings() {
   const aiSaveBtn = document.getElementById('ai-save-btn');
   if (aiSaveBtn) { aiSaveBtn.disabled = aiFromConfig; aiSaveBtn.style.opacity = aiFromConfig?'0.4':'1'; }
   document.getElementById('ai-status').style.display = 'none';
+  const usageLine = document.getElementById('ai-usage-line');
+  if (usageLine) usageLine.textContent = '📊 ' + aiUsageSummary();
   toggleAiKeyField();
   document.getElementById('settings-modal').classList.add('open');
 }
