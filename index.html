@@ -690,6 +690,10 @@
       border-radius: 16px 16px 0 0 !important;
       padding-bottom: calc(18px + env(safe-area-inset-bottom)) !important;
     }
+
+    /* 9. Instructional note form: stack columns, one thing at a time */
+    .inst-two-col { grid-template-columns: 1fr !important; }
+    .inst-steps-flow { grid-template-columns: 1fr !important; }
   }
   .outcome-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; }
   .outcome-col-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
@@ -771,27 +775,33 @@
 </header>
 
 <nav>
-  <button class="nav-tab nav-primary active" onclick="switchView('log',this)">LOG</button>
-  <button class="nav-tab nav-primary" onclick="switchView('instructionals',this)">INSTRUCTIONALS</button>
-  <button class="nav-tab nav-primary" onclick="switchView('game',this)">MY GAME</button>
-  <button class="nav-tab nav-primary" onclick="switchView('debrief',this)">DEBRIEF</button>
+  <button class="nav-tab nav-primary active" onclick="switchView('today',this)">TODAY</button>
+  <button class="nav-tab nav-primary" onclick="switchView('log',this)">LOG</button>
+  <button class="nav-tab nav-primary" onclick="switchView('instructionals',this)">STUDY</button>
+  <button class="nav-tab nav-primary" onclick="switchView('flash',this)">REVIEW <span class="badge" id="due-badge" style="display:none">0</span></button>
   <div class="nav-overflow-wrap">
     <button class="nav-overflow-btn" id="nav-overflow-btn" onclick="toggleOverflow(event)" title="More views">···<span id="nav-overflow-label" style="font-size:10px;letter-spacing:0.5px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span></button>
     <div class="nav-overflow-menu" id="nav-overflow-menu">
+      <button class="nav-tab nav-overflow-item" onclick="switchView('game',this);closeOverflow()">MY GAME</button>
+      <button class="nav-tab nav-overflow-item" onclick="switchView('debrief',this);closeOverflow()">DEBRIEF</button>
       <button class="nav-tab nav-overflow-item" onclick="switchView('timeline',this);closeOverflow()">TIMELINE</button>
       <button class="nav-tab nav-overflow-item" onclick="switchView('stats',this);closeOverflow()">STATS</button>
       <button class="nav-tab nav-overflow-item" onclick="switchView('map',this);closeOverflow()">MIND MAP</button>
       <button class="nav-tab nav-overflow-item" onclick="switchView('seq',this);closeOverflow()">SEQUENCES</button>
       <button class="nav-tab nav-overflow-item" onclick="switchView('library',this);closeOverflow()">LIBRARY</button>
-      <button class="nav-tab nav-overflow-item" onclick="switchView('flash',this);closeOverflow()">FLASHCARDS</button>
       <button class="nav-tab nav-overflow-item" onclick="switchView('drill',this);closeOverflow()">DRILL LIST <span class="badge" id="drill-badge" style="display:none">0</span></button>
     </div>
   </div>
 </nav>
 
 <div id="main-scroll">
+  <!-- TODAY — home screen: the daily ask -->
+  <div class="view active" id="view-today">
+    <div id="today-content" style="max-width:640px;margin:0 auto"></div>
+  </div>
+
   <!-- LOG -->
-  <div class="view active" id="view-log">
+  <div class="view" id="view-log">
     <div class="edit-banner" id="edit-banner">
       <span id="edit-banner-text">EDITING ENTRY</span>
       <button class="btn-ghost" onclick="cancelEdit()" style="font-size:10px;padding:4px 10px">✕ CANCEL EDIT</button>
@@ -990,7 +1000,7 @@
         <option value="">All Techniques</option><option value="drill">Drill List Only</option>
       </select>
       <label style="display:flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:10px;color:var(--label);cursor:pointer">
-        <input type="checkbox" id="fc-include-inst" onchange="initFlashcards()"> INCLUDE INST. NOTES
+        <input type="checkbox" id="fc-include-inst" checked onchange="initFlashcards()"> INCLUDE INST. NOTES
       </label>
       <label style="display:flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:10px;color:var(--label);cursor:pointer">
         <input type="checkbox" id="fc-due-only" onchange="initFlashcards()"> DUE ONLY
@@ -1092,8 +1102,13 @@
       <button onclick="closeInstructionalFormGuarded()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1" title="Close">×</button>
     </div>
 
-    <!-- SOURCE STRIP (compact, full-width) -->
-    <div class="inst-source-strip" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;display:grid;grid-template-columns:2fr 1fr 56px 2fr 2fr;gap:8px;align-items:end">
+    <!-- SOURCE SUMMARY — one line when context is known (the 95% case) -->
+    <div id="if-source-summary" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;margin-bottom:14px;align-items:center;gap:8px">
+      <span id="if-source-summary-text" style="flex:1;min-width:0;font-size:12px;color:var(--label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">📀</span>
+      <button type="button" onclick="toggleInstSourceEdit()" style="background:none;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.5px;cursor:pointer;flex-shrink:0">EDIT</button>
+    </div>
+    <!-- SOURCE STRIP (full fields — standalone notes, or after tapping EDIT) -->
+    <div class="inst-source-strip" id="if-source-strip" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;display:grid;grid-template-columns:2fr 1fr 56px 2fr 2fr;gap:8px;align-items:end">
       <div class="form-field" style="margin:0"><label>Series</label><input type="text" id="if-series" placeholder="e.g. Going First Family" list="if-series-list" autocomplete="off"><datalist id="if-series-list"></datalist></div>
       <div class="form-field" style="margin:0"><label>Instructor</label><input type="text" id="if-instructor" placeholder="Danaher" list="if-instructor-list" autocomplete="off"><datalist id="if-instructor-list"></datalist></div>
       <div class="form-field" style="margin:0"><label>Vol #</label><input type="text" id="if-volnum" placeholder="7"></div>
@@ -1102,7 +1117,7 @@
     </div>
 
     <!-- TWO-COLUMN MAIN BODY -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+    <div class="inst-two-col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
 
       <!-- LEFT: Note identity -->
       <div style="display:flex;flex-direction:column;gap:10px">
@@ -1154,7 +1169,7 @@
         <span id="if-steps-toggle-btn" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">+ ADD STEPS</span>
       </div>
       <div id="if-steps-section" style="display:none;padding:0 14px 14px">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+        <div class="inst-steps-flow" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
           <div class="form-field" style="margin:0"><label>Start Position</label>
             <div style="position:relative">
               <input type="text" id="if-startpos" placeholder="Type or pick..." autocomplete="off"
@@ -1642,6 +1657,20 @@
   </div>
 </div>
 
+<!-- POST-SAVE MOMENT — logging should feel like progress -->
+<div class="modal-overlay" id="post-save-modal">
+  <div class="modal-sheet" style="max-width:400px;text-align:center">
+    <div style="font-size:44px;margin-bottom:6px">🥋</div>
+    <div class="modal-title" style="font-size:20px;margin-bottom:4px">SESSION LOGGED</div>
+    <div id="psm-summary" style="font-size:13px;color:var(--label);margin-bottom:4px"></div>
+    <div id="psm-streak" style="font-family:'DM Mono',monospace;font-size:11px;color:#ff9f4a;letter-spacing:1px;margin-bottom:18px"></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn-primary" id="psm-review-btn" onclick="closePostSaveMoment(true)" style="font-size:12px;padding:12px"></button>
+      <button class="btn-ghost" onclick="closePostSaveMoment(false)" style="font-size:11px;padding:10px">DONE</button>
+    </div>
+  </div>
+</div>
+
 <!-- NEW DEVICE SETUP MODAL -->
 <div class="modal-overlay" id="new-device-modal">
   <div class="modal-sheet" style="max-width:480px;text-align:center">
@@ -1985,8 +2014,9 @@ function save() {
     const bytes = new Blob([localStorage.getItem(STORAGE_KEY)||'']).size;
     if (bytes > 3 * 1024 * 1024) showToast('⚠ Storage over 3MB — export a backup soon');
   } catch(_) {}
-  if ('requestIdleCallback' in window) requestIdleCallback(updateDrillBadge);
-  else updateDrillBadge();
+  const _badges = () => { updateDrillBadge(); updateDueBadge(); };
+  if ('requestIdleCallback' in window) requestIdleCallback(_badges);
+  else _badges();
   // Sync to local server file (bridges file:// ↔ localhost — fire and forget)
   clearTimeout(_serverSyncTimer);
   _serverSyncTimer = setTimeout(() => {
@@ -2025,6 +2055,7 @@ function switchView(name, btn) {
     if (overflowLabel) overflowLabel.textContent = isOverflow ? ' · ' + btn.textContent.trim().replace(/\s*\d+\s*$/, '') : '';
   }
   document.getElementById('main-scroll').style.display = (name === 'map' || name === 'seq' || name === 'library' || name === 'instructionals' || name === 'debrief') ? 'none' : '';
+  if (name === 'today') renderToday();
   if (name === 'log') refreshSharedPools();
   if (name === 'timeline') renderTimeline();
   if (name === 'drill') renderDrillList();
@@ -2681,7 +2712,7 @@ function saveEntry() {
     switchView('timeline', document.querySelector('.nav-tab[onclick*="\'timeline\'"]'));
   } else {
     state.entries.unshift(entry);
-    save(); clearForm(); showToast(`✓ ${techniques.length} technique${techniques.length!==1?'s':''} saved`);
+    save(); clearForm(); showPostSaveMoment(techniques.length);
     switchView('timeline', document.querySelector('.nav-tab[onclick*="\'timeline\'"]'));
   }
 }
@@ -3430,6 +3461,141 @@ function updatePrinciple(sysId) {
 
 // ─── SM-2 helpers ───────────────────────────────────────────────────────────
 function _srToday() { return new Date().toISOString().slice(0,10); }
+
+// ─── TODAY HOME SCREEN ───────────────────────────────────────────────────────
+// Counts cards ready to review: never-rated (new) + due-by-date, across both
+// log techniques and instructional move notes. Mirrors initFlashcards' pool.
+function computeDueCards() {
+  const today = _srToday();
+  let due = 0, fresh = 0;
+  state.entries.forEach(e => (e.techniques || []).forEach((t, ti) => {
+    if (!t.name) return;
+    const sr = (state.srData || {})[e.id + '_' + ti];
+    if (!sr || !sr.reviewCount) fresh++;
+    else if ((sr.dueDate || '') <= today) due++;
+  }));
+  (state.instructionalNotes || []).forEach(n => {
+    if (n.noteType !== 'move' || !n.name) return;
+    const sr = (state.srData || {})['inst_' + n.id];
+    if (!sr || !sr.reviewCount) fresh++;
+    else if ((sr.dueDate || '') <= today) due++;
+  });
+  return { due, fresh, total: due + fresh };
+}
+
+// Streak = consecutive days (ending today or yesterday) with ANY activity:
+// a log entry, a debrief, an instructional note, or a flashcard review.
+function computeStreak() {
+  const days = new Set();
+  state.entries.forEach(e => { if (e.date) days.add(e.date); });
+  (state.debriefs || []).forEach(d => { if (d.date) days.add(d.date); });
+  (state.instructionalNotes || []).forEach(n => {
+    const t = n.updated || parseInt(n.id, 10);
+    if (t) days.add(new Date(t).toISOString().slice(0, 10));
+  });
+  Object.values(state.srData || {}).forEach(s => {
+    if (s.lastReviewed) days.add(String(s.lastReviewed).slice(0, 10));
+  });
+  let streak = 0;
+  const d = new Date();
+  if (!days.has(d.toISOString().slice(0, 10))) d.setDate(d.getDate() - 1); // today still open
+  while (days.has(d.toISOString().slice(0, 10))) { streak++; d.setDate(d.getDate() - 1); }
+  return streak;
+}
+
+// Navigate + set the right nav tab active (for programmatic view changes)
+function goView(name) {
+  const btn = document.querySelector(`nav .nav-tab[onclick*="'${name}'"]`);
+  switchView(name, btn);
+}
+
+function updateDueBadge() {
+  const b = document.getElementById('due-badge');
+  if (!b) return;
+  const { total } = computeDueCards();
+  b.textContent = total > 99 ? '99+' : total;
+  b.style.display = total ? '' : 'none';
+}
+
+function renderToday() {
+  const el = document.getElementById('today-content');
+  if (!el) return;
+  const { due, fresh, total } = computeDueCards();
+  const streak = computeStreak();
+  const today = _srToday();
+  const loggedToday = state.entries.some(e => e.date === today);
+  const lastNote = (state.instructionalNotes || []).slice().sort((a, b) =>
+    (b.updated || parseInt(b.id, 10) || 0) - (a.updated || parseInt(a.id, 10) || 0))[0];
+  // "Bundle — Series" labels sometimes repeat the same name; collapse dupes
+  let studyLabel = lastNote ? (lastNote.seriesName || lastNote.name || '') : '';
+  { const parts = studyLabel.split(' — '); if (parts.length === 2 && parts[0] === parts[1]) studyLabel = parts[0]; }
+  const dateStr = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+
+  const tile = (onclick, accent, inner) => `
+    <button onclick="${onclick}" style="text-align:left;background:var(--surface);border:1px solid ${accent ? 'rgba(200,169,110,0.45)' : 'var(--border)'};border-radius:var(--radius);padding:16px;cursor:pointer;transition:border-color 0.15s;display:block;width:100%"
+      onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='${accent ? 'rgba(200,169,110,0.45)' : 'var(--border)'}'">${inner}</button>`;
+
+  el.innerHTML = `
+    <div style="margin-bottom:18px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;color:var(--text)">TODAY</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase">${esc(dateStr)}</div>
+    </div>
+
+    ${total ? tile(`goView('flash')`, true, `
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--accent);line-height:1">${total}</span>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--text)">TO REVIEW</div>
+          <div style="font-size:11px;color:var(--muted)">${due ? due + ' due' : ''}${due && fresh ? ' · ' : ''}${fresh ? fresh + ' new' : ''} — a few minutes locks them in</div>
+        </div>
+        <span style="margin-left:auto;color:var(--accent);font-size:18px">→</span>
+      </div>`)
+    : tile(`goView('flash')`, false, `
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#34d399">✓ ALL CAUGHT UP</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px">Nothing due for review</div>`)}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      ${tile(`goView('log')`, !loggedToday, loggedToday ? `
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#34d399">✓ TRAINED TODAY</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Session logged — nice</div>`
+      : `
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--text)">🎤 LOG A CLASS</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Talk it in — 30 seconds</div>`)}
+      ${tile(`goView('today')`, false, `
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:${streak ? '#ff9f4a' : 'var(--muted)'};line-height:1">${streak}</span>
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--text)">🔥 DAY STREAK</div>
+            <div style="font-size:11px;color:var(--muted)">${streak ? 'Keep it alive' : 'Starts with one entry'}</div>
+          </div>
+        </div>`)}
+    </div>
+
+    ${lastNote ? `<div style="margin-top:10px">` + tile(`goView('instructionals')`, false, `
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--text);margin-bottom:3px">📀 CONTINUE STUDYING</div>
+      <div style="font-size:12px;color:var(--label);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(studyLabel)}</div>`) + `</div>` : ''}
+  `;
+}
+
+// ── Post-save moment — make logging feel like progress (the Strava save screen)
+function showPostSaveMoment(techCount) {
+  const { total } = computeDueCards();
+  const streak = computeStreak();
+  const m = document.getElementById('post-save-modal');
+  if (!m) return;
+  document.getElementById('psm-summary').textContent =
+    `${techCount} technique${techCount !== 1 ? 's' : ''} captured`;
+  document.getElementById('psm-streak').textContent =
+    `🔥 ${streak} day streak`;
+  const btn = document.getElementById('psm-review-btn');
+  btn.style.display = total ? '' : 'none';
+  btn.textContent = `REVIEW ${total} CARD${total !== 1 ? 'S' : ''} NOW`;
+  m.classList.add('open');
+}
+function closePostSaveMoment(review) {
+  document.getElementById('post-save-modal').classList.remove('open');
+  goView(review ? 'flash' : 'today');
+}
 function _srGetCard(cardId) {
   if (!state.srData) state.srData = {};
   if (!state.srData[cardId]) state.srData[cardId] = { interval:1, easeFactor:2.5, dueDate:_srToday(), reviewCount:0, lastReviewed:null };
@@ -6060,8 +6226,8 @@ function _adoptRemoteState(newState) {
   if (!state.volUrls)            state.volUrls = {};
   if (!state.bundleUrls)         state.bundleUrls = {};
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  refreshSharedPools(); updateDrillBadge();
-  renderTimeline(); renderGameView(); renderInstructionals(); renderLibrary(); renderTDDList();
+  refreshSharedPools(); updateDrillBadge(); updateDueBadge();
+  renderTimeline(); renderGameView(); renderInstructionals(); renderLibrary(); renderTDDList(); renderToday();
 }
 
 // Fetch the cloud sync file → { state, sha } | { state:null, sha:null } (missing) | null (error)
@@ -6402,6 +6568,8 @@ document.getElementById('f-date-online').value=today;
 refreshSharedPools();
 addTechniqueField();
 updateDrillBadge();
+updateDueBadge();
+renderToday();
 window.addEventListener('resize',()=>{
   if (document.getElementById('view-map').classList.contains('active')) initMap();
 });
@@ -6690,6 +6858,24 @@ function openInstructionalForm(note) {
       }
     }
   }
+  // Source strip: collapse to a one-line summary when context is already known
+  // (opened from a chapter, or editing a bundled note) — the fields are noise then.
+  (function() {
+    const series = document.getElementById('if-series').value.trim();
+    const volNum = document.getElementById('if-volnum').value.trim();
+    const chap   = document.getElementById('if-chapter').value.trim();
+    const sum    = document.getElementById('if-source-summary');
+    const strip  = document.getElementById('if-source-strip');
+    if (series || chap) {
+      document.getElementById('if-source-summary-text').textContent =
+        '📀 ' + [series, volNum ? 'Vol ' + volNum : '', chap].filter(Boolean).join(' · ');
+      sum.style.display = 'flex';
+      strip.style.display = 'none';
+    } else {
+      sum.style.display = 'none';
+      strip.style.display = 'grid';
+    }
+  })();
   // Show "+ SAVE & ADD ANOTHER" only when creating a new note (not editing)
   const anotherBtn = document.getElementById('if-add-another-btn');
   const savedBanner = document.getElementById('if-saved-banner');
@@ -6697,6 +6883,11 @@ function openInstructionalForm(note) {
   if (savedBanner) savedBanner.style.display = 'none';
   document.getElementById('inst-modal').classList.add('open');
   setTimeout(() => document.getElementById('if-name')?.focus(), 30);
+}
+
+function toggleInstSourceEdit() {
+  document.getElementById('if-source-summary').style.display = 'none';
+  document.getElementById('if-source-strip').style.display = 'grid';
 }
 
 function closeInstructionalForm() {
