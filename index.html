@@ -1886,6 +1886,29 @@ function attr(v) { return JSON.stringify(v).replace(/"/g,'&quot;'); }
 // Blocks javascript:/data: URLs — matters once bundles/URLs sync across devices.
 function safeHref(u) { return /^https?:\/\//i.test(u||'') ? esc(u) : ''; }
 
+// ── Pre-AI original snapshot display ─────────────────────────────────────────
+function toggleOrig(domId) {
+  const el = document.getElementById(domId);
+  if (el) el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+// Renders a "📜 ORIGINAL" toggle + the user's raw pre-refinement note, muted.
+function origBlockHTML(orig, domId) {
+  if (!orig) return '';
+  const when = orig.savedAt ? new Date(orig.savedAt).toLocaleDateString() : '';
+  return `<div style="margin-top:8px">
+    <button onclick="event.stopPropagation();toggleOrig('${domId}')"
+      style="background:none;border:1px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.5px;padding:3px 8px;cursor:pointer">
+      📜 ORIGINAL${when ? ' · ' + esc(when) : ''}</button>
+    <div id="${domId}" style="display:none;margin-top:6px;padding:8px 10px;background:var(--bg);border-left:2px solid var(--border);border-radius:0 var(--radius) var(--radius) 0;font-size:11px;color:var(--text-dim);line-height:1.6">
+      ${orig.name ? `<div style="font-weight:600">${esc(orig.name)}</div>` : ''}
+      ${orig.concept ? `<div>🔑 ${esc(orig.concept)}</div>` : ''}
+      ${orig.details ? `<div style="white-space:pre-wrap">${esc(orig.details)}</div>` : ''}
+      ${orig.warning ? `<div>⚠ ${esc(orig.warning)}</div>` : ''}
+      ${(orig.steps || []).length ? `<ol style="margin:3px 0 0 16px;padding:0">${orig.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
+    </div>
+  </div>`;
+}
+
 let state = { entries: [], drilled: [], principles: [] };
 let editingId = null;
 let currentType = 'class';
@@ -2852,6 +2875,7 @@ function renderTimeline() {
         ${t.confidence?`<div style="font-size:11px;letter-spacing:1px;margin-top:3px">${[1,2,3,4,5].map(n=>`<span style="color:${t.confidence>=n?'#f4a72f':'var(--border)'}">${t.confidence>=n?'●':'○'}</span>`).join('')}</div>`:''}
         ${renderStepsList(t)}
         ${t.links?.length?`<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:7px">${t.links.map(l=>`<span class="link-chip-display" onclick="searchLinkedMove(${attr(l)})">⛓ ${esc(l)}</span>`).join('')}</div>`:''}
+        ${origBlockHTML(t.original, 'orig-' + e.id + '-' + ti)}
       </div>`).join('');
     const insightsHTML = e.keyInsights?.length ? `
       <div class="entry-section-label">Concepts</div>
@@ -5918,6 +5942,12 @@ function applyAiRefinement() {
   if (_aiRefineType === 'inst') {
     const note = (state.instructionalNotes||[]).find(n => n.id === _aiRefineNoteId);
     if (!note) return;
+    // Preserve the user's first-ever version before AI rewrites it (never overwritten)
+    if (!note.original) note.original = {
+      name: note.name || '', concept: note.concept || '', details: note.details || '',
+      warning: note.warning || '', steps: (note.stepsList || []).map(s => s.text),
+      savedAt: Date.now()
+    };
     note.name    = fields.name    || note.name;
     note.concept = fields.concept || note.concept;
     note.details = fields.details || '';
@@ -5933,6 +5963,11 @@ function applyAiRefinement() {
     const entry = state.entries.find(e => e.id === _aiRefineEntryId);
     const tech  = entry?.techniques?.[_aiRefineTechIdx];
     if (!tech) return;
+    if (!tech.original) tech.original = {
+      name: tech.name || '', concept: tech.concept || '', details: tech.principle || '',
+      steps: (tech.stepsList || []).map(s => s.text),
+      savedAt: Date.now()
+    };
     tech.name      = fields.name      || tech.name;
     tech.concept   = fields.concept   || tech.concept;
     tech.principle = fields.details   || tech.principle || '';
@@ -7681,6 +7716,7 @@ function instNoteCardHTML(n) {
     ${stepsHTML}
     ${n.details?`<div style="font-size:12px;color:var(--muted);margin-bottom:6px;white-space:pre-wrap;line-height:1.5">${esc(n.details)}</div>`:''}
     ${n.warning?`<div style="font-size:12px;color:#f47272;margin-bottom:6px">⚠ ${esc(n.warning)}</div>`:''}
+    ${origBlockHTML(n.original, 'orig-' + cid)}
   `;
 
   return `<div class="entry-card" style="margin-bottom:6px" draggable="true" ondragstart="instNoteDragStart(event,${attr(n.id)})" ondragend="instNoteDragEnd(event)">
