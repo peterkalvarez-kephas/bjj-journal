@@ -989,12 +989,15 @@
   <!-- FLASHCARDS -->
   <div class="view" id="view-flash">
     <div class="flashcard-controls">
-      <select id="fc-filter-cat" onchange="initFlashcards()">
-        <option value="">All Families</option>
-        <option>Foundational Guards</option><option>Open Guard Family</option>
-        <option>Exotic / Advanced Guards</option><option>Leg Entanglements</option>
-        <option>Top Game</option><option>Submissions</option>
-        <option>Takedowns</option><option>Escapes</option><option>Other</option>
+      <select id="fc-filter-sys" onchange="initFlashcards()">
+        <option value="">All Systems (mixed — best for retention)</option>
+        <option value="guard">Guard</option>
+        <option value="half-guard">Half Guard</option>
+        <option value="open-guard">Open Guard</option>
+        <option value="mount">Mount</option>
+        <option value="pin-control">Pin Control</option>
+        <option value="back-control">Back Control</option>
+        <option value="turtle">Turtle</option>
       </select>
       <select id="fc-filter-drill" onchange="initFlashcards()">
         <option value="">All Techniques</option><option value="drill">Drill List Only</option>
@@ -1035,13 +1038,15 @@
     <span class="map-hint">DRAG · SCROLL TO ZOOM · CLICK CLUSTER · CLICK TECH FOR DETAILS</span>
   </div>
   <div class="map-family-row">
-    <span class="map-family-label">FAMILY:</span>
-    <button class="map-family-btn active" data-fgroup="all" onclick="setMapFamilyFilter('all',this)" style="background:var(--surface2);color:var(--text);border-color:var(--border)">ALL</button>
-    <button class="map-family-btn" data-fgroup="guards" onclick="setMapFamilyFilter('guards',this)" style="--fc:#c8a96e">GUARDS</button>
-    <button class="map-family-btn" data-fgroup="leglocks" onclick="setMapFamilyFilter('leglocks',this)" style="--fc:#f13535">LEG LOCKS</button>
-    <button class="map-family-btn" data-fgroup="top" onclick="setMapFamilyFilter('top',this)" style="--fc:#ff9f4a">TOP GAME</button>
-    <button class="map-family-btn" data-fgroup="submissions" onclick="setMapFamilyFilter('submissions',this)" style="--fc:#f472b6">SUBMISSIONS</button>
-    <button class="map-family-btn" data-fgroup="takedowns" onclick="setMapFamilyFilter('takedowns',this)" style="--fc:#34d399">TAKEDOWNS</button>
+    <span class="map-family-label">SYSTEM:</span>
+    <button class="map-family-btn active" onclick="setMapSystemFilter('all',this)" style="background:var(--surface2);color:var(--text);border-color:var(--border)">ALL</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('guard',this)" style="--fc:#c8a96e">GUARD</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('half-guard',this)" style="--fc:#d4b87e">½ GUARD</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('open-guard',this)" style="--fc:#4da6ff">OPEN G</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('mount',this)" style="--fc:#ff9f4a">MOUNT</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('pin-control',this)" style="--fc:#f472b6">PIN</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('back-control',this)" style="--fc:#a78bfa">BACK</button>
+    <button class="map-family-btn" onclick="setMapSystemFilter('turtle',this)" style="--fc:#6ee7b7">TURTLE</button>
   </div>
   <canvas id="map-canvas"></canvas>
 </div>
@@ -1146,11 +1151,12 @@
           <div id="if-system-toggle" style="display:flex;gap:4px;flex-wrap:wrap"></div>
           <input type="hidden" id="if-system-val" value="">
         </div>
-        <div class="form-field" style="margin:0">
-          <label>BJJ Position <span style="font-weight:400;font-family:'DM Sans',sans-serif;text-transform:none;letter-spacing:0;font-size:10px;color:var(--muted)">(for Library)</span></label>
-          <input type="text" id="if-bjjpos" list="if-poslist" placeholder="Type or pick a position..." autocomplete="off">
-          <datalist id="if-poslist"></datalist>
-        </div>
+        <!-- BJJ Position: no longer a separate box to fill in — it's auto-derived at
+             save time from Start Position (or System as fallback). Kept as a hidden
+             field so existing notes' saved values and Library/Map/search all still work
+             unchanged; only new notes get it filled in for you instead of asked for. -->
+        <input type="hidden" id="if-bjjpos">
+        <datalist id="if-poslist"></datalist>
       </div>
 
       <!-- RIGHT: Concept / Principle -->
@@ -1657,6 +1663,24 @@
   </div>
 </div>
 
+<!-- AUTO-TAG REVIEW MODAL -->
+<div class="modal-overlay" id="autotag-modal">
+  <div class="modal-sheet" style="max-width:640px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px">
+      <div>
+        <div class="modal-title" style="color:#a78bfa">🏷 REVIEW TAGS</div>
+        <div class="modal-subtitle" id="autotag-sub">Confirm each system before applying — nothing saves until you hit APPLY</div>
+      </div>
+      <button onclick="document.getElementById('autotag-modal').classList.remove('open')" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1">×</button>
+    </div>
+    <div id="autotag-body" style="max-height:60vh;overflow-y:auto;margin:12px 0"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn-ghost" onclick="document.getElementById('autotag-modal').classList.remove('open')">CANCEL</button>
+      <button class="btn-primary" onclick="applyAutoTags()" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">✓ APPLY TAGS</button>
+    </div>
+  </div>
+</div>
+
 <!-- POST-SAVE MOMENT — logging should feel like progress -->
 <div class="modal-overlay" id="post-save-modal">
   <div class="modal-sheet" style="max-width:400px;text-align:center">
@@ -1916,7 +1940,8 @@ let techCount = 0;
 let uploadedFiles = {};
 let fcCards = [], fcIndex = 0, fcFlipped = false;
 let mapFilter = 'all';
-let mapFamilyFilter = 'all';
+let mapSystemFilter = 'all';
+let mapFlows = [];   // system→system transitions from startPos/endPos data
 let mapPan = {x:0,y:0}, mapZoom = 1;
 let mapDragging = false, mapDragStart = {x:0,y:0}, mapPanStart = {x:0,y:0}, mapDragMoved = false;
 let mapNodes = [], mapHover = null;
@@ -2492,6 +2517,26 @@ function addTechniqueField(data) {
   if (data?.links?.length) data.links.forEach(name => pickLink(id, name));
 }
 
+// Enter = jump to next step (or create one if this is the last). Shift+Enter = newline.
+// Tab = skip past the photo/remove buttons straight into this step's Key Insight.
+function stepTextKeydown(e, addFn) {
+  if (e.key === 'Tab' && !e.shiftKey) {
+    const concept = e.target.closest('.step-row')?.querySelector('.step-concept');
+    if (concept) { e.preventDefault(); concept.focus(); }
+    return;
+  }
+  if (e.key !== 'Enter' || e.shiftKey) return;
+  e.preventDefault();
+  const row = e.target.closest('.step-row');
+  const container = row.parentElement;
+  if (row === container.lastElementChild) {
+    addFn();
+    container.lastElementChild.querySelector('.step-text')?.focus();
+  } else {
+    row.nextElementSibling?.querySelector('.step-text')?.focus();
+  }
+}
+
 function addStep(techId, data) {
   const container = document.getElementById('steps-'+techId);
   if (!container) return;
@@ -2501,7 +2546,7 @@ function addStep(techId, data) {
   row.innerHTML = `
     <span class="step-num">${idx}</span>
     <div class="step-left">
-      <textarea class="step-text" placeholder="Step ${idx}..." rows="1">${esc(data?.text||'')}</textarea>
+      <textarea class="step-text" placeholder="Step ${idx}..." rows="1" onkeydown="stepTextKeydown(event,()=>addStep(${techId}))">${esc(data?.text||'')}</textarea>
       <div class="step-actions">
         <button type="button" class="step-photo-btn" title="Attach photo" onclick="showPhotoOptions(event,this)">📷</button>
         <input type="file" accept="image/*" class="step-photo-input" style="display:none" onchange="handleStepPhoto(${techId},this)">
@@ -3332,6 +3377,22 @@ function renderGameView() {
         <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px">
           ${totalMoves} MOVES · ${totalPrinciples} RULES ACROSS ${SYSTEMS.length} SYSTEMS
         </div>
+        ${(() => {
+          const mastery = computeSystemMastery();
+          const rows = SYSTEMS.map(s => {
+            const m = mastery[s.id];
+            if (!m || !m.total) return '';
+            const pct = Math.round(m.owned / m.total * 100);
+            return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+              <span style="width:64px;flex-shrink:0;font-family:'DM Mono',monospace;font-size:9px;color:${s.color};text-transform:uppercase">${esc(SYS_ABBREV[s.id]||s.name)}</span>
+              <div style="flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${s.color};transition:width 0.4s"></div></div>
+              <span style="flex-shrink:0;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted)">${pct}% owned${m.cold ? ` · <span style="color:#f47272">${m.cold} cold</span>` : ''}</span>
+            </div>`;
+          }).join('');
+          return rows ? `<div style="margin-top:14px;max-width:520px">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--label);margin-bottom:8px">SYSTEM MASTERY <span style="color:var(--muted);letter-spacing:0.5px">— owned = reviewed until it sticks (3+ week interval)</span></div>
+            ${rows}</div>` : '';
+        })()}
       </div>
       ${(!totalMoves && !totalPrinciples) ? `<div class="empty-state">NOTHING TAGGED YET<br><span style="font-size:12px;font-family:'DM Sans',sans-serif;text-transform:none;letter-spacing:0;opacity:0.6">Tag techniques and add rules in LOG or INSTRUCTIONALS to build your game map.</span></div>` : `
       ${gaps.length ? `
@@ -3507,6 +3568,71 @@ function computeDueCards() {
   return { due, fresh, total: due + fresh };
 }
 
+// Map a free-text position ("Deep Half", "Side Control") to a system id.
+function posToSystem(str) {
+  const s = (str || '').toLowerCase();
+  if (!s) return '';
+  if (/(deep half|z guard|z-guard|headquarters|half guard|half-guard)/.test(s)) return 'half-guard';
+  if (/(single leg x|slx|x guard|x-guard|de la riva|dlr|butterfly|spider|lasso|open guard|50\/50|saddle|ashi|leg entangle)/.test(s)) return 'open-guard';
+  if (/(closed guard|full guard)/.test(s)) return 'guard';
+  if (/(north south|north-south|knee on belly|kob|side control|side mount|100 kilos|kesa)/.test(s)) return 'pin-control';
+  if (/mount/.test(s)) return 'mount';
+  if (/(back control|rear mount|back take|back clinch|the back|^back$)/.test(s)) return 'back-control';
+  if (/turtle/.test(s)) return 'turtle';
+  return '';
+}
+
+// SR state for one card: 'new' | 'due' | 'learning' | 'owned'
+function _srStateFor(cardId) {
+  const sr = (state.srData || {})[cardId];
+  if (!sr || !sr.reviewCount) return 'new';
+  if ((sr.dueDate || '') <= _srToday()) return 'due';
+  return (sr.interval || 0) >= 21 ? 'owned' : 'learning';
+}
+
+// Per-system review workload: { sysId: {due, fresh, total} } ('' = untagged)
+function computeDueBySystem() {
+  const out = {};
+  const bump = (sid, st) => {
+    if (!out[sid]) out[sid] = { due: 0, fresh: 0, total: 0 };
+    if (st === 'new') { out[sid].fresh++; out[sid].total++; }
+    else if (st === 'due') { out[sid].due++; out[sid].total++; }
+  };
+  state.entries.forEach(e => (e.techniques || []).forEach((t, ti) => {
+    if (t.name) bump(t.systemId || '', _srStateFor(e.id + '_' + ti));
+  }));
+  (state.instructionalNotes || []).forEach(n => {
+    if (n.noteType === 'move' && n.name) bump(n.systemId || '', _srStateFor('inst_' + n.id));
+  });
+  return out;
+}
+
+// Per-system mastery: { sysId: {total, owned, learning, cold} } (cold = new + due)
+function computeSystemMastery() {
+  const out = {};
+  const bump = (sid, st) => {
+    if (!out[sid]) out[sid] = { total: 0, owned: 0, learning: 0, cold: 0 };
+    out[sid].total++;
+    if (st === 'owned') out[sid].owned++;
+    else if (st === 'learning') out[sid].learning++;
+    else out[sid].cold++;
+  };
+  state.entries.forEach(e => (e.techniques || []).forEach((t, ti) => {
+    if (t.name) bump(t.systemId || '', _srStateFor(e.id + '_' + ti));
+  }));
+  (state.instructionalNotes || []).forEach(n => {
+    if (n.noteType === 'move' && n.name) bump(n.systemId || '', _srStateFor('inst_' + n.id));
+  });
+  return out;
+}
+
+// Jump straight into reviewing one system's cards
+function goReviewSystem(sysId) {
+  const sel = document.getElementById('fc-filter-sys');
+  if (sel) sel.value = sysId || '';
+  goView('flash');
+}
+
 // Streak = consecutive days (ending today or yesterday) with ANY activity:
 // a log entry, a debrief, an instructional note, or a flashcard review.
 function computeStreak() {
@@ -3577,6 +3703,13 @@ function renderToday() {
     : tile(`goView('flash')`, false, `
       <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#34d399">✓ ALL CAUGHT UP</div>
       <div style="font-size:11px;color:var(--muted);margin-top:3px">Nothing due for review</div>`)}
+
+    ${total ? (() => {
+      const bySys = computeDueBySystem();
+      const chips = SYSTEMS.filter(s => bySys[s.id]?.total).map(s =>
+        `<button onclick="goReviewSystem('${s.id}')" style="background:${s.color}14;border:1px solid ${s.color}55;color:${s.color};border-radius:var(--radius);padding:6px 10px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.5px;cursor:pointer;text-transform:uppercase">${esc(SYS_ABBREV[s.id]||s.name)} ${bySys[s.id].total}</button>`).join('');
+      return chips ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">${chips}</div>` : '';
+    })() : ''}
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
       ${tile(`goView('log')`, !loggedToday, loggedToday ? `
@@ -3653,7 +3786,7 @@ function _srDueLabel(cardId) {
 }
 
 function initFlashcards() {
-  const cat=document.getElementById('fc-filter-cat').value;
+  const sysF=document.getElementById('fc-filter-sys').value;
   const drillOnly=document.getElementById('fc-filter-drill').value==='drill';
   const includeInst=document.getElementById('fc-include-inst')?.checked||false;
   const dueOnly=document.getElementById('fc-due-only')?.checked||false;
@@ -3661,7 +3794,7 @@ function initFlashcards() {
   fcCards=[];
   // Log technique cards
   state.entries.forEach(entry=>entry.techniques.forEach((t,ti)=>{
-    if (!t.name||(cat&&getFamily(t)!==cat)||(drillOnly&&!t.drill)) return;
+    if (!t.name||(sysF&&(t.systemId||'')!==sysF)||(drillOnly&&!t.drill)) return;
     const cardId=entry.id+'_'+ti;
     if (dueOnly && state.srData?.[cardId]?.dueDate > today) return;
     fcCards.push({tech:t, entry, cardId, isInst:false});
@@ -3669,6 +3802,7 @@ function initFlashcards() {
   // Instructional notes cards
   if (includeInst) {
     (state.instructionalNotes||[]).filter(n=>n.noteType==='move'&&n.name).forEach(n=>{
+      if (sysF && (n.systemId||'')!==sysF) return;
       const cardId='inst_'+n.id;
       if (dueOnly && state.srData?.[cardId]?.dueDate > today) return;
       fcCards.push({
@@ -4193,11 +4327,11 @@ document.addEventListener('keydown', e => {
 function getAllTechs() {
   const all=[];
   // Class techniques from journal entries
-  state.entries.forEach(entry=>entry.techniques.forEach(t=>{
+  state.entries.forEach(entry=>entry.techniques.forEach((t,ti)=>{
     if (!t.name) return;
     if (mapFilter!=='all'&&t.method!==mapFilter) return;
-    if (mapFamilyFilter!=='all'&&(FAMILY_MAP_GROUP[getFamily(t)]||'other')!==mapFamilyFilter) return;
-    all.push({tech:t,entry});
+    if (mapSystemFilter!=='all'&&(t.systemId||'')!==mapSystemFilter) return;
+    all.push({tech:t,entry,cardId:entry.id+'_'+ti});
   }));
   // Instructional MOVES (skip principles — they're text-only, not techniques)
   // ONLY include moves with an explicit bjjPos tag — that's the user's signal
@@ -4205,11 +4339,12 @@ function getAllTechs() {
   // INSTRUCTIONALS but don't clutter the map.
   (state.instructionalNotes||[]).forEach(n => {
     if (n.noteType !== 'move' || !n.name) return;
-    if (!n.bjjPos) return; // require explicit position tag to surface on map
+    if (!n.systemId && !n.bjjPos) return; // needs some tag to place it on the map
     // Build a normalized tech-shaped object so existing layout/render code just works
     const fakeTech = {
       name: n.name,
       family: instructionalFamilyFor(n),
+      systemId: n.systemId || posToSystem(n.bjjPos) || '',
       position: n.bjjPos || '',
       gi: n.giNoGi || 'nogi',
       cat: '',
@@ -4225,7 +4360,7 @@ function getAllTechs() {
       _instNote: n,
     };
     if (mapFilter!=='all' && fakeTech.method !== mapFilter) return;
-    if (mapFamilyFilter!=='all' && (FAMILY_MAP_GROUP[getFamily(fakeTech)]||'other') !== mapFamilyFilter) return;
+    if (mapSystemFilter!=='all' && (fakeTech.systemId||'') !== mapSystemFilter) return;
     const fakeEntry = {
       id: 'inst_'+n.id,
       type: 'instructional',
@@ -4240,34 +4375,39 @@ function getAllTechs() {
 }
 
 function showClusterDetail(node) {
-  const family = node.label;
-  const positions = MOVE_TREE[family]||[];
-  const famColor = FAMILY_COLORS[family]||'#888';
-  // Aggregate all notes across positions in this family
-  const allNotes = [];
-  positions.forEach(pos => {
-    getPositionData(pos).notes.forEach(n => allNotes.push({...n, posName:pos}));
-  });
+  const color = node.color;
+  const STATE_META = {
+    owned:    { c:'#34d399', l:'OWNED' },
+    learning: { c:'#4da6ff', l:'LEARNING' },
+    due:      { c:'#f47272', l:'DUE' },
+    new:      { c:'#8a7a68', l:'NEW' },
+  };
+  const counts = { owned:0, learning:0, due:0, new:0 };
+  const rows = node.items.map(it => {
+    const st = _srStateFor(it.cardId);
+    counts[st]++;
+    const m = STATE_META[st];
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;padding:7px 10px;background:var(--surface2);border-radius:var(--radius);border-left:2px solid ${m.c}">
+      <span style="flex:1;min-width:0;font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(it.tech.name)}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:8px;color:${m.c};letter-spacing:0.5px;flex-shrink:0">${m.l}</span>
+    </div>`;
+  }).join('');
+  const cold = counts.due + counts.new;
   const panel = document.getElementById('detail-panel');
   const content = document.getElementById('detail-content');
   content.innerHTML = `
-    <div class="detail-title" style="color:${famColor}">${esc(family)}</div>
-    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px">${positions.length} positions · ${allNotes.length} knowledge notes</div>
-    ${allNotes.length ? allNotes.map(n=>{
-      const meta=NOTE_TYPE_META[n.type||'detail'];
-      return `<div style="margin-bottom:8px;padding:8px 10px;background:var(--surface2);border-radius:var(--radius);border-left:2px solid ${meta.color}">
-        <div style="font-family:'DM Mono',monospace;font-size:9px;color:${famColor};margin-bottom:3px;opacity:0.8">${esc(n.posName||'')}</div>
-        <div style="font-size:12px;color:var(--text);line-height:1.4">${esc(n.text)}</div>
-        <div style="font-family:'DM Mono',monospace;font-size:9px;color:${meta.color};margin-top:3px">${meta.icon} ${meta.label}</div>
-      </div>`;
-    }).join('') : `<div style="color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;line-height:1.8">No positional knowledge yet.<br>Log a video, tag insights<br>to a position.</div>`}
-    <button class="btn-ghost" style="margin-top:16px;width:100%;font-size:10px;letter-spacing:1px" onclick="switchView('library',document.querySelector('.nav-tab[onclick*=\\'library\\']'));selectLibPos('${(positions[0]||'').replace(/'/g,"\\'")}')">OPEN IN LIBRARY →</button>
+    <div class="detail-title" style="color:${color}">${esc(node.label)}</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px">
+      ${node.items.length} techniques · <span style="color:#34d399">${counts.owned} owned</span> · <span style="color:#4da6ff">${counts.learning} learning</span> · <span style="color:#f47272">${cold} cold</span>
+    </div>
+    ${node.sysId ? `<button class="btn-primary" style="width:100%;margin-bottom:14px;font-size:11px;letter-spacing:1px" onclick="goReviewSystem('${node.sysId}')">▶ REVIEW ${esc(node.label.toUpperCase())}${cold ? ' — ' + cold + ' COLD' : ''}</button>` : ''}
+    ${rows}
   `;
   panel.classList.add('open');
 }
 
-function setMapFamilyFilter(group, btn) {
-  mapFamilyFilter = group;
+function setMapSystemFilter(group, btn) {
+  mapSystemFilter = group;
   document.querySelectorAll('.map-family-btn').forEach(b => {
     const isActive = b===btn;
     b.classList.toggle('active', isActive);
@@ -4288,10 +4428,21 @@ function buildLayout() {
   const all=getAllTechs();
   const groups={};
   all.forEach(item=>{
-    const cat=getFamily(item.tech);
+    const cat=item.tech.systemId||'';
     if (!groups[cat]) groups[cat]=[];
     groups[cat].push(item);
   });
+  // System→system flow edges from Starts-from → Ends-in data
+  const flowCount={};
+  all.forEach(item=>{
+    const t=item.tech;
+    const from=posToSystem(t.startPos)||t.systemId||'';
+    const to=posToSystem(t.endPos);
+    if (!from||!to||from===to) return;
+    const k=from+'>'+to;
+    flowCount[k]=(flowCount[k]||0)+1;
+  });
+  mapFlows=Object.entries(flowCount).map(([k,count])=>{const [from,to]=k.split('>');return {from,to,count};});
   // Sort items within each group so linked pairs spawn adjacent to each other
   for (const cat in groups) {
     const items = groups[cat];
@@ -4308,7 +4459,8 @@ function buildLayout() {
     groups[cat] = sorted;
   }
 
-  const cats=Object.keys(groups);
+  // Stable order: the 7 systems first (app order), untagged bucket last
+  const cats=SYSTEMS.map(s=>s.id).filter(id=>groups[id]).concat(groups['']?['']:[]);
   if (!cats.length) return;
   const angleStep=(Math.PI*2)/cats.length;
   const clusterR=Math.min(W,H)*0.29;
@@ -4316,8 +4468,10 @@ function buildLayout() {
     const angle=angleStep*ci - Math.PI/2;
     const cx2=cx+Math.cos(angle)*clusterR;
     const cy2=cy+Math.sin(angle)*clusterR;
-    const catColor = FAMILY_COLORS[cat] || CAT_COLORS[cat] || '#888';
-    mapNodes.push({type:'cat',label:cat,x:cx2,y:cy2,r:38,color:catColor,expanded:false,items:groups[cat]});
+    const sys=getSystem(cat);
+    const label=sys?sys.name:'Untagged';
+    const catColor=sys?sys.color:'#8a7a68';
+    mapNodes.push({type:'cat',label,sysId:cat,x:cx2,y:cy2,r:38,color:catColor,expanded:false,items:groups[cat]});
     groups[cat].forEach((item,ti)=>{
       const n=groups[cat].length;
       const ta=(Math.PI*2/Math.max(n,1))*ti + angle;
@@ -4356,7 +4510,7 @@ function drawMap() {
     ctx.textBaseline = 'middle';
     ctx.fillText('NO TECHNIQUES LOGGED YET', W/2, H/2 - 12);
     ctx.font = '11px "DM Sans",sans-serif';
-    ctx.fillText('Log entries with a Family/Position to see them mapped', W/2, H/2 + 12);
+    ctx.fillText('Tag techniques with a System to see your game mapped', W/2, H/2 + 12);
     ctx.restore();
     return;
   }
@@ -4373,6 +4527,36 @@ function drawMap() {
   catNodes.forEach(n=>{
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(n.x,n.y);
     ctx.strokeStyle=n.color+'28'; ctx.lineWidth=1.5; ctx.stroke();
+  });
+
+  // System→system FLOW ARROWS — your game's chains, from Starts-from → Ends-in
+  mapFlows.forEach(f=>{
+    const a=catNodes.find(n=>n.sysId===f.from), b=catNodes.find(n=>n.sysId===f.to);
+    if (!a||!b) return;
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+    const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy)||1;
+    const qx=mx-dy/len*30, qy=my+dx/len*30;   // curve control point, offset sideways
+    ctx.save();
+    ctx.strokeStyle='#c8a96e'; ctx.globalAlpha=0.45; ctx.lineWidth=1+Math.min(f.count,4);
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.quadraticCurveTo(qx,qy,b.x,b.y); ctx.stroke();
+    // Arrowhead just outside the target hub
+    const ang=Math.atan2(b.y-qy,b.x-qx);
+    const ax=b.x-Math.cos(ang)*(b.r+8), ay=b.y-Math.sin(ang)*(b.r+8);
+    ctx.globalAlpha=0.85; ctx.fillStyle='#c8a96e';
+    ctx.beginPath();
+    ctx.moveTo(ax,ay);
+    ctx.lineTo(ax-Math.cos(ang-0.42)*11, ay-Math.sin(ang-0.42)*11);
+    ctx.lineTo(ax-Math.cos(ang+0.42)*11, ay-Math.sin(ang+0.42)*11);
+    ctx.closePath(); ctx.fill();
+    if (f.count>1) {
+      ctx.fillStyle='#1a1410';
+      ctx.beginPath(); ctx.arc(qx,qy,9,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle='#c8a96e'; ctx.lineWidth=1; ctx.globalAlpha=0.9; ctx.stroke();
+      ctx.fillStyle='#c8a96e'; ctx.font='600 9px "DM Mono",monospace';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(String(f.count),qx,qy);
+    }
+    ctx.restore();
   });
 
   // Cross-cluster chain indicators (faint dashed lines between cluster nodes that share links)
@@ -4399,7 +4583,7 @@ function drawMap() {
   // Draw edges cat→tech (if expanded)
   catNodes.forEach(n=>{
     if (!n.expanded) return;
-    mapNodes.filter(tn=>tn.type==='tech'&&tn.parentCat===n.label).forEach(tn=>{
+    mapNodes.filter(tn=>tn.type==='tech'&&tn.parentCat===n.sysId).forEach(tn=>{
       ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(tn.x,tn.y);
       ctx.strokeStyle=n.color+'38'; ctx.lineWidth=1; ctx.stroke();
     });
@@ -4409,25 +4593,32 @@ function drawMap() {
   const visTechNodes = mapNodes.filter(n=>n.type==='tech'&&n.visible);
   visTechNodes.forEach(n=>{
     const hov=mapHover===n;
-    const isInstructional = n.item && n.item.fromInstructional;
+    // Heat by SR state: dim=never reviewed · mid=learning · bright=owned · red ring=due
+    const st = _srStateFor(n.item.cardId);
     ctx.beginPath(); ctx.arc(n.x,n.y,n.r+(hov?3:0),0,Math.PI*2);
-    if (isInstructional) {
-      // Hollow ring — instructional move (from video reference)
-      ctx.fillStyle = hov ? n.color+'14' : 'rgba(0,0,0,0)';
-      ctx.fill();
-      ctx.setLineDash([4, 3]);
-      ctx.strokeStyle = n.color + (hov ? 'dd' : '88');
-      ctx.lineWidth = hov ? 2 : 1.5;
-      ctx.stroke();
-      ctx.setLineDash([]);
-    } else {
-      // Solid filled — class technique
+    if (st === 'owned') {
+      ctx.fillStyle = n.color+'26';
+      ctx.strokeStyle = n.color + (hov ? 'ff' : 'dd');
+      ctx.lineWidth = 2;
+    } else if (st === 'learning') {
       ctx.fillStyle = hov ? n.color+'20' : '#161616';
-      ctx.strokeStyle = n.color + (hov ? 'bb' : '55');
-      ctx.lineWidth = hov ? 1.5 : 1;
-      ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = n.color + (hov ? 'cc' : '77');
+      ctx.lineWidth = 1.5;
+    } else { // new or due — cold, dim body
+      ctx.fillStyle = '#141414';
+      ctx.strokeStyle = n.color + (hov ? '88' : '38');
+      ctx.lineWidth = 1;
     }
-    ctx.fillStyle=hov?n.color:'#d4c9b8';
+    ctx.fill(); ctx.stroke();
+    if (st === 'due') { // overdue: red dashed alarm ring
+      ctx.save();
+      ctx.setLineDash([4,3]);
+      ctx.strokeStyle='#f47272';
+      ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r+5,0,Math.PI*2); ctx.stroke();
+      ctx.restore();
+    }
+    ctx.fillStyle = hov ? n.color : (st==='new' ? '#7a6d5e' : '#d4c9b8');
     ctx.font=(hov?'600':'500')+' 10px "DM Sans",sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
     wrapText(ctx,n.label,n.x,n.y,n.r*1.7,11);
@@ -4477,10 +4668,11 @@ function drawMap() {
     const words=n.label.split(' ');
     if (words.length===1) { ctx.fillText(n.label.toUpperCase(),n.x,n.y-4); }
     else { ctx.fillText(words[0].toUpperCase(),n.x,n.y-9); ctx.fillText(words[1].toUpperCase(),n.x,n.y+3); }
-    ctx.fillStyle='#555'; ctx.font='9px "DM Mono",monospace';
     const cnt=n.items.length;
-    const hasLinks=n.items.some(it=>(it.tech.links||[]).length>0);
-    ctx.fillText(cnt+(cnt===1?' tech':' techs')+(hasLinks?' ⛓':''),n.x,n.y+(words.length>1?17:11));
+    const cold=n.items.filter(it=>{const s=_srStateFor(it.cardId);return s==='new'||s==='due';}).length;
+    ctx.font='9px "DM Mono",monospace';
+    ctx.fillStyle = cold ? '#f47272' : '#34d399';
+    ctx.fillText(cold ? cnt+' · '+cold+' cold' : cnt+' owned/learning', n.x, n.y+(words.length>1?17:11));
   });
 
   ctx.restore();
@@ -4871,7 +5063,7 @@ function setupMapEvents() {
 function handleClick(node) {
   if (node.type==='cat') {
     node.expanded=!node.expanded;
-    mapNodes.filter(n=>n.type==='tech'&&n.parentCat===node.label).forEach(n=>n.visible=node.expanded);
+    mapNodes.filter(n=>n.type==='tech'&&n.parentCat===node.sysId).forEach(n=>n.visible=node.expanded);
     drawMap();
     showClusterDetail(node);
   } else {
@@ -5080,15 +5272,25 @@ function importData(event) {
       state.customMoves=[...customSet];
       if (!state.instructionalNotes) state.instructionalNotes=[];
       const existInstIds=new Set(state.instructionalNotes.map(n=>n.id));
+      let newInstCount=0;
       (incoming.instructionalNotes||[]).forEach(n=>{
-        if (!existInstIds.has(n.id)) { state.instructionalNotes.push(n); existInstIds.add(n.id); }
+        if (!existInstIds.has(n.id)) { state.instructionalNotes.push(n); existInstIds.add(n.id); newInstCount++; }
       });
+      const skippedEntries=(incoming.entries||[]).length-newEntries.length;
+      const skippedInst=(incoming.instructionalNotes||[]).length-newInstCount;
       if (!state.customDrills) state.customDrills=[];
       const existDrillIds=new Set(state.customDrills.map(d=>d.id));
       (incoming.customDrills||[]).filter(d=>d.id&&!existDrillIds.has(d.id)).forEach(d=>{ state.customDrills.push(d); existDrillIds.add(d.id); });
       save();
-      showToast('Merged — '+newEntries.length+' new entr'+(newEntries.length===1?'y':'ies')+' added ('+state.entries.length+' total)');
-      renderTimeline(); initLibrary();
+      // Report exactly what changed, split by type, so a big merge is never silent
+      const parts=[];
+      if (newEntries.length) parts.push(newEntries.length+' log entr'+(newEntries.length===1?'y':'ies'));
+      if (newInstCount)      parts.push(newInstCount+' instructional note'+(newInstCount===1?'':'s'));
+      const skipped=skippedEntries+skippedInst;
+      let msg = parts.length ? 'Merged '+parts.join(' + ') : 'Nothing new to merge';
+      if (skipped) msg += ' (skipped '+skipped+' duplicate'+(skipped===1?'':'s')+')';
+      showToast(msg);
+      renderTimeline(); initLibrary(); renderInstructionals();
     } catch(err) { showToast('Invalid file — '+err.message); }
   };
   reader.readAsText(file);
@@ -5782,6 +5984,96 @@ function addVoiceTechniquesToForm() {
   _voiceStructured = null;
   showToast(`✓ Added ${n} technique${n>1?'s':''} — review & hit SAVE ENTRY`);
   document.getElementById('techniques-container')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── AUTO-TAG PASS — fill in missing system tags ─────────────────────────────
+let _autoTagProposals = [];   // [{id, name, ctx, systemId, source}]
+
+function _untaggedNoteCount() {
+  return (state.instructionalNotes || []).filter(n => n.name && !n.systemId).length;
+}
+
+// Best-effort local guess (free, instant): chapter title → bundle context → position
+function _guessSystemLocal(n) {
+  const bundle = n.bundleId ? getBundle(n.bundleId) : null;
+  const vol = bundle && n.volumeNum != null ? bundle.volumes?.[String(n.volumeNum)] : null;
+  const hay = [n.name, n.chapterTitle, n.bjjPos, n.startPos, n.endPos,
+    bundle?.name, vol?.title].filter(Boolean).join(' ');
+  return posToSystem(hay);
+}
+
+async function runAutoTagPass() {
+  const untagged = (state.instructionalNotes || []).filter(n => n.name && !n.systemId);
+  if (!untagged.length) { showToast('Everything\'s already tagged ✓'); return; }
+
+  _autoTagProposals = [];
+  const needAI = [];
+  untagged.forEach(n => {
+    const local = _guessSystemLocal(n);
+    if (local) _autoTagProposals.push({ id: n.id, name: n.name, ctx: n.chapterTitle || n.bjjPos || '', systemId: local, source: 'auto' });
+    else needAI.push(n);
+  });
+
+  // AI only for the ones local parsing couldn't resolve — one batched call
+  if (needAI.length && aiConfigured()) {
+    showToast(`✨ Asking AI about ${needAI.length} note${needAI.length !== 1 ? 's' : ''}...`);
+    const list = needAI.map((n, i) => {
+      const b = n.bundleId ? getBundle(n.bundleId) : null;
+      return `${i}. name:"${n.name}"${n.chapterTitle ? ` chapter:"${n.chapterTitle}"` : ''}${b ? ` series:"${b.name}"` : ''}`;
+    }).join('\n');
+    const sys = 'You classify BJJ techniques into one of exactly these system ids: guard, half-guard, open-guard, mount, pin-control, back-control, turtle. pin-control = side control/knee-on-belly/north-south. Reply only with the id, or "" if genuinely unclear.';
+    const prompt = `For each numbered note, return its system id. Return ONLY a JSON array of {"i":<number>,"systemId":"<id or empty>"}:\n${list}`;
+    try {
+      const resp = await aiComplete(prompt, sys);
+      const arr = JSON.parse(resp.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim());
+      arr.forEach(r => {
+        const n = needAI[r.i];
+        if (n && r.systemId && getSystem(r.systemId)) {
+          _autoTagProposals.push({ id: n.id, name: n.name, ctx: n.chapterTitle || '', systemId: r.systemId, source: 'ai' });
+        }
+      });
+    } catch (e) { showToast('AI tagging failed: ' + e.message); }
+  }
+
+  if (!_autoTagProposals.length) {
+    showToast(aiConfigured() ? 'Couldn\'t confidently tag any — set them by hand via EDIT' : 'Set up AI in ⚙ Settings to tag the rest, or tag by hand');
+    return;
+  }
+  _renderAutoTagReview(needAI.length - _autoTagProposals.filter(p => p.source === 'ai').length);
+}
+
+function _renderAutoTagReview(unresolvedCount) {
+  const sysOptions = (selId) => SYSTEMS.map(s =>
+    `<option value="${s.id}"${s.id === selId ? ' selected' : ''}>${esc(s.name)}</option>`).join('');
+  document.getElementById('autotag-sub').textContent =
+    `${_autoTagProposals.length} proposed${unresolvedCount > 0 ? ` · ${unresolvedCount} still unclear (skip & tag by hand)` : ''}`;
+  document.getElementById('autotag-body').innerHTML = _autoTagProposals.map((p, i) => {
+    const s = getSystem(p.systemId);
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)22">
+      <label style="flex-shrink:0"><input type="checkbox" data-tag-apply="${i}" checked></label>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</div>
+        ${p.ctx ? `<div style="font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.ctx)}</div>` : ''}
+      </div>
+      <span style="flex-shrink:0;font-family:'DM Mono',monospace;font-size:8px;color:var(--muted)">${p.source === 'ai' ? '✨' : 'auto'}</span>
+      <select data-tag-sys="${i}" style="flex-shrink:0;background:var(--surface2);border:1px solid ${s ? s.color + '55' : 'var(--border)'};color:${s ? s.color : 'var(--text)'};border-radius:var(--radius);padding:4px 6px;font-size:11px">${sysOptions(p.systemId)}</select>
+    </div>`;
+  }).join('');
+  document.getElementById('autotag-modal').classList.add('open');
+}
+
+function applyAutoTags() {
+  let applied = 0;
+  document.querySelectorAll('#autotag-body [data-tag-apply]').forEach(cb => {
+    if (!cb.checked) return;
+    const i = cb.dataset.tagApply;
+    const p = _autoTagProposals[i];
+    const chosen = document.querySelector(`#autotag-body [data-tag-sys="${i}"]`)?.value;
+    const note = (state.instructionalNotes || []).find(n => n.id === p.id);
+    if (note && chosen) { note.systemId = chosen; note.updated = Date.now(); applied++; }
+  });
+  document.getElementById('autotag-modal').classList.remove('open');
+  if (applied) { save(); renderInstructionals(); showToast(`✓ Tagged ${applied} note${applied !== 1 ? 's' : ''}`); }
 }
 
 // ── Refine a saved instructional note ────────────────────────────────────────
@@ -6504,22 +6796,53 @@ async function loadGHBackups() {
       btn.textContent=orig; btn.disabled=false; updateGHButtons(); return;
     }
 
-    function fileRow(f,label) {
-      const kb=(f.size/1024).toFixed(1)+'KB';
-      return `<div class="gh-backup-item">
-        <div><div class="gh-backup-name">${esc(label)}</div><div class="gh-backup-size">${kb}</div></div>
-        <button class="btn-ghost" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub(${attr(f.download_url)},${attr(f.name)})">RESTORE</button>
+    // "latest.json" files are cheap to fetch (one per device) — pull real
+    // entry/note counts out of the backup payload instead of showing raw file size.
+    async function describeBackup(f) {
+      try {
+        const r = await fetch(f.download_url);
+        const j = await r.json();
+        const ec = j.entryCount ?? (j.data?.entries?.length);
+        const nc = j.instructionalNoteCount ?? (j.data?.instructionalNotes?.length);
+        const when = j.exportedReadable || '';
+        const parts = [];
+        if (ec != null) parts.push(ec + ' entr' + (ec === 1 ? 'y' : 'ies'));
+        if (nc != null) parts.push(nc + ' note' + (nc === 1 ? '' : 's'));
+        return { detail: parts.join(' · ') || '—', when };
+      } catch (_) { return { detail: '—', when: '' }; }
+    }
+
+    function fileRow(label, detail, when, url, name, primary) {
+      return `<div class="gh-backup-item"${primary ? ' style="border-color:var(--accent)55;background:rgba(200,169,110,0.06)"' : ''}>
+        <div>
+          <div class="gh-backup-name">${esc(label)}${primary ? ' <span style="color:var(--accent);font-size:9px">RECOMMENDED</span>' : ''}</div>
+          <div class="gh-backup-size">${esc(detail)}${when ? ' · ' + esc(when) : ''}</div>
+        </div>
+        <button class="${primary ? 'btn-primary' : 'btn-ghost'}" style="font-size:10px;padding:4px 10px" onclick="restoreFromGitHub(${attr(url)},${attr(name)})">RESTORE</button>
       </div>`;
     }
 
-    list.innerHTML=allGroups.map(({device,latest,history})=>{
+    // Resolve "latest" descriptions in parallel across all device groups
+    const latestDescribed = await Promise.all(
+      allGroups.flatMap(g => g.latest.map(async f => ({ device: g.device, f, ...(await describeBackup(f)) })))
+    );
+    // The single most useful action: the newest "latest" across all devices
+    const newest = latestDescribed.slice().sort((a, b) => (b.when || '').localeCompare(a.when || ''))[0];
+
+    const topPick = newest ? `<div style="padding:8px 14px 10px">
+      ${fileRow('↓ RESTORE LATEST — ' + newest.device.toUpperCase(), newest.detail, newest.when, newest.f.download_url, newest.f.name, true)}
+    </div><div style="padding:2px 14px 6px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;border-top:1px solid var(--border)">OLDER BACKUPS, BY DEVICE</div>` : '';
+
+    list.innerHTML = topPick + allGroups.map(({device,history}) => {
+      const own = latestDescribed.filter(d => d.device === device && d.f !== newest?.f);
       const header=`<div style="padding:7px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--accent);background:var(--surface2);border-bottom:1px solid var(--border)">${esc(device.toUpperCase())}</div>`;
-      const latestRows=latest.map(f=>fileRow(f, f.name==='latest.json'?'latest (current)':f.name.replace('.json',''))).join('');
+      const latestRows=own.map(d=>fileRow(d.f.name==='latest.json'?'latest':d.f.name.replace('.json',''), d.detail, d.when, d.f.download_url, d.f.name)).join('');
+      // Daily snapshots — filename is already a date; skip extra fetches, just label clearly
       const histRows=history.length
-        ? `<div style="padding:5px 14px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px">DAILY SNAPSHOTS</div>`
-          + history.map(f=>fileRow(f, f.name.replace('.json',''))).join('')
+        ? `<div style="padding:5px 14px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px">DAILY SNAPSHOTS (${history.length})</div>`
+          + history.map(f=>fileRow(f.name.replace('.json',''), 'daily snapshot', '', f.download_url, f.name)).join('')
         : '';
-      return header+latestRows+histRows;
+      return (latestRows || histRows) ? header+latestRows+histRows : '';
     }).join('');
   } catch(e) {
     list.innerHTML='<div style="padding:12px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--accent2)">Failed to load — check connection and settings.</div>';
@@ -6825,8 +7148,8 @@ function openInstructionalForm(note) {
   ifSetGi(_instGi);
   // System + Mode (always available)
   renderInstSystemButtons();
-  _instSystemId = note?.systemId || '';
-  setInstSystem(_instSystemId);
+  _instSystemId = '';
+  setInstSystem(note?.systemId || '');
   _instMode = note?.mode || 'off';
   setInstMode(_instMode);
   // Fill concept/principle fields (always)
@@ -6993,7 +7316,7 @@ function ifAddStep(data) {
   row.innerHTML = `
     <span class="step-num">${idx}</span>
     <div class="step-left">
-      <textarea class="step-text" placeholder="Step ${idx}..." rows="1">${esc(data?.text || '')}</textarea>
+      <textarea class="step-text" placeholder="Step ${idx}..." rows="1" onkeydown="stepTextKeydown(event,()=>ifAddStep())">${esc(data?.text || '')}</textarea>
       <div class="step-actions">
         <button type="button" class="step-photo-btn" title="Attach screenshot" onclick="showPhotoOptions(event,this)">📷</button>
         <input type="file" accept="image/*" class="step-photo-input" style="display:none" onchange="ifHandleStepPhoto(this)">
@@ -7134,7 +7457,10 @@ function saveInstructionalNote(keepOpen = false) {
     startPos, endPos, method,
     stepsList,
     steps: [], steps2: [],
-    bjjPos: document.getElementById('if-bjjpos').value.trim(),
+    // Auto-derived, not user-entered: preserves any existing/legacy value on edit
+    // (hidden field is pre-filled from the note on load); new notes fall back to
+    // Start Position, then to the System's own name.
+    bjjPos: document.getElementById('if-bjjpos').value.trim() || startPos || (getSystem(_instSystemId)?.name || ''),
     giNoGi: _instGi,
     updated: Date.now(),
   };
@@ -7168,6 +7494,9 @@ function saveInstructionalNote(keepOpen = false) {
   } else {
     state.instructionalNotes.unshift(note);
   }
+  // Mirror the derived bjjPos back into the hidden field so anything reading it
+  // straight from the DOM afterward (e.g. the pre-fill snapshot below) stays in sync.
+  document.getElementById('if-bjjpos').value = note.bjjPos;
   const wasEditing = !!_instEditingId;
   save();
   // Keep chapter expanded in the tree
@@ -7438,7 +7767,8 @@ function renderInstructionals() {
   if (bc) bc.style.display = 'none';
   instPageHeader('INSTRUCTIONALS',
     'CLICK A ROW TO EXPAND · SEARCH TO JUMP',
-    `<button class="btn-ghost" onclick="instExpandAll()" title="Expand bundle/series/volumes (chapters stay collapsed)">EXPAND ALL</button>
+    `${_untaggedNoteCount() ? `<button class="btn-ghost" onclick="runAutoTagPass()" title="Auto-tag notes missing a system" style="border-color:#a78bfa55;color:#a78bfa">🏷 TAG ${_untaggedNoteCount()}</button>` : ''}
+     <button class="btn-ghost" onclick="instExpandAll()" title="Expand bundle/series/volumes (chapters stay collapsed)">EXPAND ALL</button>
      <button class="btn-ghost" onclick="instCollapseAll()" title="Collapse everything">COLLAPSE ALL</button>
      <label class="btn-ghost" style="cursor:pointer" title="Import notes from a GFF Bank JSON export">IMPORT GFF<input type="file" accept=".json" style="display:none" onchange="importGFFBank(event)"></label>
      <button class="btn-ghost" onclick="openImportBundleModal()" title="Import a custom bundle from JSON">＋ IMPORT BUNDLE</button>`);
