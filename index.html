@@ -3112,6 +3112,53 @@ function updateDrillBadge() {
   badge.style.display = count>0?'':'none';
 }
 
+// Last 7 days, oldest→today, showing which systems got trained each day.
+// Reuses the same SYSTEMS/SYS_ABBREV vocabulary as Today/MY GAME/Map so a
+// system's color always means the same thing everywhere in the app.
+function renderWeekStrip(entries) {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+    const dayEntries = entries.filter(e => e.date === key);
+    const sysIds = [...new Set(
+      dayEntries.flatMap(e => (e.techniques || []).map(t => t.systemId).filter(Boolean))
+    )];
+    days.push({
+      key, isToday: i === 0,
+      dow: d.toLocaleDateString(undefined, { weekday: 'short' }).toUpperCase(),
+      dom: d.getDate(),
+      count: dayEntries.length,
+      sysIds,
+    });
+  }
+  const totalSessions = days.reduce((a, d) => a + d.count, 0);
+
+  return `
+    <div class="chart-section">
+      <div class="chart-title">THIS WEEK</div>
+      ${!totalSessions ? `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">No sessions logged in the last 7 days</div>` : ''}
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+        ${days.map(d => `
+          <div style="text-align:center;padding:8px 4px;border-radius:var(--radius);background:${d.isToday ? 'rgba(200,169,110,0.08)' : 'var(--surface)'};border:1px solid ${d.isToday ? 'rgba(200,169,110,0.4)' : 'var(--border)'}">
+            <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:${d.isToday ? 'var(--accent)' : 'var(--muted)'}">${d.dow}</div>
+            <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:6px">${d.dom}</div>
+            ${d.count === 0
+              ? `<div style="color:var(--muted);font-size:11px">—</div>`
+              : d.sysIds.length
+                ? `<div style="display:flex;flex-direction:column;gap:2px;align-items:center">
+                    ${d.sysIds.slice(0, 3).map(sid => { const s = getSystem(sid); return s
+                      ? `<span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.5px;color:${s.color};background:${s.color}18;border-radius:2px;padding:1px 4px;white-space:nowrap">${esc(SYS_ABBREV[sid] || s.name)}</span>`
+                      : ''; }).join('')}
+                    ${d.sysIds.length > 3 ? `<span style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted)">+${d.sysIds.length - 3}</span>` : ''}
+                  </div>`
+                : `<span style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted)">LOGGED</span>`
+            }
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
 function renderStats() {
   const entries = state.entries;
   const allTechs = entries.flatMap(e => e.techniques || []);
@@ -3161,6 +3208,7 @@ function renderStats() {
       <div class="stat-card"><div class="stat-card-val">${pendingDrills}</div><div class="stat-card-label">Pending Drills</div></div>
       <div class="stat-card"><div class="stat-card-val">${streak}</div><div class="stat-card-label">Day Streak</div></div>
     </div>
+    ${renderWeekStrip(entries)}
     ${months.some(m=>m.count>0)?`
     <div class="chart-section">
       <div class="chart-title">Sessions Per Month</div>
