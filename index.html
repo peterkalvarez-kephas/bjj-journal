@@ -1567,9 +1567,14 @@
       ✓ CREDENTIALS LOADED FROM <strong>bjj-config.js</strong><br>
       <span style="color:var(--muted)">Edit that file to change credentials. Fields below are read-only.</span>
     </div>
+    <!-- Wrapped in a form with a username+password pair so iCloud Keychain /
+         1Password / Google Password Manager recognise this as a saveable login.
+         iOS clears site storage but never the password manager — so if the
+         token gets wiped, it's a Face ID autofill away instead of a retype. -->
+    <form onsubmit="event.preventDefault();saveGHSettings()" autocomplete="on">
     <div class="modal-field">
       <label>GitHub Username</label>
-      <input id="gh-user" placeholder="e.g. yourname" autocomplete="off">
+      <input id="gh-user" name="username" placeholder="e.g. yourname" autocomplete="username">
     </div>
     <div class="modal-field">
       <label>Repository Name</label>
@@ -1578,7 +1583,7 @@
     <div class="modal-field">
       <label>Personal Access Token</label>
       <div style="display:flex;gap:6px;align-items:center">
-        <input id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="flex:1">
+        <input id="gh-token" name="password" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="current-password" style="flex:1">
         <button type="button" onclick="const i=document.getElementById('gh-token');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁':'🙈'" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;font-size:13px;flex-shrink:0" title="Show/hide token">👁</button>
       </div>
       <span class="hint">GitHub → Settings → Developer settings → Personal access tokens → New token. Select <strong style="color:var(--label)">repo</strong> scope only.<br>
@@ -1597,9 +1602,10 @@
     </div>
     <div class="gh-status" id="gh-status"></div>
     <div style="display:flex;gap:8px;margin-bottom:20px">
-      <button class="btn-primary" onclick="saveGHSettings()" style="flex:1" id="gh-save-btn">SAVE &amp; TEST</button>
-      <button class="btn-ghost" onclick="closeSettings()" style="padding:10px 16px">CANCEL</button>
+      <button class="btn-primary" type="submit" style="flex:1" id="gh-save-btn">SAVE &amp; TEST</button>
+      <button class="btn-ghost" type="button" onclick="closeSettings()" style="padding:10px 16px">CANCEL</button>
     </div>
+    </form>
     <hr class="modal-divider">
     <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px">GitHub Backup</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -1622,10 +1628,16 @@
         <option value="ollama">Ollama — local, free, private</option>
       </select>
     </div>
+    <!-- Own form + hidden username so the AI key saves as its own distinct
+         password-manager entry (separate from the GitHub token above). -->
+    <form onsubmit="event.preventDefault();saveAiSettings()" autocomplete="on">
+    <input type="text" name="username" value="BJJ Journal — AI key" autocomplete="username"
+           readonly tabindex="-1" aria-hidden="true"
+           style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
     <div class="modal-field" id="ai-key-field">
       <label>API Key</label>
       <div style="display:flex;gap:6px;align-items:center">
-        <input id="ai-key" type="password" placeholder="sk-ant-... or sk-..." style="flex:1">
+        <input id="ai-key" name="password" type="password" placeholder="sk-ant-... or sk-..." autocomplete="current-password" style="flex:1">
         <button type="button" onclick="const i=document.getElementById('ai-key');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁':'🙈'" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;cursor:pointer;font-size:13px;flex-shrink:0">👁</button>
       </div>
       <span class="hint">Claude: <strong style="color:var(--label)">console.anthropic.com → API Keys</strong> &nbsp;·&nbsp; OpenAI: <strong style="color:var(--label)">platform.openai.com/api-keys</strong><br>Add <code style="background:var(--surface2);padding:1px 4px;border-radius:2px">aiProvider</code> + <code style="background:var(--surface2);padding:1px 4px;border-radius:2px">aiKey</code> to bjj-config.js to persist across browser clears.</span>
@@ -1639,9 +1651,10 @@
     </div>
     <div id="ai-status" style="font-family:'DM Mono',monospace;font-size:10px;margin-bottom:10px;display:none"></div>
     <div style="display:flex;gap:8px;margin-bottom:4px">
-      <button class="btn-primary" onclick="saveAiSettings()" style="flex:1;background:linear-gradient(135deg,#7c3aed,#a78bfa)" id="ai-save-btn">SAVE AI SETTINGS</button>
-      <button class="btn-ghost" onclick="testAiConnection()" style="padding:10px 14px;border-color:#a78bfa55;color:#a78bfa" id="ai-test-btn">TEST</button>
+      <button class="btn-primary" type="submit" style="flex:1;background:linear-gradient(135deg,#7c3aed,#a78bfa)" id="ai-save-btn">SAVE AI SETTINGS</button>
+      <button class="btn-ghost" type="button" onclick="testAiConnection()" style="padding:10px 14px;border-color:#a78bfa55;color:#a78bfa" id="ai-test-btn">TEST</button>
     </div>
+    </form>
   </div>
 </div>
 
