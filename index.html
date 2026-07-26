@@ -760,8 +760,6 @@
 <header>
   <div class="logo">BJJ <span>/</span> JOURNAL</div>
   <div class="header-actions">
-    <button class="btn-ghost" onclick="openExportModal()">EXPORT</button>
-    <label class="btn-ghost" style="cursor:pointer">IMPORT<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
     <div class="theme-switcher" title="Switch theme">
       <button class="theme-dot active" data-t="" style="background:#c8a96e" onclick="setTheme('')"></button>
       <button class="theme-dot" data-t="midnight" style="background:#4da6ff" onclick="setTheme('midnight')"></button>
@@ -1613,6 +1611,18 @@
       <button id="gh-list-btn" onclick="loadGHBackups()" class="btn-ghost" style="flex:1;opacity:0.4;cursor:not-allowed" disabled>↓ BROWSE BACKUPS</button>
     </div>
     <div class="gh-backup-list" id="gh-backup-list"></div>
+
+    <!-- ── MANUAL FILE BACKUP ───────────────────────────────────────────────
+         Moved here from the header (2026-07-26) — rarely needed now that sync
+         is automatic, but kept as an independent escape hatch that doesn't
+         depend on GitHub being reachable or credentials being intact. -->
+    <hr class="modal-divider" style="margin-top:20px">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px">Manual File Backup</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.5">Save a copy of everything to a file on this device, or restore from one. Independent of GitHub — useful as a safety net before big changes.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-ghost" onclick="openExportModal()" style="flex:1">↓ EXPORT TO FILE</button>
+      <label class="btn-ghost" style="flex:1;cursor:pointer;text-align:center">↑ IMPORT FROM FILE<input type="file" accept=".json" style="display:none" onchange="importData(event)"></label>
+    </div>
 
     <!-- ── AI SETTINGS ──────────────────────────────────────────────────── -->
     <hr class="modal-divider" style="margin-top:20px">
