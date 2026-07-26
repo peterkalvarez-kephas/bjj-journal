@@ -6597,8 +6597,37 @@ const SYNC_PATH = 'sync/state.json';
 let _syncInProgress = false;
 let _syncPushTimer  = null;
 
+// Rough measure of "how much real stuff is in this state" — used to guard
+// against a newer-but-emptier copy silently overwriting a richer one.
+function _stateWeight(s) {
+  return (s?.entries?.length || 0)
+       + (s?.instructionalNotes?.length || 0)
+       + (s?.customBundles?.length || 0)
+       + (s?.debriefs?.length || 0);
+}
+
+// True if `candidate` looks suspiciously emptier than `current` — e.g. a fresh
+// device that hasn't pulled yet, about to wipe out real data with a newer
+// timestamp. Only fires when `current` actually has meaningful data to lose,
+// so a genuinely fresh setup syncing into an empty cloud is unaffected.
+function _looksLikeDataLoss(candidate, current) {
+  const currentWeight = _stateWeight(current);
+  if (currentWeight < 3) return false;
+  return _stateWeight(candidate) < currentWeight * 0.5;
+}
+
 // Adopt a fresh state object pulled from the cloud, fill required keys, re-render.
+// Refuses to adopt (returns false) if the incoming state looks suspiciously
+// emptier than what's already loaded — this is the exact failure mode that
+// caused a real data-loss incident (a freshly-added device pushed a blank
+// state with a newer timestamp and wiped the real cloud data).
 function _adoptRemoteState(newState) {
+  if (_looksLikeDataLoss(newState, state)) {
+    console.warn('Refused to adopt remote state — looks emptier than current local data', {
+      localWeight: _stateWeight(state), remoteWeight: _stateWeight(newState)
+    });
+    return false;
+  }
   state = newState;
   if (!state.entries)            state.entries = [];
   if (!state.drilled)            state.drilled = [];
@@ -6623,6 +6652,7 @@ function _adoptRemoteState(newState) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   refreshSharedPools(); updateDrillBadge(); updateDueBadge();
   renderTimeline(); renderGameView(); renderInstructionals(); renderLibrary(); renderTDDList(); renderToday();
+  return true;
 }
 
 // Fetch the cloud sync file → { state, sha } | { state:null, sha:null } (missing) | null (error)
@@ -6660,10 +6690,16 @@ async function pullSyncFromGitHub(opts = {}) {
   const remoteTs = remote.state._lastModified || '';
   const localTs  = state._lastModified || '';
   if (remoteTs > localTs) {
-    _adoptRemoteState(remote.state);
-    _markSynced();
-    showToast('✓ Pulled newer data from cloud');
-    return true;
+    if (_adoptRemoteState(remote.state)) {
+      _markSynced();
+      showToast('✓ Pulled newer data from cloud');
+      return true;
+    }
+    // Cloud's copy was newer but looked emptier than what's already here —
+    // protected local data and pushed it up to fix the cloud instead.
+    showToast('⚠ Cloud copy looked incomplete — kept this device\'s data and re-synced it up');
+    pushSyncToGitHub();
+    return false;
   }
   _markSynced();
   if (!opts.silent) showToast('✓ Already up to date');
@@ -6681,8 +6717,17 @@ async function pushSyncToGitHub() {
       const remoteTs = remote.state._lastModified || '';
       const localTs  = state._lastModified || '';
       if (remoteTs > localTs) {
+        if (_adoptRemoteState(remote.state)) {
+          showToast('✓ Pulled newer cloud data (another device was ahead)');
+          return false;
+        }
+        // Remote was "newer" but looked emptier — fall through and push local,
+        // which is the richer copy, up to the cloud.
+      } else if (_looksLikeDataLoss(state, remote.state)) {
+        // Local is "newer" by timestamp but suspiciously emptier than the
+        // cloud's copy — refuse to overwrite; adopt the fuller cloud data instead.
         _adoptRemoteState(remote.state);
-        showToast('✓ Pulled newer cloud data (another device was ahead)');
+        showToast('⚠ This device had less data than the cloud — pulled the fuller copy instead of overwriting it');
         return false;
       }
     }
