@@ -1,0 +1,12 @@
+# Secrets — never commit these
+bjj-config.js
+
+# Local-only data & dev tooling — not part of the deployed app
+bjj-state.json
+serve.ps1
+START SERVER.bat
+backups/
+media/
+Screenshots/
+index-public/
+mind-map-preview.html

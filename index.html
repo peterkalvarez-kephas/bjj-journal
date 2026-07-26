@@ -5777,9 +5777,16 @@ function ghHeaders() {
 const AI_SK = 'bjj_ai_v1';
 
 function aiSettings() {
-  // bjj-config.js takes priority
+  // bjj-config.js takes priority (desktop, local file, never synced)
   if (window.BJJ_CONFIG?.aiProvider) return window.BJJ_CONFIG;
-  try { return JSON.parse(localStorage.getItem(AI_SK) || '{}'); } catch(e) { return {}; }
+  try {
+    const local = JSON.parse(localStorage.getItem(AI_SK) || '{}');
+    if (local.aiProvider) return local;
+  } catch(e) {}
+  // Fall back to whatever synced in from another device — so a new/reset
+  // device inherits the AI key automatically once it's GitHub-connected,
+  // instead of needing it re-typed by hand every time.
+  return (typeof state !== 'undefined' && state?._aiSync) || {};
 }
 function aiConfigured() {
   const s = aiSettings();
@@ -6341,9 +6348,13 @@ function saveAiSettings() {
     aiModel:    document.getElementById('ai-model').value.trim(),
   };
   localStorage.setItem(AI_SK, JSON.stringify(s));
+  // Also ride the existing data sync so any other GitHub-connected device
+  // inherits these settings automatically — no more re-typing the key per device.
+  state._aiSync = s;
+  save();
   const st = document.getElementById('ai-status');
   st.style.display = ''; st.style.color = '#34d399';
-  st.textContent = '✓ AI settings saved';
+  st.textContent = '✓ AI settings saved — will sync to your other devices';
   setTimeout(() => { st.style.display = 'none'; }, 2500);
   renderInstructionals(); // refresh note cards to show/hide ✨ button
 }
@@ -6600,6 +6611,15 @@ function _adoptRemoteState(newState) {
   if (!state.customBundles)      state.customBundles = [];
   if (!state.volUrls)            state.volUrls = {};
   if (!state.bundleUrls)         state.bundleUrls = {};
+  // If this device has no local AI key yet but the synced data brought one in
+  // from another device, cache it locally too — bootstraps a new/reset device
+  // without ever overwriting settings this device already saved itself.
+  if (state._aiSync?.aiProvider && !window.BJJ_CONFIG?.aiProvider) {
+    try {
+      const localAi = JSON.parse(localStorage.getItem(AI_SK) || '{}');
+      if (!localAi.aiProvider) localStorage.setItem(AI_SK, JSON.stringify(state._aiSync));
+    } catch(e) {}
+  }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   refreshSharedPools(); updateDrillBadge(); updateDueBadge();
   renderTimeline(); renderGameView(); renderInstructionals(); renderLibrary(); renderTDDList(); renderToday();
